@@ -4,30 +4,47 @@ import mapa.Mapa;
 import usuario.Usuario;
 
 public class Auto {
-	
-	private ModoAuto modoAuto = new AutoJugador();
-	
-	public void acelerar() {
-		this.modoAuto.acelerar();
+
+	private int velocidad;
+	private Mapa ubicacion;
+	private int distanciaRecorrida;
+	private Usuario piloto;
+
+	public int getVelocidad() {
+		return velocidad;
 	}
-	
-	public void frenar() {
-		this.modoAuto.frenar();
+
+
+	public void setVelocidad(int velocidad) {
+		this.velocidad = velocidad;
 	}
-	
-	public void desplazarse(Mapa ubicacion) {
-		this.modoAuto.desplazarse(ubicacion);
+
+
+	public Mapa getUbicacion() {
+		return ubicacion;
 	}
-	
-	public void colisiona() {
-		this.modoAuto.colisiona();
+
+
+	public void setUbicacion(Mapa ubicacion) {
+		this.ubicacion = ubicacion;
 	}
-	
-	public void setModo() {
-		this.modoAuto.setModo();
+
+
+	public int getDistanciaRecorrida() {
+		return distanciaRecorrida;
+	}
+
+
+	public void setDistanciaRecorrida(int distanciaRecorrida) {
+		this.distanciaRecorrida = distanciaRecorrida;
+	}
+
+
+	public Usuario getPiloto() {
+		return piloto;
 	}
 	
 	public void setPiloto(Usuario piloto) {
-		this.modoAuto.setPiloto(piloto);
+		this.piloto = piloto;
 	}
 }

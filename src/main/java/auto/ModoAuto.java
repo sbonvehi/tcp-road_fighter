@@ -21,5 +21,5 @@ public abstract class ModoAuto {
 	
 	public abstract void setPiloto(Usuario piloto);
 
-	public abstract ModoAuto setModo();
+	public abstract ModoAuto setModo(ModoAuto modo);
 }

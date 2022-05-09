@@ -40,8 +40,8 @@ public class Sala {
 		return listaUsuarios;
 	}
 
-	public void agregarUsuaro(Usuario nuevoUsuario) {
-		listaUsuarios.add(nuevoUsuario);
+	public void agregarUsuario(Usuario nuevoUsuario) {
+		this.getListaUsuarios().add(nuevoUsuario);
 	}
 
 	public List<Mapa> getListaMapas() {
@@ -56,5 +56,11 @@ public class Sala {
 		return mapaSeleccionado;
 	}
 	
-	
+	public void setMapaSeleccionado(Mapa _mapaSeleccionado) {
+		this.mapaSeleccionado = _mapaSeleccionado;
+	}
+
+	public Usuario getAnfitrion() {
+		return anfitrion;
+	}
 }
