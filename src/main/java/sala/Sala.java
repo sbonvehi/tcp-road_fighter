@@ -9,13 +9,23 @@ import usuario.Usuario;
 public class Sala {
 
 	private boolean estado;
-	private Usuario anfitrion;
+    private Usuario anfitrion;
 	private List<Usuario> listaUsuarios;
 	private List<Mapa> listaMapas;
+	private Mapa mapaSeleccionado; 
 	
-	public Sala() {
+	public Sala(Usuario anfitrion) {
+		this.anfitrion = anfitrion; 
 		this.listaUsuarios = new ArrayList<Usuario>();
 		this.listaMapas = new ArrayList<Mapa>();
+		
+		listaUsuarios.add(this.anfitrion);
+		
+		/// Cargamos unos mapas
+		listaMapas.add(new Mapa("mapa1"));
+		listaMapas.add(new Mapa("mapa2"));
+		listaMapas.add(new Mapa("mapa3"));
+		
 	}
 
 	public boolean isEstado() {
@@ -26,20 +36,12 @@ public class Sala {
 		this.estado = estado;
 	}
 
-	public Usuario getAnfitrion() {
-		return anfitrion;
-	}
-
-	public void setAnfitrion(Usuario anfitrion) {
-		this.anfitrion = anfitrion;
-	}
-
 	public List<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
 
-	public void setListaUsuarios(List<Usuario> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
+	public void agregarUsuaro(Usuario nuevoUsuario) {
+		listaUsuarios.add(nuevoUsuario);
 	}
 
 	public List<Mapa> getListaMapas() {
@@ -49,4 +51,10 @@ public class Sala {
 	public void setListaMapas(List<Mapa> listaMapas) {
 		this.listaMapas = listaMapas;
 	}
+
+	public Mapa getMapaSeleccionado() {
+		return mapaSeleccionado;
+	}
+	
+	
 }

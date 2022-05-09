@@ -1,6 +1,7 @@
 package auto;
 
 import mapa.Mapa;
+import usuario.Usuario;
 
 public class AutoJugador extends ModoAuto {
 
@@ -27,5 +28,14 @@ public class AutoJugador extends ModoAuto {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void setPiloto(Usuario piloto) {
+		this.piloto = piloto;
+	}
 
+	@Override
+	public ModoAuto setModo() {
+		// TODO Auto-generated method stub
+		return new AutoJugador();
+	}
 }

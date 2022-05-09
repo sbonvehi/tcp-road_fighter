@@ -1,6 +1,7 @@
 package auto;
 
 import mapa.Mapa;
+import usuario.Usuario;
 
 public class AutoEnemigo extends ModoAuto {
 
@@ -24,6 +25,19 @@ public class AutoEnemigo extends ModoAuto {
 	@Override
 	public void colisiona() {
 		//que pasaria aca?
+	}
+
+	
+	@Override
+	public void setPiloto(Usuario piloto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ModoAuto setModo() {
+		// TODO Auto-generated method stub
+		return new AutoJugador();
 	}
 
 }
