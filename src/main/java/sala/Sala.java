@@ -72,17 +72,8 @@ public class Sala {
 		System.out.println("Cantidad de jugadores en la sala: " + listaUsuarios.size());
 		System.out.println("mapa seleccionado: " + mapaSeleccionado.getNombreMapa());
 	}
-	
-<<<<<<< HEAD
+
 	public void eliminarSala() {
 		this.listaUsuarios.clear();
-=======
-	public void setMapaSeleccionado(Mapa _mapaSeleccionado) {
-		this.mapaSeleccionado = _mapaSeleccionado;
-	}
-
-	public Usuario getAnfitrion() {
-		return anfitrion;
->>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
 	}
 }

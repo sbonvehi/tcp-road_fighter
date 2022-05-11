@@ -63,7 +63,6 @@ public class Partida {
 		return encontrado;
 		
 	}
-<<<<<<< HEAD
 	
 	public Usuario getAnfitrion() {
 		return anfitrion;
@@ -80,16 +79,4 @@ public class Partida {
 			auto.getPiloto().setJugando(false);
 		}
 	}
-=======
-
-	public Usuario getAnfitrion() {
-		return anfitrion;
-	}
-
-	public void setAnfitrion(Usuario anfitrion) {
-		this.anfitrion = anfitrion;
-	}
->>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
-	
-	
 }

@@ -32,7 +32,6 @@ public class Usuario {
 		return listaDeMapas.get(1);
 	}
 	
-<<<<<<< HEAD
 	public void entrarSala(List<Sala> listaDeSalas)
 	{
 		for(Sala sala:listaDeSalas)
@@ -45,8 +44,7 @@ public class Usuario {
 		listaDeSalas.get(0).agregarUsuario(this);
 		
 	}
-=======
->>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
+
 	public Partida iniciarPartida(Sala sala) throws Exception_RoadFighter {
 		
 		if(sala.getListaUsuarios().size() < 2)
@@ -59,7 +57,6 @@ public class Usuario {
 		return partida;
 		
 	}
-<<<<<<< HEAD
 	public void abandonarSala(Sala sala) throws Exception_RoadFighter
 	{	
 		if (this.getNombre() == sala.getAnfitrion().getNombre()) {
@@ -85,33 +82,19 @@ public class Usuario {
 		else
 			throw new Exception_RoadFighter("El usuario no pertenece a la sala");
 		}
-	}
-=======
->>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
-	
+	}	
 	public void abandonarPartida(Partida partida) throws Exception_RoadFighter {
 			
 		if(!partida.eliminarUsuario(this))
 			throw new Exception_RoadFighter("Error al abandonar partida");
-<<<<<<< HEAD
 		
 		this.jugando = false;
 		
-		if(partida.getListaAutos().size() < 2 || !partida.getAnfitrion().jugando) {			
+		if(partida.getListaAutos().size() < 2 || !partida.getAnfitrion().jugando) 			
 			partida.finalizar();
-=======
-		
-		this.jugando = false;
-		
-		if(partida.getListaAutos().size() < 2 || !partida.getAnfitrion().jugando) {
-			partida.setEstado(false); //finaliza la partida
-			//TODO: eliminar todos los jugadores de la partida (jugando = false)
->>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
-		}
-			
 	}
 	
-<<<<<<< HEAD
+	
 	public Sala crearSala()
 	{
 		return new Sala(this);
@@ -122,16 +105,6 @@ public class Usuario {
 	}
 	
 	
-=======
-	public boolean getJugando() {
-		return jugando;
-	}
-
-	public void setJugando(boolean jugando) {
-		this.jugando = jugando;
-	}
->>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
-
 	public void setJugando(boolean jugando) {
 		this.jugando = jugando;
 	}
