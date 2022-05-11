@@ -1,16 +1,17 @@
 package usuario;
 
+import java.util.List;
+
 import mapa.Mapa;
 
 public class Anfitrion extends Usuario {
 
 	public Anfitrion(String nombre, String contrasenia) {
-		this.nombre = nombre;
-		this.contrasenia = contrasenia;
+		super(nombre, contrasenia);
 	}
-	
-	public void elegirMapa(Mapa mapa) {
-		
+
+	public Mapa elegirMapa(List<Mapa> listaDeMapas) {		
+		return listaDeMapas.get(1);
 	}
 	
 	public void iniciarPartida() {

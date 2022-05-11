@@ -12,10 +12,22 @@ public class Sala {
 	private Usuario anfitrion;
 	private List<Usuario> listaUsuarios;
 	private List<Mapa> listaMapas;
-	
-	public Sala() {
+	private Mapa mapaSeleccionado;
+
+	public Sala(Usuario anfitrion) {
+		this.anfitrion = anfitrion;
 		this.listaUsuarios = new ArrayList<Usuario>();
 		this.listaMapas = new ArrayList<Mapa>();
+
+		listaUsuarios.add(this.anfitrion);
+
+		/// Cargamos unos mapas
+		listaMapas.add(new Mapa("mapa1"));
+		listaMapas.add(new Mapa("mapa2"));
+		listaMapas.add(new Mapa("mapa3"));
+
+		/// Mostramos por default el primer mapa 
+		this.mapaSeleccionado = listaMapas.get(0);
 	}
 
 	public boolean isEstado() {
@@ -26,20 +38,12 @@ public class Sala {
 		this.estado = estado;
 	}
 
-	public Usuario getAnfitrion() {
-		return anfitrion;
-	}
-
-	public void setAnfitrion(Usuario anfitrion) {
-		this.anfitrion = anfitrion;
-	}
-
 	public List<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
 
-	public void setListaUsuarios(List<Usuario> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
+	public void agregarUsuario(Usuario nuevoUsuario) {
+		this.getListaUsuarios().add(nuevoUsuario);
 	}
 
 	public List<Mapa> getListaMapas() {
@@ -48,5 +52,37 @@ public class Sala {
 
 	public void setListaMapas(List<Mapa> listaMapas) {
 		this.listaMapas = listaMapas;
+	}
+
+	public Mapa getMapaSeleccionado() {
+		return mapaSeleccionado;
+	}
+
+	public void setMapaSeleccionado(Mapa _mapaSeleccionado) {
+		this.mapaSeleccionado = _mapaSeleccionado;
+	}
+
+	public Usuario getAnfitrion() {
+		return anfitrion;
+	}
+
+	public void mostrarSala() {
+		System.out.println("estado: " + estado);
+		System.out.println("anfitrion: " + anfitrion.getNombre());
+		System.out.println("Cantidad de jugadores en la sala: " + listaUsuarios.size());
+		System.out.println("mapa seleccionado: " + mapaSeleccionado.getNombreMapa());
+	}
+	
+<<<<<<< HEAD
+	public void eliminarSala() {
+		this.listaUsuarios.clear();
+=======
+	public void setMapaSeleccionado(Mapa _mapaSeleccionado) {
+		this.mapaSeleccionado = _mapaSeleccionado;
+	}
+
+	public Usuario getAnfitrion() {
+		return anfitrion;
+>>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
 	}
 }
