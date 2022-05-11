@@ -1,4 +1,5 @@
 package Usuario;
+import menu.Menu;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -9,7 +10,6 @@ import exception.Exception_RoadFighter;
 import partida.Partida;
 import sala.Sala;
 import usuario.Usuario;
-
 public class TestUsuario {
 
 	@Test
@@ -31,6 +31,7 @@ public class TestUsuario {
 		} catch (Exception_RoadFighter e) {
 			System.out.println(e.getMessage());
 		}
+<<<<<<< HEAD
 		
 		assertEquals(3, partida.getListaAutos().size());
 		assertFalse(_3.getJugando());
@@ -44,6 +45,21 @@ public class TestUsuario {
 		Sala sala = new Sala(anfitrion);
 		sala.agregarUsuario(usuario1);
 		
+=======
+		
+		assertEquals(3, partida.getListaAutos().size());
+		assertFalse(_3.getJugando());
+	}
+	
+	@Test
+	public void eliminarUsuarioSinPartida() throws Exception_RoadFighter {
+		Usuario anfitrion = new Usuario("test", "1234");
+		Usuario usuario1 = new Usuario("tessdfadt", "asdfa34");
+		Usuario usuario2 = new Usuario("tesdt", "12asdfa34");
+		Sala sala = new Sala(anfitrion);
+		sala.agregarUsuario(usuario1);
+		
+>>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
 		sala.setMapaSeleccionado(anfitrion.elegirMapa(sala.getListaMapas()));
 		
 		Partida partida = anfitrion.iniciarPartida(sala);
@@ -87,8 +103,13 @@ public class TestUsuario {
 	@Test
 	public void finalizarPartidaPorAnfitrion() throws Exception_RoadFighter {
 		Usuario anfitrion = new Usuario("test", "1234");
+<<<<<<< HEAD
+		Usuario us1 = new Usuario("user1", "1234");
+		Usuario us2 = new Usuario("user2", "1234");
+=======
 		Usuario us1 = new Usuario("test", "1234");
 		Usuario us2 = new Usuario("testdsfa", "123sdfa4");
+>>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
 		Sala sala = new Sala(anfitrion);
 		sala.agregarUsuario(us1);
 		sala.agregarUsuario(us2);
@@ -100,5 +121,40 @@ public class TestUsuario {
 		
 		assertFalse(partida.getEstado());
 	}
+<<<<<<< HEAD
+	@Test
+	public void entrarSala(){
+		Usuario anfitrion = new Usuario("anfitrion", "1234");
+		Usuario us1 = new Usuario("user1", "1234");
+		Usuario us2 = new Usuario("user2", "1234");
+		
+		Sala sala=anfitrion.crearSala();
+		Sala sala2=us1.crearSala();
+		Menu menu=new Menu();
+		menu.agregarSala(sala);
+		menu.agregarSala(sala2);
+		us1.entrarSala(menu.getListaSalas());
+		us2.entrarSala(menu.getListaSalas());
+		
+		assertEquals(3,sala.getListaUsuarios().size());
+	}
+	
+	@Test
+	public void testCrearSala() {
+		Menu menu = new Menu();
+		Usuario anfitrion = new Usuario("anfitrion", "1234");
+		Sala sala= anfitrion.crearSala();
+		
+		
+		menu.agregarSala(sala);
+		
+		assertEquals(1, menu.getListaSalas().size());
+	}
+	
+	
+	
+	
+=======
 
+>>>>>>> a0d28f3f044f09d34de3c74ba6e8f5747fe9e7c1
 }

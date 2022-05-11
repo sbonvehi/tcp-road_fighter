@@ -13,6 +13,7 @@ public class Mapa {
 	private int ancho;
 	private Coordenada coordenada;
 	private List<ElementoMapa> elementosMapa;
+	private int meta;//Esta va a ser la coordenada en el eje y de la meta
 	
 	public Mapa() {
 		this.elementosMapa = new ArrayList<ElementoMapa>();
@@ -37,5 +38,5 @@ public class Mapa {
 	public void setCoordenada(Coordenada coordenada) {
 		this.coordenada = coordenada;
 	}
-
+	
 }

@@ -14,22 +14,29 @@ public class Menu {
 	public Menu() {
 		this.listaSalas = new ArrayList<Sala>();
 	}
-
+	
+	public List<Sala> getListaSalas()
+	{
+		return this.listaSalas;
+	}
+	
+	
 	public Usuario registrarUsuario(){
-		Scanner sc = new Scanner(System.in);
 		System.out.println("Ingrese su nombre:");
-		String nombre = sc.next();
+		Scanner scanner = new Scanner(System.in);
+		String nombre = scanner.next();
 		System.out.println("Ingrese una contrasenia:");
-		String contrasenia = sc.next();
+		String contrasenia = scanner.next();
 
 		Usuario nuevoUsuario = new Usuario(nombre, contrasenia);
 		return  nuevoUsuario;
 	}
-
-	/* public static void crearNuevaSala(){
-		Sala sala = new Sala();
+	
+	public void agregarSala(Sala sala)
+	{
+		
 		listaSalas.add(sala);
-	}*/
+	}
 
 
 }
