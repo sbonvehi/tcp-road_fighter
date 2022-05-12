@@ -27,7 +27,7 @@ public class Usuario {
 		return contrasenia;
 	}
 
-	public void elegirMapa(Sala sala, Mapa mapaElegido) throws Exception_RoadFighter{	
+	public void elegirMapa(Sala sala, Mapa mapaElegido){	
 		sala.setMapaSeleccionado(mapaElegido);
 	}
 	

@@ -14,7 +14,7 @@ import usuario.Usuario;
 public class TestUsuario {
 
 	@Test
-	public void elegirMapa() throws Exception_RoadFighter {
+	public void elegirMapa() {
 		Usuario anfitrion = new Usuario("anfitrion", "1234");
 		Sala sala= anfitrion.crearSala();
 		Mapa mapa = new Mapa("mapa2"); //mapa existente
