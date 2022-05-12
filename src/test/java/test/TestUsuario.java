@@ -102,7 +102,7 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void entrarSala(){
+	public void entrarSala() throws Exception_RoadFighter{
 		Usuario anfitrion = new Usuario("anfitrion", "1234");
 		Usuario us1 = new Usuario("user1", "1234");
 		Usuario us2 = new Usuario("user2", "1234");
@@ -119,12 +119,23 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testCrearSala() {
+	public void testCrearSala() throws Exception_RoadFighter {
 		Menu menu = new Menu();
 		Usuario anfitrion = new Usuario("anfitrion", "1234");
 		Sala sala= anfitrion.crearSala();
 		
+		menu.agregarSala(sala);
 		
+		assertEquals(1, menu.getListaSalas().size());
+	}
+	
+	@Test(expected = Exception_RoadFighter.class)
+	public void testErrorSalaRepetida() throws Exception_RoadFighter {
+		Menu menu = new Menu();
+		Usuario anfitrion = new Usuario("anfitrion", "1234");
+		Sala sala= anfitrion.crearSala();
+		
+		menu.agregarSala(sala);
 		menu.agregarSala(sala);
 		
 		assertEquals(1, menu.getListaSalas().size());

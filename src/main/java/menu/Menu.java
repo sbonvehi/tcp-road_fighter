@@ -3,6 +3,7 @@ package menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.Exception_RoadFighter;
 import login.GestorLogin;
 import sala.Sala;
 import usuario.Usuario;
@@ -31,8 +32,11 @@ public class Menu {
 			return new Usuario(nombre, contrasenia);
 	}
 
-	public void agregarSala(Sala sala){ 
-		listaSalas.add(sala);
+	public boolean agregarSala(Sala sala) throws Exception_RoadFighter {
+		if(listaSalas.indexOf(sala) != -1)
+			throw new Exception_RoadFighter("Imposible agregar una sala ya existente");
+		
+		return listaSalas.add(sala);
 	}
 
 }
