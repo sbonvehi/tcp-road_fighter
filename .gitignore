@@ -3,3 +3,5 @@
 META-INF
 *.project
 /target/
+.idea
+.settings
