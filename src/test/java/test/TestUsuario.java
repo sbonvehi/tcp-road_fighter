@@ -1,4 +1,4 @@
-package Usuario;
+package test;
 import menu.Menu;
 
 import static org.junit.Assert.assertEquals;
