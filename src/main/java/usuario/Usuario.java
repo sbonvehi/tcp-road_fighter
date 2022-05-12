@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import exception.Exception_RoadFighter;
+import login.GestorLogin;
 import mapa.Mapa;
 import partida.Partida;
 import sala.Sala;
@@ -26,8 +27,9 @@ public class Usuario {
 	public String getContrasenia() {
 		return contrasenia;
 	}
-
-
+	
+	
+	
 	public Mapa elegirMapa(List<Mapa> listaDeMapas) {		
 		return listaDeMapas.get(1);
 	}
@@ -95,18 +97,13 @@ public class Usuario {
 	}
 	
 	
-	public Sala crearSala()
-	{
-		return new Sala(this);
-	}
+
 	
-	public boolean getJugando() {
-		return jugando;
-	}
+	public Sala crearSala(){ return new Sala(this);}
+	
+	public boolean getJugando() {return jugando;}
 	
 	
-	public void setJugando(boolean jugando) {
-		this.jugando = jugando;
-	}
+	public void setJugando(boolean jugando) { this.jugando = jugando;}
 	
 }
