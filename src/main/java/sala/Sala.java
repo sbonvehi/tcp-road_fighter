@@ -30,7 +30,7 @@ public class Sala {
 		this.mapaSeleccionado = listaMapas.get(0);
 	}
 
-	public boolean isEstado() {
+	public boolean getEstado() {
 		return estado;
 	}
 

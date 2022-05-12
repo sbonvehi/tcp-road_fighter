@@ -11,7 +11,7 @@ import usuario.Usuario;
 public class Menu {
 
 	private List<Sala> listaSalas;
-	private String fileLogin = "./archivoLogin/usuarios.txt";
+	private final String fileLogin = "./archivoLogin/usuarios.txt";
 
 	public Menu() {
 		this.listaSalas = new ArrayList<Sala>();
