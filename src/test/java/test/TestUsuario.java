@@ -7,11 +7,23 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
 import exception.Exception_RoadFighter;
+import mapa.Mapa;
 import partida.Partida;
 import sala.Sala;
 import usuario.Usuario;
 public class TestUsuario {
 
+	@Test
+	public void elegirMapa() throws Exception_RoadFighter {
+		Usuario anfitrion = new Usuario("anfitrion", "1234");
+		Sala sala= anfitrion.crearSala();
+		Mapa mapa = new Mapa("mapa2"); //mapa existente
+		
+		
+		anfitrion.elegirMapa(sala, mapa);
+		assertEquals(mapa, sala.getMapaSeleccionado());		
+	}
+	
 	@Test
 	public void abandonarPartida() throws Exception_RoadFighter {
 		Usuario anfitrion = new Usuario("test", "1234");
@@ -19,11 +31,11 @@ public class TestUsuario {
 		Usuario _2 = new Usuario("tesdsaft", "123124");
 		Usuario _3 = new Usuario("tesadf13st", "121234");
 		Sala sala = new Sala(anfitrion);
+		Mapa mapa = new Mapa("mapa2"); //mapa existente
 		sala.agregarUsuario(_1);
 		sala.agregarUsuario(_2);
 		sala.agregarUsuario(_3);
-		
-		sala.setMapaSeleccionado(anfitrion.elegirMapa(sala.getListaMapas()));
+		anfitrion.elegirMapa(sala, mapa);
 		
 		Partida partida = anfitrion.iniciarPartida(sala);
 		try {
@@ -43,8 +55,9 @@ public class TestUsuario {
 		Usuario usuario2 = new Usuario("tesdt", "12asdfa34");
 		Sala sala = new Sala(anfitrion);
 		sala.agregarUsuario(usuario1);
+		Mapa mapa = new Mapa("mapa2"); //mapa existente
 		
-		sala.setMapaSeleccionado(anfitrion.elegirMapa(sala.getListaMapas()));
+		anfitrion.elegirMapa(sala, mapa);
 		
 		Partida partida = anfitrion.iniciarPartida(sala);
 				
@@ -60,8 +73,8 @@ public class TestUsuario {
 	public void iniciarPartidaConUsuariosInsuficientes() throws Exception_RoadFighter {
 		Usuario anfitrion = new Usuario("test", "1234");
 		Sala sala = new Sala(anfitrion);
-		
-		sala.setMapaSeleccionado(anfitrion.elegirMapa(sala.getListaMapas()));
+		Mapa mapa = new Mapa("mapa2"); //mapa existente
+		anfitrion.elegirMapa(sala, mapa);
 		
 		anfitrion.iniciarPartida(sala);
 	}
@@ -72,10 +85,10 @@ public class TestUsuario {
 		Usuario us1 = new Usuario("test", "1234");
 		Usuario us2 = new Usuario("testdsfa", "123sdfa4");
 		Sala sala = new Sala(anfitrion);
+		Mapa mapa = new Mapa("mapa2"); //mapa existente
 		sala.agregarUsuario(us1);
 		sala.agregarUsuario(us2);
-		
-		sala.setMapaSeleccionado(anfitrion.elegirMapa(sala.getListaMapas()));
+		anfitrion.elegirMapa(sala, mapa);
 		
 		Partida partida = anfitrion.iniciarPartida(sala);
 		us1.abandonarPartida(partida);
@@ -90,10 +103,10 @@ public class TestUsuario {
 		Usuario us1 = new Usuario("user1", "1234");
 		Usuario us2 = new Usuario("user2", "1234");
 		Sala sala = new Sala(anfitrion);
+		Mapa mapa = new Mapa("mapa2"); //mapa existente
 		sala.agregarUsuario(us1);
 		sala.agregarUsuario(us2);
-		
-		sala.setMapaSeleccionado(anfitrion.elegirMapa(sala.getListaMapas()));
+		anfitrion.elegirMapa(sala, mapa);
 		
 		Partida partida = anfitrion.iniciarPartida(sala);
 		anfitrion.abandonarPartida(partida);
@@ -140,5 +153,7 @@ public class TestUsuario {
 		
 		assertEquals(1, menu.getListaSalas().size());
 	}
-
+	
+	
+	
 }

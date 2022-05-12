@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import exception.Exception_RoadFighter;
+import mapa.Mapa;
 import partida.Partida;
 import sala.Sala;
 import usuario.Usuario;
@@ -28,7 +29,8 @@ public class TestPartida {
 		sala.agregarUsuario(us5);
 		
 		
-		sala.setMapaSeleccionado(anfitrion.elegirMapa(sala.getListaMapas()));
+		Mapa mapa = new Mapa("mapa2"); 
+		anfitrion.elegirMapa(sala, mapa);
 		
 		Partida partida = anfitrion.iniciarPartida(sala);
 		try {
