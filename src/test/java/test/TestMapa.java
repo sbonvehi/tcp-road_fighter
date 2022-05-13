@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import mapa.Ele;
 import mapa.ElementoMapa;
 import mapa.Mapa;
 import mapa.Obstaculo;

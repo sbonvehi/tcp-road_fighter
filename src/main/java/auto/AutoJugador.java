@@ -6,18 +6,26 @@ import usuario.Usuario;
 public class AutoJugador extends ModoAuto {
 
 	private static final int VELOCIDAD_INICIAL = 0;
+	private static final int VELOCIDAD_MAXIMA = 400;
+	private static final int TASA_ACELERACION = 70;
+	private static final int TASA_FRENADO = 50;
 
 	@Override
 	public void acelerar() {
-		velocidad += VELOCIDAD_INICIAL + 180;
+		velocidad += TASA_ACELERACION;			
+		if(velocidad > VELOCIDAD_MAXIMA) {
+			velocidad = VELOCIDAD_MAXIMA;
+		}
 	}
 
 	@Override
 	public void frenar() {
-		// TODO Auto-generated method stub
+		velocidad -= TASA_FRENADO;			
+		if(velocidad < VELOCIDAD_INICIAL) {
+			velocidad = VELOCIDAD_INICIAL;
+		}
 		
 	}
-
 	@Override
 	public void desplazarse(Mapa ubicacion) {
 		this.ubicacion = ubicacion;
