@@ -8,11 +8,40 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx</artifactId>
+			<version>18.0.1</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>18.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>18.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-media</artifactId>
+			<version>18.0.1</version>
 		</dependency>
 	</dependencies>
-
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openjfx</groupId>
+				<artifactId>${javafx.maven.plugin.version}</artifactId>
+				<version>0.0.13</version>
+				<configuration>
+					<mainClass>main.Main</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	
 </project>
