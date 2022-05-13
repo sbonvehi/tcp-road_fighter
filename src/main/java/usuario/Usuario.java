@@ -105,8 +105,10 @@ public class Usuario {
 	}
 
 
-	public Sala crearSala(){ 
-		return new Sala(this);
+	public Sala crearSala(Scanner scanner){ 
+		System.out.println("Ingrese el nombre de la sala: ");
+		String nombreSala = scanner.next();
+		return new Sala(this, nombreSala);
 	}
 
 	public boolean getJugando() {

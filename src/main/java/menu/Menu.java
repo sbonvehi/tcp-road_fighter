@@ -59,10 +59,10 @@ public class Menu {
 	public void mostrarOpcionesJugar() {
 		System.out.println("1- Crear Sala.");
 		System.out.println("2- Ingresar a Sala.");
-		
+		System.out.println("3- Salir del Juego.");
 	}
 	
-	public int ingresarOpcionLogIn(int min, int max, Scanner scanner) {
+	public int ingresarOpcion(int min, int max, Scanner scanner) {
 		
 		int opcion = 0;
 		try {

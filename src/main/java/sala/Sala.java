@@ -8,14 +8,16 @@ import mapa.Mapa;
 import usuario.Usuario;
 
 public class Sala {
-
+	
+	private String nombreSala;
 	private boolean estado;
 	private Usuario anfitrion;
 	private List<Usuario> listaUsuarios;
 	private List<Mapa> listaMapas;
 	private Mapa mapaSeleccionado;
 	
-	public Sala(Usuario anfitrion) {
+	public Sala(Usuario anfitrion, String nombreSala) {
+		this.nombreSala = nombreSala;
 		this.anfitrion = anfitrion;
 		this.listaUsuarios = new ArrayList<Usuario>();
 		this.listaMapas = new ArrayList<Mapa>();
