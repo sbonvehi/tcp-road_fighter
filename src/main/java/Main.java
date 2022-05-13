@@ -6,38 +6,43 @@ import usuario.Usuario;
 
 public class Main {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 
 		Menu menu = new Menu();
 		System.out.println("********************************************");
 		System.out.println("*************** Road Fighter ***************");
 		System.out.println("********************************************");
 
-		menu.mostrarOpcionesInicio();
-		
 		Usuario usr;
 
 		boolean estaLogueado = false;
-		
-		while( ! estaLogueado) {
-			int opcionElegida = menu.ingresarOpcionLogIn(1, 3);
+		Scanner scanner = new Scanner(System.in);
+
+		while (!estaLogueado) {
+			menu.mostrarOpcionesInicio();
+			int opcionElegida = menu.ingresarOpcionLogIn(1, 3, scanner);
 			switch (opcionElegida) {
 			case 1:
-				usr = menu.registrarUsuario();
+				usr = menu.registrarUsuario(scanner);
 				break;
 			case 2:
-				usr = menu.loginUsuario();
+				usr = menu.loginUsuario(scanner);
 				if (usr != null)
-					estaLogueado = true;				
+					estaLogueado = true;
 				break;
 			case 3:
 				System.out.println("Finalizando ejecucion del juego..");
 				return;
-			}	
+			
+			default:
+				scanner.next();
+				break;
+			}
+			System.out.println("");
 		}
-		
-		
-		
+
+		scanner.close();
+
 //		public void mostrarOpcionesInicio() {
 //			System.out.println("1- Registrar Usuario.");
 //			System.out.println("2- Iniciar Sesion.");

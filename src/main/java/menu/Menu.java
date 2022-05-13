@@ -22,28 +22,24 @@ public class Menu {
 		return this.listaSalas;
 	}
 
-	public Usuario registrarUsuario() {
+	public Usuario registrarUsuario(Scanner scanner) {
 		System.out.println("Ingrese su nombre:");
-		Scanner scanner = new Scanner(System.in);
 		
 		String nombre = scanner.next();
 		System.out.println("Ingrese una contrasenia:");
 		String contrasenia = scanner.next();
-
-		scanner.close();
 		return GestorLogin.registrarUsuario(this.fileLogin, nombre, contrasenia);
 	}
 
-	public Usuario loginUsuario() throws Exception {
+	public Usuario loginUsuario(Scanner scanner){
 		System.out.println("Ingrese su nombre:");
-		Scanner scanner = new Scanner(System.in);
 		String nombre = scanner.next();
 		System.out.println("Ingrese una contrasenia:");
 		String contrasenia = scanner.next();
-
-		scanner.close();
-		if (!GestorLogin.login(this.fileLogin, nombre, contrasenia))
-			throw new Exception("Usuario no encontrado!");
+		if (!GestorLogin.login(this.fileLogin, nombre, contrasenia)) {
+			System.out.println("Usuario o contrasena incorrecta!");
+			return null;
+		}
 		return new Usuario(nombre, contrasenia);
 	}
 
@@ -66,15 +62,18 @@ public class Menu {
 		
 	}
 	
-	public int ingresarOpcionLogIn(int min, int max) {
+	public int ingresarOpcionLogIn(int min, int max, Scanner scanner) {
 		
-		int opcion;
-		do {
-		System.out.println("Ingrese opcion: ");
-		Scanner scanner2 = new Scanner(System.in);
-		opcion = scanner2.nextInt();
-		scanner2.close();
-		}while(opcion < min || opcion > max);
+		int opcion = 0;
+		try {
+			do {
+				System.out.println("Ingrese opcion: ");
+				opcion = scanner.nextInt();
+			}while(opcion < min || opcion > max);			
+		}
+		catch(Exception e){
+			System.out.println("Error el valor debe estar entre " + min + " y " + max + ".");
+		}
 		return opcion;
 	}
 	
