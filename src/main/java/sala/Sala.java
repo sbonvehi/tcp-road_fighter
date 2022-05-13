@@ -3,6 +3,7 @@ package sala;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.Exception_RoadFighter;
 import mapa.Mapa;
 import usuario.Usuario;
 
@@ -13,7 +14,7 @@ public class Sala {
 	private List<Usuario> listaUsuarios;
 	private List<Mapa> listaMapas;
 	private Mapa mapaSeleccionado;
-
+	
 	public Sala(Usuario anfitrion) {
 		this.anfitrion = anfitrion;
 		this.listaUsuarios = new ArrayList<Usuario>();

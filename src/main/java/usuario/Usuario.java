@@ -27,10 +27,10 @@ public class Usuario {
 		return contrasenia;
 	}
 
-	public Mapa elegirMapa(List<Mapa> listaDeMapas) {		
-		return listaDeMapas.get(1);
+	public void elegirMapa(Sala sala, Mapa mapaElegido){	
+		sala.setMapaSeleccionado(mapaElegido);
 	}
-
+	
 	public void entrarSala(List<Sala> listaDeSalas)
 	{
 		for(Sala sala:listaDeSalas)

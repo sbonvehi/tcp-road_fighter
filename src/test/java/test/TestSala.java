@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import exception.Exception_RoadFighter;
+import mapa.Mapa;
 import sala.Sala;
 import usuario.Usuario;
 
@@ -74,4 +75,16 @@ public class TestSala {
 		assertEquals(6, sala.getListaUsuarios().size());
 		
 	}
+	
+	@Test
+	public void elegirMapa(){
+		Usuario anfitrion = new Usuario("test", "1234");
+		Sala sala = new Sala(anfitrion);
+		Mapa mapa = new Mapa("mapa2"); 
+		
+		
+		sala.setMapaSeleccionado(mapa);
+		assertEquals(mapa, sala.getMapaSeleccionado());	
+	}
+	
 }
