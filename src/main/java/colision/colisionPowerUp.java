@@ -8,7 +8,7 @@ public class colisionPowerUp extends modoColision {
 
 	@Override
 	public void accion(Auto auto) {
-		auto.aumentarVelocidad();
+		auto.aumentarVelocidadPowerUp();
 
 		try {
 			TimeUnit.SECONDS.sleep(2);
@@ -17,7 +17,7 @@ public class colisionPowerUp extends modoColision {
 			e.printStackTrace();
 		}
 
-		auto.reducirVelocidad();
+		auto.reducirVelocidadPowerUp();
 	}
 
 }

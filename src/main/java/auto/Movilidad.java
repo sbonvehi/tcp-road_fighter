@@ -6,18 +6,25 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import usuario.Usuario;
 
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+// Esto es el main de la app.
+////////////////////////////////////////////////
+////////////////////////////////////////////////
 public class Movilidad extends Application{
 
 	Scene currentScene;
-	AutoJugador autoJugador;
+	Auto autoJugador;
 	
 	@Override
 	public void start(Stage stage) {
 
 		Group root = new Group();
 		currentScene = new Scene(root);
-		autoJugador = new AutoJugador();
+		Usuario usr = new Usuario("test","test");
+		autoJugador = new Auto(usr);
 
 		addInputEvents();
 

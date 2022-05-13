@@ -23,9 +23,9 @@ public class Sala {
 		listaUsuarios.add(this.anfitrion);
 
 		/// Cargamos unos mapas
-		listaMapas.add(new Mapa("mapa1"));
-		listaMapas.add(new Mapa("mapa2"));
-		listaMapas.add(new Mapa("mapa3"));
+		listaMapas.add(new Mapa("mapa1", 30, 100));
+		listaMapas.add(new Mapa("mapa2", 40, 100));
+		listaMapas.add(new Mapa("mapa3", 50, 100));
 
 		/// Mostramos por default el primer mapa 
 		this.mapaSeleccionado = listaMapas.get(0);

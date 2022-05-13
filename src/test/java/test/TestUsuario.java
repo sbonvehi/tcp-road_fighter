@@ -17,7 +17,7 @@ public class TestUsuario {
 	public void elegirMapa() {
 		Usuario anfitrion = new Usuario("anfitrion", "1234");
 		Sala sala= anfitrion.crearSala();
-		Mapa mapa = new Mapa("mapa2"); //mapa existente
+		Mapa mapa = new Mapa("mapa2", 10,100); //mapa existente
 		
 		
 		anfitrion.elegirMapa(sala, mapa);
@@ -31,7 +31,7 @@ public class TestUsuario {
 		Usuario _2 = new Usuario("tesdsaft", "123124");
 		Usuario _3 = new Usuario("tesadf13st", "121234");
 		Sala sala = new Sala(anfitrion);
-		Mapa mapa = new Mapa("mapa2"); //mapa existente
+		Mapa mapa = new Mapa("mapa2", 40, 100); //mapa existente
 		sala.agregarUsuario(_1);
 		sala.agregarUsuario(_2);
 		sala.agregarUsuario(_3);
@@ -55,7 +55,7 @@ public class TestUsuario {
 		Usuario usuario2 = new Usuario("tesdt", "12asdfa34");
 		Sala sala = new Sala(anfitrion);
 		sala.agregarUsuario(usuario1);
-		Mapa mapa = new Mapa("mapa2"); //mapa existente
+		Mapa mapa = new Mapa("mapa2",10,100); //mapa existente
 		
 		anfitrion.elegirMapa(sala, mapa);
 		
@@ -85,7 +85,7 @@ public class TestUsuario {
 		Usuario us1 = new Usuario("test", "1234");
 		Usuario us2 = new Usuario("testdsfa", "123sdfa4");
 		Sala sala = new Sala(anfitrion);
-		Mapa mapa = new Mapa("mapa2"); //mapa existente
+		Mapa mapa = new Mapa("mapa2",10,100); //mapa existente
 		sala.agregarUsuario(us1);
 		sala.agregarUsuario(us2);
 		anfitrion.elegirMapa(sala, mapa);

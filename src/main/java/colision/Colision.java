@@ -9,4 +9,6 @@ public class Colision {
 	public void accion(Auto auto) {
 		modoColision.accion(auto);
 	}
+	
+	
 }
