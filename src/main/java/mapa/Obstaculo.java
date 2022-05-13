@@ -1,5 +1,7 @@
 package mapa;
 
+import auto.Auto;
+
 public class Obstaculo extends ElementoMapa {
 	
 	
@@ -10,8 +12,9 @@ public class Obstaculo extends ElementoMapa {
 	}	
 	
 	@Override
-	public void accion() {
-		
+	public void accion(Auto auto) throws InterruptedException {
+		auto.perderControl();
+		// no se si iba auto.perderControl() o reducirVelocidad()
 	}
 
 

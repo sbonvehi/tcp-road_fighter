@@ -1,5 +1,7 @@
 package mapa;
 
+import auto.Auto;
+
 public class PowerUp extends ElementoMapa {
 
 	
@@ -10,8 +12,8 @@ public class PowerUp extends ElementoMapa {
 	}	
 	
 	@Override
-	public void accion() {
-		
+	public void accion(Auto auto) throws InterruptedException {
+		auto.aumentarVelocidad();
 	}
 
 }

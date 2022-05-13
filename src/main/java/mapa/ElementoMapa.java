@@ -1,5 +1,6 @@
 package mapa;
 
+import auto.Auto;
 import coordenada.Coordenada;
 
 public abstract class ElementoMapa {
@@ -9,6 +10,6 @@ public abstract class ElementoMapa {
 	protected int y;
 //	protected int subtipo; //TODO: verificar tipo de dato
 	
-	public abstract void accion();
+	public abstract void accion(Auto auto) throws InterruptedException ;
 
 }
