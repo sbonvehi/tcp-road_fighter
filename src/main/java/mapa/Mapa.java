@@ -7,63 +7,31 @@ import coordenada.Coordenada;
 
 public class Mapa {
 
-	// Momentaneo 
-	private String nombreMapa; 
-	////////////////////
-	private Coordenada coordenada;
+	private String nombreMapa;
 	private List<ElementoMapa> elementosMapa;
-	private int meta;//Esta va a ser la coordenada en el eje y de la meta
-
-	private int anchoTotal;
-	public int getAnchoTotal() {
-		return anchoTotal;
-	}
-
-	public void setAnchoTotal(int anchoTotal) {
-		this.anchoTotal = anchoTotal;
-	}
-
-	public int getLargoTotal() {
-		return largoTotal;
-	}
-
-	public void setLargoTotal(int largoTotal) {
-		this.largoTotal = largoTotal;
-	}
-
+	
+	private final int meta = 3000;
+	private int margenInicialCalle; 
+	private int margenFinalCalle; 
+	private int anchoTotalVentana = 1200;
 	private int largoTotal;
-	
-	
-	public Mapa(int ancho, int largo) {
+
+	public Mapa(String nombre, int ancho, int largo) {
+		this.nombreMapa = nombre;
 		this.elementosMapa = new ArrayList<ElementoMapa>();
-		this.anchoTotal = ancho;
+		if( ancho > anchoTotalVentana)
+			ancho = 1200;
+		this.margenInicialCalle = (anchoTotalVentana / 2) - (ancho/2);
+		this.margenFinalCalle = (anchoTotalVentana / 2) + (ancho/2);
 		this.largoTotal = largo;
 	}
-	
-	public Mapa(String nombre) {
-		this.nombreMapa = nombre;
-	}
-	
+
 	public List<ElementoMapa> getElementosMapa() {
 		return elementosMapa;
 	}
 
-	public Coordenada getCoordenada() {
-		return coordenada;
-	}
-	public String getNombreMapa() {
-		return nombreMapa;
-	}
-
-	public void setCoordenada(Coordenada coordenada) {
-		this.coordenada = coordenada;
-	}
-	
 	public void agregarElemento(ElementoMapa elemento) {
 		elementosMapa.add(elemento);
 	}
-	
 
-	
-	
 }

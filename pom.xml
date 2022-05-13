@@ -34,10 +34,10 @@
 		<plugins>
 			<plugin>
 				<groupId>org.openjfx</groupId>
-				<artifactId>${javafx.maven.plugin.version}</artifactId>
-				<version>0.0.13</version>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>19-ea+6</version>
 				<configuration>
-					<mainClass>main.Main</mainClass>
+					<mainClass>tcp-road_fighter.Movilidad</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

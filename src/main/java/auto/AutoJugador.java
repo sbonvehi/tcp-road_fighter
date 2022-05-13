@@ -4,48 +4,7 @@ import mapa.Mapa;
 import usuario.Usuario;
 
 public class AutoJugador extends ModoAuto {
-
-	private static final int VELOCIDAD_INICIAL = 0;
-	private static final int VELOCIDAD_MAXIMA = 400;
-	private static final int TASA_ACELERACION = 70;
-	private static final int TASA_FRENADO = 50;
-
-	@Override
-	public void acelerar() {
-		velocidad += TASA_ACELERACION;			
-		if(velocidad > VELOCIDAD_MAXIMA) {
-			velocidad = VELOCIDAD_MAXIMA;
-		}
-	}
-
-	@Override
-	public void frenar() {
-		velocidad -= TASA_FRENADO;			
-		if(velocidad < VELOCIDAD_INICIAL) {
-			velocidad = VELOCIDAD_INICIAL;
-		}
-		
-	}
-	@Override
-	public void desplazarse(Mapa ubicacion) {
-		this.ubicacion = ubicacion;
-	}
-
-	@Override
-	public void colisiona() {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	public void setPiloto(Usuario piloto) {
-		this.piloto = piloto;
-	}
-
-	@Override
-	public ModoAuto setModo(ModoAuto modo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	private final int speedSides = 300; // velocidad desplazamiento hacia los izq y der.
 	private double x;
@@ -93,7 +52,23 @@ public class AutoJugador extends ModoAuto {
 			this.directionUpSpeed1 = false;
 		System.out.println("Posicion actual: [ " + this.x + " ; " + this.y + " ]");
 	}
+	
+	@Override
+	public void acelerar() {
+		velocidad += TASA_ACELERACION;			
+		if(velocidad > VELOCIDAD_MAXIMA) {
+			velocidad = VELOCIDAD_MAXIMA;
+		}
+	}
 
+	@Override
+	public void frenar() {
+		velocidad -= TASA_FRENADO;			
+		if(velocidad < VELOCIDAD_INICIAL) {
+			velocidad = VELOCIDAD_INICIAL;
+		}
+		
+	}
 		
 	
 	

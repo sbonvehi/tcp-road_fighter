@@ -4,11 +4,10 @@ import auto.Auto;
 
 public class Obstaculo extends ElementoMapa {
 	
-	
 	public Obstaculo(int x, int y) {
 		super();
-		this.x = x;
-		this.y = y;
+		this.ubicacion.setX(x);
+		this.ubicacion.setY(y);
 	}	
 	
 	@Override

@@ -6,7 +6,12 @@ public class colisionObstaculo extends modoColision {
 
 	@Override
 	public void accion(Auto auto) {
-//		auto.perderControl();
+		try {
+			auto.perderControl();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
