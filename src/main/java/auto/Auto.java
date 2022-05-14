@@ -31,8 +31,9 @@ public class Auto {
 	
 	public Auto(Usuario piloto) {
 		this.velocidad = 0;
-		this.ubicacion.setY(0);
-		this.ubicacion.setX( cantAutos * 15);
+		
+		Coordenada ubicacionInicial = new Coordenada(0, cantAutos * 15);
+		this.ubicacion = ubicacionInicial;
 		this.piloto = piloto;
 		
 		cantAutos++;

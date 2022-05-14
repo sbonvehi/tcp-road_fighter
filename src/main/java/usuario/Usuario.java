@@ -54,9 +54,11 @@ public class Usuario {
 	
 	public void entrarSala(List<Sala> listaDeSalas, Scanner scanner)
 	{
+		int i = 1;
 		for(Sala sala:listaDeSalas)
-		{
-			sala.mostrarSala();
+		{	
+			System.out.println( i +  " - " + sala.getNombreSala());
+			i++;
 		}
 		
 		System.out.println("Por favor ingresa el numero de sala al que quieras unirte: ");
@@ -68,6 +70,7 @@ public class Usuario {
 			System.out.println("El numero de sala ingresado es incorrecto, por favor ingrese el numero de sala nuevamente: ");
 			scanner = new Scanner(System.in);
 			numeroSala = scanner.nextInt();
+			numeroSala--; 
 		}
 
 		listaDeSalas.get(numeroSala).agregarUsuario(this);

@@ -68,8 +68,11 @@ public class Sala {
 	public Usuario getAnfitrion() {
 		return anfitrion;
 	}
-
-	public void mostrarSala() {
+	
+	public String getNombreSala() {
+		return this.nombreSala;
+	}
+	public void detalleSala() {
 		System.out.println("estado: " + estado);
 		System.out.println("anfitrion: " + anfitrion.getNombre());
 		System.out.println("Cantidad de jugadores en la sala: " + listaUsuarios.size());
