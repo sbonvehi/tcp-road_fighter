@@ -51,7 +51,7 @@ public class Main {
 			int opcionElegida = menu.ingresarOpcion(1, 3, scanner);
 			
 			switch (opcionElegida) {
-			case 1:
+			case 1:	///solo anfitrion
 				Sala sala = usr.crearSala(scanner);
 				
 				try {
@@ -60,9 +60,13 @@ public class Main {
 					e.printStackTrace();
 				}
 				
-				break;
-			case 2:
+				usr.configurarSala(sala, scanner);
 				
+				
+				break;
+			case 2: ///solo para invitados
+				usr.entrarSala(menu.getListaSalas(), scanner);
+				opcionValida = true;
 				break;
 			case 3:
 				System.out.println("Finalizando ejecucion del juego..");
@@ -75,6 +79,10 @@ public class Main {
 			}
 			System.out.println("");
 		}
+		
+		boolean partidaIniciada = false;
+		
+		
 		
 		scanner.close();
 
