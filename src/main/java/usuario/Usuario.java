@@ -52,6 +52,10 @@ public class Usuario {
 //		sala.setMapaSeleccionado(mapaElegido);
 	}
 	
+	public void elegirMapa(Sala sala, Mapa mapa){
+		sala.setMapaSeleccionado(mapa);		
+	}
+	
 	public void entrarSala(List<Sala> listaDeSalas, Scanner scanner)
 	{
 		int i = 1;
@@ -158,6 +162,7 @@ public class Usuario {
 		String nombreSala = scanner.next();
 		return new Sala(this, nombreSala);
 	}
+	
 
 	public boolean getJugando() {
 		return jugando;

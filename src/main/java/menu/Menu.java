@@ -78,7 +78,9 @@ public class Menu {
 	}
 	
 	
-	
+	public void borrarSala(Sala sala) {
+		listaSalas.remove(sala);
+	}
 	public int cerrarJuego() {
 		System.out.println("Finalizando ejecucion del juego..");
 		return 0;

@@ -1,11 +1,13 @@
 package mapa;
 
+import coordenada.Coordenada;
+
 public class PowerUp extends ElementoMapa {
 
 	public PowerUp(int x, int y) {
 		super();
-		this.ubicacion.setX(x);
-		this.ubicacion.setY(y);
+		Coordenada ubicacion = new Coordenada(15, 50);
+		this.ubicacion = ubicacion;
 		this.alto = 20;
 		this.ancho = 20;
 	}

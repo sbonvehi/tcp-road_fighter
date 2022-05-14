@@ -79,7 +79,8 @@ public class Sala {
 		System.out.println("mapa seleccionado: " + mapaSeleccionado.getNombreMapa());
 	}
 
-	public void eliminarSala() {
+	public Sala eliminarSala() {
 		this.listaUsuarios.clear();
+		return this;
 	}
 }

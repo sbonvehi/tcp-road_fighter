@@ -114,9 +114,6 @@ public class Main {
 		}
 		
 		boolean partidaIniciada = false;
-		
-		
-		
 		scanner.close();
 	}
 }

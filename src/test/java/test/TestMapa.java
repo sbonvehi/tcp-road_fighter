@@ -35,12 +35,5 @@ public class TestMapa {
 		mapa1.agregarElemento(powerUp3);
 		mapa1.agregarElemento(powerUp4);
 		assertEquals(4, mapa1.getElementosMapa().size());
-	}
-	
-	
-	
-	
-	
-	
-	
+	}	
 }

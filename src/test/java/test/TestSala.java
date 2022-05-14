@@ -21,7 +21,7 @@ public class TestSala {
 		Usuario us4 = new Usuario("user4", "1234");
 		Usuario us5 = new Usuario("user5", "1234");
 		
-		Sala sala = new Sala(anfitrion);
+		Sala sala = new Sala(anfitrion, "SalaTest");
 		sala.agregarUsuario(us1);
 		sala.agregarUsuario(us2);
 		sala.agregarUsuario(us3);
@@ -43,7 +43,7 @@ public class TestSala {
 		Usuario us4 = new Usuario("user4", "1234");
 		Usuario us5 = new Usuario("user5", "1234");
 		
-		Sala sala = new Sala(anfitrion);
+		Sala sala = new Sala(anfitrion, "SalaTest");
 		sala.agregarUsuario(us1);
 		sala.agregarUsuario(us2);
 		sala.agregarUsuario(us3);
@@ -65,7 +65,7 @@ public class TestSala {
 		Usuario us4 = new Usuario("user4", "1234");
 		Usuario us5 = new Usuario("user5", "1234");
 		
-		Sala sala = new Sala(anfitrion);
+		Sala sala = new Sala(anfitrion, "SalaTest");
 		sala.agregarUsuario(us1);
 		sala.agregarUsuario(us2);
 		sala.agregarUsuario(us3);
@@ -79,8 +79,8 @@ public class TestSala {
 	@Test
 	public void elegirMapa(){
 		Usuario anfitrion = new Usuario("test", "1234");
-		Sala sala = new Sala(anfitrion);
-		Mapa mapa = new Mapa("mapa2"); 
+		Sala sala = new Sala(anfitrion, "SalaTest");
+		Mapa mapa = new Mapa("mapa2", 10, 50); 
 		
 		
 		sala.setMapaSeleccionado(mapa);
