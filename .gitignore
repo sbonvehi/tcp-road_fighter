@@ -5,3 +5,4 @@ META-INF
 /target/
 .idea
 .settings
+/bin/

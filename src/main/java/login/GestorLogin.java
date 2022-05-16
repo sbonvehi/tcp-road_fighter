@@ -2,85 +2,89 @@ package login;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.util.Scanner;
 
-import exception.Exception_RoadFighter;
 import usuario.Usuario;
+
+import java.io.FileWriter;
 
 public class GestorLogin {
 
-	static public Usuario registrarUsuario(String ruta, String nombre, String contrasenia) throws Exception {
-		
-		if (!usuarioExistente(ruta, nombre)) {
-			FileWriter fw = null;
-			BufferedWriter bw = null;
+	static public Usuario registrarUsuario(String ruta, String nombre, String contrasenia) {
+		if (usarioExistente(ruta, nombre)) {
+			System.out.println("El nombre ingresado ya se encuentra Registrado");
+			return null;
+		}
+
+		FileWriter archivo = null;
+		BufferedWriter bw = null;
+		try {
+			FileWriter fw = new FileWriter(ruta, true);
+			
+			bw = new BufferedWriter(fw);
+		    bw.write(nombre + "-" + contrasenia + "\n");
+			bw.flush();
+			
+		    archivo = fw;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
 			try {
-				fw = new FileWriter(ruta, true);
-				
-				bw = new BufferedWriter(fw);
-			    bw.write(nombre + "-" + contrasenia + "\n");
-				bw.flush();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(fw != null)
-					fw.close();
+				if (null != archivo) {
+					archivo.close();
+					System.out.println("Usuario registrado correctamente!");					
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
-		} else
-			throw new Exception_RoadFighter("Usuario ya registrado!");
-		
+		}
 		return new Usuario(nombre, contrasenia);
 
 	}
 
 	static public boolean login(String path, String nombre, String contra) {
-		Scanner file = null;
-		boolean coincidenDatos = false;
 		try {
-			file = new Scanner(new File(path));
+			Scanner file = new Scanner(new File(path));
 
-			while (file.hasNext() && !coincidenDatos) {
+			while (file.hasNext()) {
 				String[] user = file.next().split("-");
 				if (user[0].equals(nombre) && user[1].equals(contra)) {
-					coincidenDatos = true;
+					file.close();
+					return true;
 				}
 			}
 
+			file.close();
+			return false;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			e.printStackTrace();
-		} finally {
-			if(file != null)
-				file.close();
+			return false;
 		}
-		
-		return coincidenDatos;
 
 	}
 
-	static public boolean usuarioExistente(String ruta, String nombre) {
-		Scanner file = null;
-		boolean coincidenDatos = false;
-		
+	static public boolean usarioExistente(String ruta, String nombre) {
+		Scanner fileAux = null;
 		try {
-			file = new Scanner(new File(ruta));
-			while (file.hasNext() && !coincidenDatos) {
+			Scanner file = new Scanner(new File(ruta));
+
+			fileAux = file;
+			while (file.hasNext()) {
 				String[] user = file.next().split("-");
 				if (user[0].equals(nombre)) {
-					coincidenDatos = true;
+					return true;
 				}
 			}
 		
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		} finally {
-			if(file != null)
-				file.close();
+			fileAux.close();
 		}
 
-		return coincidenDatos;
+		return false;
 	}
 
 }

@@ -23,8 +23,7 @@ public class Partida {
 	
 	public void cargarAutos(List<Usuario> jugadores) {
 		for(Usuario usuario : jugadores) {
-			Auto auto = new Auto();	
-			auto.setPiloto(usuario);
+			Auto auto = new Auto(usuario);	
 			listaAutos.add(auto);
 			usuario.setJugando(true);
 		}

@@ -6,37 +6,36 @@ import java.util.List;
 import coordenada.Coordenada;
 
 public class Mapa {
-	// Momentaneo 
-	
-	private String nombreMapa; 
-	////////////////////
-	private int ancho;
-	private Coordenada coordenada;
+
+	private String nombreMapa;
 	private List<ElementoMapa> elementosMapa;
-	private int meta;//Esta va a ser la coordenada en el eje y de la meta
-	
-	public Mapa() {
-		this.elementosMapa = new ArrayList<ElementoMapa>();
-	}
-	
-	public Mapa(String nombre) {
+
+//	private final int meta = 3000;
+	private int margenInicialCalle;
+	private int margenFinalCalle;
+	private int anchoTotalVentana = 1200;
+	private int largoTotal;
+
+	public Mapa(String nombre, int ancho, int largo) {
 		this.nombreMapa = nombre;
+		this.elementosMapa = new ArrayList<ElementoMapa>();
+		if (ancho > anchoTotalVentana)
+			ancho = 1200;
+		this.margenInicialCalle = (anchoTotalVentana / 2) - (ancho / 2);
+		this.margenFinalCalle = (anchoTotalVentana / 2) + (ancho / 2);
+		this.largoTotal = largo;
 	}
-	public int getAncho() {
-		return ancho;
+
+	public List<ElementoMapa> getElementosMapa() {
+		return elementosMapa;
 	}
-	public void setAncho(int ancho) {
-		this.ancho = ancho;
+
+	public void agregarElemento(ElementoMapa elemento) {
+		elementosMapa.add(elemento);
 	}
-	public Coordenada getCoordenada() {
-		return coordenada;
-	}
+
 	public String getNombreMapa() {
 		return nombreMapa;
 	}
 
-	public void setCoordenada(Coordenada coordenada) {
-		this.coordenada = coordenada;
-	}
-	
 }
