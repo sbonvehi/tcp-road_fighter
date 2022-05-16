@@ -9,6 +9,7 @@ import java.util.Scanner;
 import org.junit.Test;
 
 import exception.Exception_RoadFighter;
+import login.GestorLogin;
 import mapa.Mapa;
 import partida.Partida;
 import sala.Sala;
@@ -127,7 +128,7 @@ public class TestUsuario {
 		Sala sala = new Sala(anfitrion, "salaTest");
 		
 		
-		Menu menu=new Menu();
+		Menu menu = new Menu(new GestorLogin("asd"));
 		menu.agregarSala(sala);
 		
 		Scanner sc = new Scanner(System.in);
@@ -140,7 +141,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testCrearSala() throws Exception_RoadFighter {
-		Menu menu = new Menu();
+		Menu menu = new Menu(new GestorLogin("asd"));
 		Usuario anfitrion = new Usuario("anfitrion", "1234");
 		Sala sala = new Sala(anfitrion, "salaTest");
 		
@@ -151,7 +152,7 @@ public class TestUsuario {
 	
 	@Test(expected = Exception_RoadFighter.class)
 	public void testErrorSalaRepetida() throws Exception_RoadFighter {
-		Menu menu = new Menu();
+		Menu menu = new Menu(new GestorLogin("asd"));
 		Usuario anfitrion = new Usuario("anfitrion", "1234");
 		Sala sala = new Sala(anfitrion, "salaTest");
 		
