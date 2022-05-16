@@ -2,7 +2,6 @@ package login;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Scanner;
 
 import usuario.Usuario;
@@ -11,41 +10,44 @@ import java.io.FileWriter;
 
 public class GestorLogin {
 
-	static public Usuario registrarUsuario(String ruta, String nombre, String contrasenia) {
-		if (usarioExistente(ruta, nombre)) {
+	private String _filePath;
+	
+	public GestorLogin(String filePath)
+	{
+		_filePath = filePath;
+	}
+	
+	public boolean registrarUsuario(String nombre, String contrasenia) {
+		if (usuarioExistente(nombre)) {
 			System.out.println("El nombre ingresado ya se encuentra Registrado");
-			return null;
+			return false;
 		}
 
 		FileWriter archivo = null;
 		BufferedWriter bw = null;
 		try {
-			FileWriter fw = new FileWriter(ruta, true);
+			FileWriter fw = new FileWriter(_filePath, true);
 			
 			bw = new BufferedWriter(fw);
 		    bw.write(nombre + "-" + contrasenia + "\n");
 			bw.flush();
 			
 		    archivo = fw;
+		    
+		    if (null != archivo) {
+				archivo.close();
+				System.out.println("Usuario registrado correctamente!");					
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (null != archivo) {
-					archivo.close();
-					System.out.println("Usuario registrado correctamente!");					
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
-		return new Usuario(nombre, contrasenia);
+		return true;
 
 	}
 
-	static public boolean login(String path, String nombre, String contra) {
+	public boolean login(String nombre, String contra) {
 		try {
-			Scanner file = new Scanner(new File(path));
+			Scanner file = new Scanner(new File(_filePath));
 
 			while (file.hasNext()) {
 				String[] user = file.next().split("-");
@@ -64,10 +66,10 @@ public class GestorLogin {
 
 	}
 
-	static public boolean usarioExistente(String ruta, String nombre) {
+	private boolean usuarioExistente(String nombre) {
 		Scanner fileAux = null;
 		try {
-			Scanner file = new Scanner(new File(ruta));
+			Scanner file = new Scanner(new File(_filePath));
 
 			fileAux = file;
 			while (file.hasNext()) {
