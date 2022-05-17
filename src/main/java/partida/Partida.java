@@ -27,6 +27,8 @@ public class Partida {
 			listaAutos.add(auto);
 			usuario.setJugando(true);
 		}
+		
+		estado = true;
 	}
 
 	public List<Auto> getListaAutos() {
@@ -71,9 +73,8 @@ public class Partida {
 		this.anfitrion = anfitrion;
 	}
 	
-	
 	public void finalizar() {
-		this.setEstado(false);
+		estado = false;
 		for (Auto auto : listaAutos ) {
 			auto.getPiloto().setJugando(false);
 		}

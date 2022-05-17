@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import auto.Auto;
 import exception.Exception_RoadFighter;
 import login.GestorLogin;
+import mapa.Mapa;
 import partida.Partida;
 import sala.Sala;
 import usuario.Usuario;
@@ -68,7 +69,7 @@ public class Menu {
 		boolean opcionValida = false;
 		
 		while (!opcionValida) {
-			Usuario userTest = new Usuario("testIngresarPartida", "1234");
+			Usuario userTest = new Usuario("testIngresarPartida");
 			Sala salaPruebaIngresar = new Sala(userTest, "SalaTest");
 			agregarSala(salaPruebaIngresar);
 			
@@ -77,42 +78,48 @@ public class Menu {
 			
 			switch (opcionElegida) {
 			case 1:	
-				Sala sala = _anfitrion.crearSala(_scanner);
-				
 				try {
+					System.out.println("Ingrese el nombre de la sala: ");
+					String nombreSala = _scanner.next();
+					Sala sala = crearSala(nombreSala);
+					
 					agregarSala(sala);
+				
+					sala.elegirMapa();
+					
+					Partida partida = configurarSala(sala);
+					
+					// Agregar validacion de partida si empezo
+					System.out.println("3....2....1... GO");
+									
+					// Muestro los autos, y mostrar el estado de los pilotos,
+					// y la ubicacion
+					
+					List<Auto> listaAutos = partida.getListaAutos();
+				
+					for (Auto auto : listaAutos ) {
+					System.out.println(auto.mostrarNombrePiloto() + " Jugando: " + auto.corriendo());
+					}
+					
+					System.out.println("Carrera en curso...");
+	
+					TimeUnit.SECONDS.sleep(3);
+					
+					partida.finalizar();
+					
+					for (Auto auto : listaAutos ) {
+						System.out.println(auto.mostrarNombrePiloto() + " Jugando: " + auto.corriendo());
+					}
+					
+					System.out.println("Fin de la carrera");
+					
 				} catch (Exception_RoadFighter e) {
 					e.printStackTrace();
 				}
 				
-				Partida partida = _anfitrion.configurarSala(sala, _scanner);
-				
-				System.out.println("3....2....1... GO");
-								
-				// Muestro los autos, y mostrar el estado de los pilotos,
-				// y la ubicacion
-				
-				List<Auto> listaAutos = partida.getListaAutos();
-			
-				for (Auto auto : listaAutos ) {
-				System.out.println(auto.getPiloto().getNombre() + " Jugando: " + auto.getPiloto().getJugando());
-				}
-				
-				System.out.println("Carrera en curso...");
-
-				TimeUnit.SECONDS.sleep(3);
-				
-				partida.finalizar();
-				
-				for (Auto auto : listaAutos ) {
-					System.out.println(auto.getPiloto().getNombre() + " Jugando: " + auto.getPiloto().getJugando());
-				}
-				
-				System.out.println("Fin de la carrera");
-				
 				break;
 			case 2:
-				_anfitrion.entrarSala(getListaSalas(), _scanner);
+				entrarSala();
 				System.out.println("Cantidad de Juegadores: " + salaPruebaIngresar.getListaUsuarios().size());
 				opcionValida = true;
 				break;
@@ -133,16 +140,33 @@ public class Menu {
 		_scanner.close();
 	}
 	
-	private boolean registrarUsuario() {
-		System.out.println("Ingrese su nombre:");
-		String nombre = _scanner.next();
-		
-		System.out.println("Ingrese una contrasenia:");
-		String contrasenia = _scanner.next();
-		
-		return _gestorLogin.registrarUsuario(nombre, contrasenia);
-	}
-
+	private Partida configurarSala(Sala sala) {
+			
+			boolean empezoPartida = false;
+			
+			Partida partida = null;
+			while(!empezoPartida) {
+				System.out.println("Para iniciar partida escriba  \"1\"");
+				
+				//aca se rompe, igual me parece que no va todo este metodo porque ya no configura nada
+				int opcion = _scanner.nextInt();
+				
+				try {
+					if(opcion != 1) //se va
+						partida = null;
+					else
+					{
+						empezoPartida = true;
+						partida =  sala.iniciarPartida();
+					}			
+				} catch(Exception_RoadFighter e) {
+					e.getMessage();
+				}
+			}
+			
+			return partida;
+		}
+	
 	private Usuario loginUsuario(){
 		System.out.println("Ingrese su nombre:");
 		String nombre = _scanner.next();
@@ -155,10 +179,10 @@ public class Menu {
 			return null;
 		}
 		
-		return new Usuario(nombre, contrasenia);
+		return new Usuario(nombre);
 	}
 
-	public boolean agregarSala(Sala sala) throws Exception_RoadFighter {
+	private boolean agregarSala(Sala sala) throws Exception_RoadFighter {
 		if (listaSalas.indexOf(sala) != -1)
 			throw new Exception_RoadFighter("Imposible agregar una sala ya existente");
 
@@ -183,6 +207,16 @@ public class Menu {
 		System.out.println("3- Salir del Juego.");
 	}
 	
+	private boolean registrarUsuario() {
+		System.out.println("Ingrese su nombre:");
+		String nombre = _scanner.next();
+		
+		System.out.println("Ingrese una contrasenia:");
+		String contrasenia = _scanner.next();
+		
+		return _gestorLogin.registrarUsuario(nombre, contrasenia);
+	}
+	
 	private int ingresarOpcion(int min, int max) {
 		
 		int opcion = 0;
@@ -198,6 +232,33 @@ public class Menu {
 		return opcion;
 	}
 	
+	private Sala crearSala(String nombreSala){ 
+		return new Sala(_anfitrion, nombreSala);
+	}
+	private void entrarSala()
+	{
+		int i = 1;
+		for(Sala sala: listaSalas)
+		{	
+			System.out.println( i +  " - " + sala.getNombreSala());
+			i++;
+		}
+		
+		System.out.println("Por favor ingresa el numero de sala al que quieras unirte: ");
+		
+		int numeroSala = _scanner.nextInt();
+		numeroSala--; //esto se hace para ya tener el nro-1
+
+		while(numeroSala < 0 || numeroSala > listaSalas.size()) {
+			System.out.println("El numero de sala ingresado es incorrecto, por favor ingrese el numero de sala nuevamente: ");
+			
+			numeroSala = _scanner.nextInt();
+			numeroSala--; 
+		}
+
+		listaSalas.get(numeroSala).agregarUsuario(_anfitrion);
+
+	}
 	
 	public void borrarSala(Sala sala) {
 		listaSalas.remove(sala);

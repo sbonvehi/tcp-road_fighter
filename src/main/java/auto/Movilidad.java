@@ -23,7 +23,7 @@ public class Movilidad extends Application{
 
 		Group root = new Group();
 		currentScene = new Scene(root);
-		Usuario usr = new Usuario("test","test");
+		Usuario usr = new Usuario("test");
 		autoJugador = new Auto(usr);
 
 		addInputEvents();

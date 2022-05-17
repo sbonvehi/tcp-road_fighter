@@ -39,6 +39,16 @@ public class Auto {
 		cantAutos++;
 	}
 	
+	public String mostrarNombrePiloto()
+	{
+		return piloto.getNombre();
+	}
+	
+	public boolean corriendo()
+	{
+		return piloto.getJugando();
+	}
+	
 	public int getAnchoOcupado() {
 		return this.ancho;
 	}
