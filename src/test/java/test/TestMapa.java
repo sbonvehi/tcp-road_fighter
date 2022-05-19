@@ -12,17 +12,29 @@ import mapa.PowerUp;
 public class TestMapa {
 
 	@Test
-	public void crearMapaYObstaculo() {
+	public void testEsObstaculoCorrecto() {
 		
 		Mapa mapa1 = new Mapa("Mapa1",20, 100);
 		ElementoMapa obstaculo1 = new Obstaculo(15, 50);
 		
 		mapa1.agregarElemento(obstaculo1);
-		assertEquals(1, mapa1.getElementosMapa().size());
+		
+		assertEquals(obstaculo1, mapa1.getElementosMapa().get(0));
 	}
 	
 	@Test
-	public void crearMapaYPowerUp() {
+	public void testEsMapaCorrecto() {
+		
+		Mapa mapa1 = new Mapa("Mapa1",20, 100);
+		ElementoMapa obstaculo1 = new Obstaculo(15, 50);
+		
+		mapa1.agregarElemento(obstaculo1);
+		
+		assertEquals("Mapa1", mapa1.getNombreMapa());
+	}
+	
+	@Test
+	public void testEsPowerUpCorrecto() {
 		
 		Mapa mapa1 = new Mapa("Mapa2", 20, 100);
 		ElementoMapa powerUp = new PowerUp(15, 50);
@@ -34,6 +46,7 @@ public class TestMapa {
 		mapa1.agregarElemento(powerUp2);
 		mapa1.agregarElemento(powerUp3);
 		mapa1.agregarElemento(powerUp4);
-		assertEquals(4, mapa1.getElementosMapa().size());
+		
+		assertEquals(powerUp, mapa1.getElementosMapa().get(0));
 	}	
 }

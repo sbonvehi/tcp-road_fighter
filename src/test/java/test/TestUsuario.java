@@ -118,27 +118,7 @@ public class TestUsuario {
 		
 		assertFalse(partida.getEstado());
 	}
-	
-	@Test
-	public void entrarSala() throws Exception_RoadFighter{
-		Usuario anfitrion = new Usuario("anfitrion", "1234");
-		Usuario us1 = new Usuario("user1", "1234");
-		Usuario us2 = new Usuario("user2", "1234");
 		
-		Sala sala = new Sala(anfitrion, "salaTest");
-		
-		
-		Menu menu = new Menu(new GestorLogin("asd"));
-		menu.agregarSala(sala);
-		
-		Scanner sc = new Scanner(System.in);
-		
-		us1.entrarSala(menu.getListaSalas(), sc);
-		us2.entrarSala(menu.getListaSalas(), sc);
-		
-		assertEquals(3,sala.getListaUsuarios().size());
-	}
-	
 	@Test
 	public void testCrearSala() throws Exception_RoadFighter {
 		Menu menu = new Menu(new GestorLogin("asd"));

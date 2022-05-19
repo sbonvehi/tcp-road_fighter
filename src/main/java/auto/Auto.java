@@ -1,10 +1,8 @@
 package auto;
 
-import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 import coordenada.Coordenada;
-import mapa.Mapa;
 import usuario.Usuario;
 
 public class Auto {
