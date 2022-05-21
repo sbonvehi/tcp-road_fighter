@@ -7,7 +7,6 @@ Metodología de trabajo
 La realización del juego, tendrá tres etapas con sus respectivas entregas:
 
 Fecha	Contenido de la entrega
-14/05	Diagrama de clases del modelo del juego, implementado y testeado (código)
 04/06	Posibilidad de interactuar con los elementos del juego en tiempo real en un entorno simulado, de forma gráfica
 02/07	Capacidad de ser jugado a través de cliente-servidor
 Se espera que las prácticas de programación sean buenas, y adecuadas al conocimiento adquirido en la materia. Esto incluye evitar el código aglomerado, tener una buena interacción de clases, no duplicar funcionalidades, tener el código indentado y prolijo, entre otras.
@@ -36,20 +35,3 @@ Como usuario quiero crear nuevas salas para que ingresen otros jugadores (*2)
 Como usuario quiero poder salir de una sala, incluso si en la misma el juego se encuentra en ejecución
 Como usuario quiero poder identificar cada jugador (saber quién lo maneja, y ver su puntuación)
 Notas: (*1) Una sala puede estar activa para que ingresen jugadores mientras un juego no esté activo en la misma. Aún así, debe aparecer en la lista de juegos como que el juego ya inició (*2) La partida podrá ser iniciada por el creador de la sala, o cuando todos los jugadores estén listos, o cualquier otra condición que consideren
-
-Requisitos extras
-
-Además de las mecánicas y requisitos antes mencionados, cada grupo debe elegir al menos 5 puntos de requisitos extras de los siguientes
-
-(3) Agregar cambios para acelerar más rápido
-(2) Agregar obstáculos fijos en el camino
-(2) Agregar vehículos que tengan algún patrón de movimiento extra
-(1) Incluir efectos de sonido con configuración de ajuste de volumen
-(+1) Agregar música de fondo de manera correcta en el menú y en la carrera. Deberá tener un ajuste de volumen independiente a los efectos de sonido
-(2) Si mapa generado previamente: Permitir elegir entre varios previo a la carrera
-(2) Si mapa generado aleatoriamente: Permitir elegir configuración de que cosas generar y con cuanta frecuencia
-(3) Crear un modo de 1 jugador donde se aplique algún motivo distinto para competir contra mí mismo (mecánica de puntuación, combustible, tiempo). El mismo podrá ser accedido desde un nuevo menú intermedio donde pregunte si va a jugar solo o por red
-(2) Agregar algún power-up en el mapa que al ser agarrado genere algún efecto (positivo o negativo)
-(3) Agregar alguna habilidad activa (que tenga un límite de usos o que se pueda utilizar cada cierto tiempo)
-(1) Permitir configuración de controles por un archivo (y que a nivel código haya una interfaz entre la configuración y los comandos)
-(2) Modo sala simplificada. La pantalla de ingreso solo tendrá la posibilidad de crear una sala o unirse con un código (no habrá listado de salas). Mientras se esta esperando a que se inicie la partida, los jugadores podrán interactuar con su vehículo de alguna manera
