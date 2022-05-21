@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import auto.Auto;
 import exception.Exception_RoadFighter;
 import login.GestorLogin;
 import partida.Partida;
+import road_fighter.objects.Auto;
 import sala.Sala;
 import usuario.Usuario;
 

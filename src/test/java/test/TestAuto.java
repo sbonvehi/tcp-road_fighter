@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import auto.Auto;
 import coordenada.Coordenada;
+import road_fighter.objects.Auto;
 import usuario.Usuario;
 
 public class TestAuto {

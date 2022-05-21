@@ -1,6 +1,6 @@
 package colision;
 
-import auto.Auto;
+import road_fighter.objects.Auto;
 
 public class colisionAuto extends modoColision {
 

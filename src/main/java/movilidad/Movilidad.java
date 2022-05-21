@@ -1,4 +1,4 @@
-package auto;
+package movilidad;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import road_fighter.objects.Auto;
 import usuario.Usuario;
 
 ////////////////////////////////////////////////

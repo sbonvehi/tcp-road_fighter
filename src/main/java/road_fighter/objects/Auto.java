@@ -1,4 +1,4 @@
-package auto;
+package road_fighter.objects;
 
 import java.util.concurrent.TimeUnit;
 

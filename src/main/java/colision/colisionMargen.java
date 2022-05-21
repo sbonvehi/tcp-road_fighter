@@ -1,7 +1,7 @@
 package colision;
 
-import auto.Auto;
 import coordenada.Coordenada;
+import road_fighter.objects.Auto;
 
 public class colisionMargen extends modoColision {
 
