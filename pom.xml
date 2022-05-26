@@ -40,11 +40,19 @@
 			<plugin>
 				<groupId>org.openjfx</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>19-ea+6</version>
+				<version>0.0.8</version>
 				<configuration>
-					<mainClass>tcp-road_fighter.Movilidad</mainClass>
+					<mainClass>auto.Movilidad</mainClass>
 				</configuration>
 			</plugin>
+			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-compiler-plugin</artifactId>
+	            <configuration>
+	                <source>1.8</source>
+	                <target>1.8</target>
+	            </configuration>
+	        </plugin>
 		</plugins>
 	</build>
 
