@@ -1,11 +1,7 @@
 package road_fighter;
 import exception.Exception_RoadFighter;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import login.GestorLogin;
-import menu.Menu;
 
 public class RoadFighterGame extends Application {
 	
@@ -29,6 +25,7 @@ public class RoadFighterGame extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		
 		this.stage = stage;
 
 //		menuSceneHandler = new MenuSceneHandler(this);
