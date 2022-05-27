@@ -2,6 +2,7 @@ package road_fighter.objects;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -22,29 +23,21 @@ public class Background extends GameObject implements Actualizable, Renderizable
 //	private final int margenInicialCalle;
 //	private final int margenFinalCalle;
 //	private final int anchoTotalVentana = 1200;
-	private final int anchoTotal = 150;
-	private final int altoTotal = 166;
+	private final int anchoTotal = 720;
+	private final int altoTotal = 720;
 
 	public Background()  {
-		//TODO: cambiar por nuestro mapa
-		Image backgroundImage = new Image(
-				"file:src/main/resources/img/background.png", anchoTotal, altoTotal, false, false);
-
-		ImagePattern image_pattern = new ImagePattern(backgroundImage, anchoTotal, 
-				altoTotal, anchoTotal, altoTotal, false);
-
-//		Rectangle sky = new Rectangle(Config.ANCHO_FRAME + anchoTotal, 
-//				Config.ALTO_FRAME - altoTotal);
-//		Rectangle city = new Rectangle(Config.ANCHO_FRAME + anchoTotal, altoTotal);
-//		Rectangle grass = new Rectangle(Config.ANCHO_FRAME + anchoTotal, altoTotal);
-
-//		sky.setFill(Color.rgb(84, 192, 201));
-//		city.setFill(image_pattern);
-//		grass.setFill(Color.rgb(100, 224, 117));
-//
-//		render = new VBox(sky, city, grass);
+		Image fondo = new Image(Config.MAP_IMG, anchoTotal, altoTotal, false, false);
 		
+//		ImageView imageView = new ImageView(fondo);
+//		  
+		ImagePattern imagePattern = new ImagePattern(fondo, anchoTotal,altoTotal, anchoTotal, anchoTotal , false);
+		Rectangle fondoRepetido = new Rectangle(anchoTotal, altoTotal * 1.2);
+		fondoRepetido.setFill(imagePattern);
+		
+		render =  new VBox(fondoRepetido);
 		render.setViewOrder(10);
+
 	}
 
 	@Override
@@ -60,5 +53,25 @@ public class Background extends GameObject implements Actualizable, Renderizable
 
 	@Override
 	public void destroy() { }
-
+	
+	//------HAY QUE DESARROLLAR ESTO !!!!-*--------
+	
+	
+	
+//	public void setDirectionUpSpeed1(boolean b) {
+//		
+//		this.directionUpSpeed1 = b;
+////		this.velocidad = -100;
+//		System.out.println("Posicion actual: " + this.ubicacion.toString());
+//	} 
+//	
+//	//todo esto habria que hacerlo en el mapa y no en el auto
+//	public void setDirectionUpSpeed2(boolean b) {
+//		
+//		this.directionUpSpeed2 = b;
+//		if(directionUpSpeed2)
+//			this.directionUpSpeed1 = false;
+//		System.out.println("Posicion actual: " + this.ubicacion.toString());
+//	}
+	
 }

@@ -13,18 +13,20 @@ public class Config {
     public static final int ALTO_FRAME = 800;
 	public static final int INITIAL_SPEED = 0;
 
-    public final String CAR_IMG = "src/images/principal.png";
-    public final String TREE_IMG = "src/images/tree.png";
-    public final String TREES_IMG = "src/images/trees.png";
-    public final String HOUSE_IMG = "src/images/home.png";
-    public final String CRASH_CAR = "src/images/boom.png";
-    public final static String BLUE_CAR = "src/images/bluecar.png";
-    public final static String YELLOW_CAR = "src/images/yellowcar.png";
+	
+	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
+	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalle.png";
+    public static final String TREE_IMG = "src/img/tree.png";
+    public static final String TREES_IMG = "src/img/trees.png";
+    public static final String HOUSE_IMG = "src/img/home.png";
+    public final String CRASH_CAR = "src/img/boom.png";
+    public final static String BLUE_CAR = "src/img/bluecar.png";
+    public final static String YELLOW_CAR = "src/img/yellowcar.png";
     public static final String[] ENEMIES = {
         BLUE_CAR,
-        YELLOW_CAR,};
+        YELLOW_CAR,}; 
 
 	private Config() {
 	}
-
+ 
 }

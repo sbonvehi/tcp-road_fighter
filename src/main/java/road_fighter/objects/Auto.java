@@ -3,6 +3,10 @@ package road_fighter.objects;
 import java.util.concurrent.TimeUnit;
 
 import coordenada.Coordenada;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import road_fighter.Config;
 import usuario.Usuario;
 
 public class Auto {
@@ -14,19 +18,22 @@ public class Auto {
 	private static final int POSICION_MITAD_PANTALLA = 600; // el ancho total de la pantalla es 1200.. desp lo mejoramos..
 	private static int cantAutos = 1;
 	
-	private final int ancho = 20; 		//ancho del auto
-	private final int alto = 40;		//alto del auto
+	private final int ANCHO_AUTO = 36; 		//ancho del auto
+	private final int ALTO_AUTO = 60;		//alto del auto
 	private final int speedSides = 300; // velocidad desplazamiento hacia los izq y der.
 	
 	private int velocidad;
 	private Coordenada ubicacion;
-	private Usuario piloto;
+	private Usuario piloto; 
 	
 	private boolean directionLeft = false;
 	private boolean directionRight = false;
 	private boolean directionUpSpeed1 = false;
 	private boolean directionUpSpeed2 = false;
 	
+	private ImageView render; 
+	
+
 	public Auto(Usuario piloto) {
 		this.velocidad = 0;
 		
@@ -34,15 +41,16 @@ public class Auto {
 		this.ubicacion = ubicacionInicial;
 		this.piloto = piloto;
 		
+		Image spriteImages = new Image(Config.CAR_IMG, ANCHO_AUTO, ALTO_AUTO, false, false);
+		render = new ImageView(spriteImages);
+		render.setViewport( new Rectangle2D(0,0, ANCHO_AUTO, ALTO_AUTO));
+		render.relocate(397, 550);
+		
 		cantAutos++;
 	}
 	
-	public int getAnchoOcupado() {
-		return this.ancho;
-	}
-
-	public int getAltosOcupado() {
-		return this.alto;
+	public ImageView getRender() {
+		return render;
 	}
 
 	public int getVelocidad() {
@@ -90,18 +98,20 @@ public class Auto {
 
 	public void setX(int x) {
 		this.ubicacion.setX(x);
+		render.setX(x);
 	}
 
 	public void setY(int y) {
 		this.ubicacion.setY(y);
+		render.setY(y);
 	}
 
 	public void update(double deltaTime) { //delta time es el tiempo que paso desde la ultima actualizacion.
 		
-		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
-		
+		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);		
 		setX((int) (this.ubicacion.getX() + direction * speedSides * deltaTime));
 		setY((int) (this.ubicacion.getY() + this.velocidad * deltaTime));
+
 	}
 
 	public void setDirectionRight(boolean b) {
@@ -116,12 +126,19 @@ public class Auto {
 //		chechHorizontal(); no necesario ahora.
 	}
 
+	
+	
+	//!!!!!!!!!!!!!!!!!!todo esto habria que hacerlo en el mapa y no en el auto
 	public void setDirectionUpSpeed1(boolean b) {
+		
 		this.directionUpSpeed1 = b;
+//		this.velocidad = -100;
 		System.out.println("Posicion actual: " + this.ubicacion.toString());
-	}
-
+	} 
+	
+	//todo esto habria que hacerlo en el mapa y no en el auto
 	public void setDirectionUpSpeed2(boolean b) {
+		
 		this.directionUpSpeed2 = b;
 		if(directionUpSpeed2)
 			this.directionUpSpeed1 = false;

@@ -8,7 +8,7 @@ public class MenuSceneHandler extends SceneHandler {
 	
 	private Auto player;
 	private Background background;
-	private Ground ground;
+//	private Ground ground;
 //	private Title title;
 
 	private Group rootGroup;

@@ -23,7 +23,7 @@ public class Menu {
 	public Menu(GestorLogin gestorLogin) {
 		_gestorLogin = gestorLogin;
 		listaSalas = new ArrayList<Sala>();
-		
+		 
 		_scanner = new Scanner(System.in);
 	}
 

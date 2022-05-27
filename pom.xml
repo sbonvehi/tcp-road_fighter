@@ -49,7 +49,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>${javafx.maven.plugin.version}</version>
 				<configuration>
-					<mainClass>auto.Movilidad</mainClass>
+					<mainClass>movilidad.Movilidad</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
