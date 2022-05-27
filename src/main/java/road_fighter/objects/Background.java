@@ -1,8 +1,10 @@
 package road_fighter.objects;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -14,8 +16,8 @@ import road_fighter.utils.GameObject;
 
 public class Background extends GameObject implements Actualizable, Renderizable {
 	
-	private VBox render;
-	private double posX = 0;
+	private HBox render;
+	private double posY = 0;
 
 //	private final int cityWidth = 136;
 //	private final int cityHeight = 152;
@@ -23,55 +25,39 @@ public class Background extends GameObject implements Actualizable, Renderizable
 //	private final int margenInicialCalle;
 //	private final int margenFinalCalle;
 //	private final int anchoTotalVentana = 1200;
-	private final int anchoTotal = 720;
-	private final int altoTotal = 720;
+	private final int anchoTotal = Config.ANCHO_FRAME_MAPA;
+	private final int altoTotal = Config.ALTO_FRAME_MAPA;
 
 	public Background()  {
 		Image fondo = new Image(Config.MAP_IMG, anchoTotal, altoTotal, false, false);
-		
-//		ImageView imageView = new ImageView(fondo);
-//		  
-		ImagePattern imagePattern = new ImagePattern(fondo, anchoTotal,altoTotal, anchoTotal, anchoTotal , false);
-		Rectangle fondoRepetido = new Rectangle(anchoTotal, altoTotal * 1.2);
+
+		ImagePattern imagePattern = new ImagePattern(fondo, anchoTotal, altoTotal, anchoTotal, anchoTotal , false);
+		Rectangle fondoRepetido = new Rectangle(anchoTotal, altoTotal * 2);
+	
+		Rectangle barraMarcador = new Rectangle(Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA * 2);
+		barraMarcador.setFill(Color.BLACK);
 		fondoRepetido.setFill(imagePattern);
 		
-		render =  new VBox(fondoRepetido);
+		
+		render =  new HBox(fondoRepetido, barraMarcador);
 		render.setViewOrder(10);
+		
 
 	}
 
 	@Override
-	public Node getRender() {
+	public HBox getRender() {
 		return render;
 	}
 
-	@Override
+	@Override 
 	public void update(double deltaTime) {
-		posX += -Config.INITIAL_SPEED * deltaTime * 0.01;
-		render.setTranslateX(posX % anchoTotal);
+		///el 100 seria la velocidad del auto, pero esta hardcodeado por ahora
+		posY += 300 * deltaTime;
+		render.setTranslateY(-Config.ALTO_FRAME_MAPA + posY % altoTotal);
 	}
 
 	@Override
 	public void destroy() { }
-	
-	//------HAY QUE DESARROLLAR ESTO !!!!-*--------
-	
-	
-	
-//	public void setDirectionUpSpeed1(boolean b) {
-//		
-//		this.directionUpSpeed1 = b;
-////		this.velocidad = -100;
-//		System.out.println("Posicion actual: " + this.ubicacion.toString());
-//	} 
-//	
-//	//todo esto habria que hacerlo en el mapa y no en el auto
-//	public void setDirectionUpSpeed2(boolean b) {
-//		
-//		this.directionUpSpeed2 = b;
-//		if(directionUpSpeed2)
-//			this.directionUpSpeed1 = false;
-//		System.out.println("Posicion actual: " + this.ubicacion.toString());
-//	}
-	
+
 }

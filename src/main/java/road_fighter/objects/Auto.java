@@ -18,8 +18,6 @@ public class Auto {
 	private static final int POSICION_MITAD_PANTALLA = 600; // el ancho total de la pantalla es 1200.. desp lo mejoramos..
 	private static int cantAutos = 1;
 	
-	private final int ANCHO_AUTO = 36; 		//ancho del auto
-	private final int ALTO_AUTO = 60;		//alto del auto
 	private final int speedSides = 300; // velocidad desplazamiento hacia los izq y der.
 	
 	private int velocidad;
@@ -41,9 +39,9 @@ public class Auto {
 		this.ubicacion = ubicacionInicial;
 		this.piloto = piloto;
 		
-		Image spriteImages = new Image(Config.CAR_IMG, ANCHO_AUTO, ALTO_AUTO, false, false);
+		Image spriteImages = new Image(Config.CAR_IMG, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
 		render = new ImageView(spriteImages);
-		render.setViewport( new Rectangle2D(0,0, ANCHO_AUTO, ALTO_AUTO));
+		render.setViewport( new Rectangle2D(0,0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
 		render.relocate(397, 550);
 		
 		cantAutos++;
@@ -103,7 +101,6 @@ public class Auto {
 
 	public void setY(int y) {
 		this.ubicacion.setY(y);
-		render.setY(y);
 	}
 
 	public void update(double deltaTime) { //delta time es el tiempo que paso desde la ultima actualizacion.
@@ -127,16 +124,14 @@ public class Auto {
 	}
 
 	
-	
-	//!!!!!!!!!!!!!!!!!!todo esto habria que hacerlo en el mapa y no en el auto
+	//esto esta bien
 	public void setDirectionUpSpeed1(boolean b) {
 		
 		this.directionUpSpeed1 = b;
-//		this.velocidad = -100;
 		System.out.println("Posicion actual: " + this.ubicacion.toString());
 	} 
 	
-	//todo esto habria que hacerlo en el mapa y no en el auto
+	//esto esta bien
 	public void setDirectionUpSpeed2(boolean b) {
 		
 		this.directionUpSpeed2 = b;

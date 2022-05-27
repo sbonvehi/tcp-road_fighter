@@ -9,9 +9,16 @@ public class Config {
 
     public static final String STREET_LINE = "#ffffff";
 
-    public static final int ANCHO_FRAME = 515;
-    public static final int ALTO_FRAME = 800;
+    
+    public static final int ANCHO_FRAME_ESCENA = 720;
+    public static final int ALTO_FRAME_ESCENA = 800;
+    public static final int ANCHO_FRAME_MAPA = 515;
+    public static final int ALTO_FRAME_MAPA = 800;
+    
 	public static final int INITIAL_SPEED = 0;
+	
+	public static final int ANCHO_AUTO = 30;
+	public static final int ALTO_AUTO = 45;
 
 	
 	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
@@ -20,9 +27,9 @@ public class Config {
     public static final String TREES_IMG = "src/img/trees.png";
     public static final String HOUSE_IMG = "src/img/home.png";
     public final String CRASH_CAR = "src/img/boom.png";
-    public final static String BLUE_CAR = "src/img/bluecar.png";
+    public final static String BLUE_CAR = "file:src/main/resources/img/bluecar.png";
     public final static String YELLOW_CAR = "src/img/yellowcar.png";
-    public static final String[] ENEMIES = {
+    public static final String[] ENEMIES = { 
         BLUE_CAR,
         YELLOW_CAR,}; 
 
