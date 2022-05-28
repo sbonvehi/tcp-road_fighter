@@ -22,6 +22,7 @@ public class Config {
 	public static final String FONT_TYPE = "Verdana";
 	public static final int FONT_SIZE_MARCADOR = 30;
 	
+	public static final String GENERAL_SPRITES_IMG = "file:src/main/resources/img/GeneralSprites.png";
 	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
 //	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalle.png";
 	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalleLargo2.png";

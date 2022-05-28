@@ -2,9 +2,9 @@ package road_fighter.objects;
 
 import java.util.concurrent.TimeUnit;
 
+import animation.SpriteAnimation;
 import coordenada.Coordenada;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.Animation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +24,7 @@ public class Auto {
 	private static int cantAutos = 0;
 	private final int VEL_HORIZONTAL = 300; // velocidad desplazamiento hacia los izq y der.
 
-	private static final int posXAuto = 297;// 397
+	private static final int posXAuto = 270;// 397
 	private static final int posYAuto = 650;// 550
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
@@ -38,7 +38,11 @@ public class Auto {
 	private boolean directionUpSpeed2 = false;
 
 	private ImageView render;
-	private Image spriteNormal;
+//	private Image spriteNormal;
+	private Image spriteImages;
+	private SpriteAnimation crash1;
+	private SpriteAnimation crash2;
+	
 	private boolean dead;
 
 	public Auto(Usuario piloto) {
@@ -47,16 +51,27 @@ public class Auto {
 		this.ubicacion = new Coordenada(posXAuto, 0);
 		this.piloto = piloto;
 
-		spriteNormal = new Image(Config.CAR_IMG, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
-		render = new ImageView(spriteNormal);
-		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
+		initImages();
+//		render = new ImageView(spriteNormal);
+		render = new ImageView(spriteImages);
+		render.setViewport(new Rectangle2D(3, 3, 14*3, 19*3));
 		render.relocate(-Config.ANCHO_AUTO / 2, -Config.ALTO_AUTO / 2); // render en la mitad del auto..
 
 		setX(posXAuto);		
 		render.setY(posYAuto); ///solo hay que asignar una vez este valor, porque el auto no se mueve en el eje Y
-
+		
 	}
-
+	
+	private void initImages() {
+//		spriteNormal = new Image(Config.CAR_IMG, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
+		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, 328 * 3, 179 * 3, false, false); 		
+	}
+	
+	private void initSpriteAnimations() {
+		crash1 = new SpriteAnimation(render,Duration.millis(200), 3, 3, 40, 34, 0, 50, 43);
+//		crash2 = 
+	}
+	
 	public ImageView getRender() {
 		return render;
 	}
@@ -106,11 +121,11 @@ public class Auto {
 
 	public void setX(int x) {
 		if(!dead) {
-		if (ubicacion.getX() < 152) { // 152 margen izq calle
-			x = 152;
+		if (ubicacion.getX() < 139) { // 142 margen izq calle
+			x = 139;
 			die();
-		} else if (ubicacion.getX() > 400) { // 400 margen der calle
-			x = 400;
+		} else if (ubicacion.getX() > 395) { // 396 margen der calle
+			x = 395;
 			die();
 		}
 
@@ -132,7 +147,7 @@ public class Auto {
 		
 		
 		///si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
-		//ó si no estoy tocando para acelerar, desacelero
+		//ï¿½ si no estoy tocando para acelerar, desacelero
 		if( (directionUpSpeed1 && velocidad >= topeVelocidad) ||
 			(!directionUpSpeed1 && !directionUpSpeed2)) {
 			velocidad -= TASA_FRENADO;
@@ -152,10 +167,15 @@ public class Auto {
 
 	public void setDirectionRight(boolean b) {
 		this.directionRight = b;
+		System.out.println();
+		System.out.println("Posicion actual: " + this.ubicacion.toString());
+
 	}
 
 	public void setDirectionLeft(boolean b) {
 		this.directionLeft = b;
+		System.out.println("Posicion actual: " + this.ubicacion.toString());
+
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
@@ -170,34 +190,36 @@ public class Auto {
 	}
 
 	public void die() {
-
-//		Image spriteBoom = new Image(Config.CRASH_CAR, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
-//		render = new ImageView(spriteBoom);
+		
+//		IndividualSpriteAnimation individualSpriteAnimation = new IndividualSpriteAnimation(
+//				new Image[] { imageUp, imageBase, imageDown }, render, Duration.millis(500));
+//		individualSpriteAnimation.setCustomFrames(new int[] { 0, 1, 2, 1 });
+//		individualSpriteAnimation.setCycleCount(Animation.INDEFINITE);
+//		individualSpriteAnimation.play();
+//		return individualSpriteAnimation;
+//		
 //		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
-//
-//		TranslateTransition explotarEnElLugar = new TranslateTransition(Duration.millis(500), render);
-//		explotarEnElLugar.setToX(300);
-//		explotarEnElLugar.play();
 
 		System.out.println("Mori");
 
-//		this.dead = true;
-//		resetearRender();
+		this.dead = true;
+		resetearRender();
 
 	}
-
+	
 	// reseteo la posicion en el origen despues de explotar..
 	public void resetearRender() {
 		
 		this.dead = false;
-		ubicacion.setX(posXAuto);
-		ubicacion.setY(posYAuto);
-		render = new ImageView(spriteNormal);
-		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
-		render.relocate(-Config.ANCHO_AUTO / 2, -Config.ALTO_AUTO / 2); // render en la mitad del auto..
-
-		setX(posXAuto);
-		setY(posYAuto);
+//		ubicacion.setX(posXAuto);
+//		ubicacion.setY(posYAuto);
+////		render = new ImageView(spriteNormal);
+//		render = new ImageView(spriteImages);
+//		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
+//		render.relocate(-Config.ANCHO_AUTO / 2, -Config.ALTO_AUTO / 2); // render en la mitad del auto..
+//
+//		setX(posXAuto);
+//		setY(posYAuto);
 
 	}
 
