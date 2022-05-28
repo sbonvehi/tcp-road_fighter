@@ -2,11 +2,8 @@ package road_fighter.objects;
 
 import java.lang.StackWalker.StackFrame;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -25,15 +22,8 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	private HBox render;
 	private HBox renderMapa;
 	private HBox renderBarraMarcador;
+	private Text textoVelocidadJugador;
 	private double posY = 0;
-
-//	private final int cityWidth = 136;
-//	private final int cityHeight = 152;
-//	private final int grassHeight = 100;
-//	private final int margenInicialCalle;
-//	private final int margenFinalCalle;
-//	private final int anchoTotalVentana = 1200;
-
 
 	public Background()  {
 		
@@ -44,20 +34,20 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		fondoMapa.setFill(imagePatternMapa);
 
 		//BARRA DE MARCADORES
-//		Rectangle fondoBarraMarcador = new Rectangle(Config.ANCHO_FRAME_MAPA / 2, Config.ALTO_FRAME_MAPA * 2);
 		Rectangle fondoBarraMarcador = new Rectangle(Config.ANCHO_FRAME_ESCENA - Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_ESCENA);
 
 		fondoBarraMarcador.setFill(Color.BLACK);
 		
 		
-		Text textoNombreJugador = new Text("JUGADOR1");
-		textoNombreJugador.setFont(Font.font ("Verdana", 20));
+		Text textoNombreJugador = new Text("JUGADOR 1");
+		textoNombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
 		textoNombreJugador.setFill(Color.WHITE);
 		
 		///Hay que ver como hacer para que el texto de la velocidad sea dinamico segun la velocidad del auto
-		Text textoVelocidadJugador = new Text("100 KM/H");
-		textoVelocidadJugador.setFont(Font.font ("Verdana", 20));
+		textoVelocidadJugador = new Text("0 KM/H");
+		textoVelocidadJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
 		textoVelocidadJugador.setFill(Color.WHITE);
+		textoVelocidadJugador.setTranslateY(200);
 		
 		
 		VBox contenedorTexto = new VBox(textoNombreJugador, textoVelocidadJugador);
@@ -89,14 +79,21 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		return render;
 	}
 
-	@Override 
-	public void update(double deltaTime) {
-		posY += 300 * deltaTime;
+//	@Override 
+	public void update(double deltaTime, double velocidadAutoJugador) {
+		posY += velocidadAutoJugador * deltaTime;
 		///estos valores de 3.5 y 2.2 me los saqué de la galera, pero es para que el movimiento el mapa sea fluido
+		textoVelocidadJugador.setText(velocidadAutoJugador + "KM/H");
 		renderMapa.setTranslateY(-Config.ALTO_FRAME_ESCENA * 3.5 + (posY % Config.ALTO_FRAME_ESCENA * 2.2) );
 	}
 
 	@Override
 	public void destroy() { }
+
+	@Override
+	public void update(double deltaTime) {
+		// TODO Auto-generated method stub
+		//este metodo lo tengo que tener si o si porque sino no compila
+	}
 
 }

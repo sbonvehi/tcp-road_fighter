@@ -1,8 +1,5 @@
 package movilidad;
 
-
-
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -40,7 +37,6 @@ public class Movilidad extends Application{
 
 		Group root = new Group();
 		currentScene = new Scene(root, Config.ANCHO_FRAME_ESCENA , Config.ALTO_FRAME_ESCENA);
-//		currentScene = new Scene(root);
 		Usuario usr = new Usuario("test","test");
 		
 		
@@ -84,9 +80,12 @@ public class Movilidad extends Application{
 	}
 
 	public void update(double deltaTime) {
+		double velocidadAuto = autoJugador.getVelocidad();
+		
+		
 		autoJugador.update(deltaTime);
-		fondo.update(deltaTime);
-		autoNPC.update(deltaTime);
+		fondo.update(deltaTime, velocidadAuto);
+		autoNPC.update(deltaTime, velocidadAuto);
 		
 	}
 	
