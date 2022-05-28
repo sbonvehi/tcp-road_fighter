@@ -40,6 +40,7 @@ public class Movilidad extends Application{
 
 		Group root = new Group();
 		currentScene = new Scene(root, Config.ANCHO_FRAME_ESCENA , Config.ALTO_FRAME_ESCENA);
+//		currentScene = new Scene(root);
 		Usuario usr = new Usuario("test","test");
 		
 		

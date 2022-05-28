@@ -12,8 +12,8 @@ public class Config {
     
     public static final int ANCHO_FRAME_ESCENA = 720;
     public static final int ALTO_FRAME_ESCENA = 800;
-    public static final int ANCHO_FRAME_MAPA = 515;
-    public static final int ALTO_FRAME_MAPA = 800;
+    public static final int ANCHO_FRAME_MAPA = 477;
+    public static final int ALTO_FRAME_MAPA = 3700;
     
 	public static final int INITIAL_SPEED = 0;
 	
@@ -22,7 +22,8 @@ public class Config {
 
 	
 	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
-	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalle.png";
+//	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalle.png";
+	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalleLargo2.png";
     public static final String TREE_IMG = "src/img/tree.png";
     public static final String TREES_IMG = "src/img/trees.png";
     public static final String HOUSE_IMG = "src/img/home.png";
