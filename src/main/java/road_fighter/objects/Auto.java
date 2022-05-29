@@ -223,8 +223,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	@Override
 	public void colisionar(Colisionable colisionable) {
+//		System.out.println("COLISION!!: "  + colisionable.getClass());
 		if(colisionable.getClass() == Enemy.class) {
-			velocidad /= 2;
+//			Auto.velocidad /= 2;
+			System.out.println("se redujo la velocidad");
 		}
 		
 	}

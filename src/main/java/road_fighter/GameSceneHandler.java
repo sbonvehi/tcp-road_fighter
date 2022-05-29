@@ -22,7 +22,8 @@ public class GameSceneHandler extends SceneHandler {
 	
 	
 	private Auto autoJugador;
-	private Enemy autoNPC;
+	private Enemy autoNPC1;
+	private Enemy autoNPC2;
 	private Background fondo;
 	
 	public GameSceneHandler(RoadFighterGame g) {
@@ -32,6 +33,94 @@ public class GameSceneHandler extends SceneHandler {
 	protected void prepareScene() {
 		Group rootGroup = new Group();
 		scene = new Scene(rootGroup, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, Color.BLACK);
+	}
+	
+	@Override
+	protected void defineEventHandlers() {
+		keyPressEventHandler = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+
+				switch (event.getCode()) {
+				case RIGHT:
+				case D:
+					autoJugador.setDirectionRight(true);
+					break;
+
+				case LEFT:
+				case A:
+					autoJugador.setDirectionLeft(true);
+					break;
+
+				case Z:
+					autoJugador.setDirectionUpSpeed1(true); // velocidad de 0 a 200
+					break;
+
+				case X:
+					autoJugador.setDirectionUpSpeed2(true); // velocidad de 200 a 400
+					break;
+
+				default:
+					break;
+
+				}
+			}
+		};
+		
+		keyReleaseEventHandler = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+
+				switch (event.getCode()) {
+				case RIGHT:
+				case D:
+					autoJugador.setDirectionRight(false);
+					break;
+
+				case LEFT:
+				case A:
+					autoJugador.setDirectionLeft(false);
+					break;
+
+				case X:
+				case Z: // voy disminuyendo la velocidad de y hasta cero..
+					autoJugador.setDirectionUpSpeed1(false);
+					autoJugador.setDirectionUpSpeed2(false);
+					break;
+				default:
+					break;
+
+				}
+			}
+		};
+	}
+	
+	public void load(boolean fullStart) {
+		Group root = new Group();
+		scene.setRoot(root);
+		
+		
+		///Instancio todos los objectos de la partida
+		Usuario usr = new Usuario("test","test");
+		fondo = new Background();
+		autoJugador = new Auto(usr);
+		autoNPC1 = new Enemy(0,0, 150);
+		autoNPC2 = new Enemy(50,-30, 200);
+
+		
+//		 Add to builder
+		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
+		gameOB.setRootNode(root);
+		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2);
+
+//
+		if (fullStart) {
+			addTimeEventsAnimationTimer();
+			addInputEvents();
+		}
+	}
+	
+	public void update(double delta) {
+		super.update(delta);
+		checkColliders();
 	}
 	
 	private void checkColliders() {
@@ -69,90 +158,7 @@ public class GameSceneHandler extends SceneHandler {
 			}
 		}
 	}
+
 	
-	public void load(boolean fullStart) {
-		Group root = new Group();
-		scene.setRoot(root);
-		
-		
-		///Instancio todos los objectos de la partida
-		Usuario usr = new Usuario("test","test");
-		fondo = new Background();
-		autoJugador = new Auto(usr);
-		autoNPC = new Enemy(0,0);
-
-		
-//		 Add to builder
-		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
-		gameOB.setRootNode(root);
-		gameOB.add(autoJugador, fondo, autoNPC);
-
-//
-		if (fullStart) {
-			addTimeEventsAnimationTimer();
-			addInputEvents();
-		}
-	}
-
-	@Override
-	protected void defineEventHandlers() {
-		keyPressEventHandler = new EventHandler<KeyEvent>() {
-//			@Override
-			public void handle(KeyEvent event) {
-
-				switch (event.getCode()) {
-				case RIGHT:
-				case D:
-					autoJugador.setDirectionRight(true);
-					break;
-
-				case LEFT:
-				case A:
-					autoJugador.setDirectionLeft(true);
-					break;
-
-				case Z:
-					autoJugador.setDirectionUpSpeed1(true); // velocidad de 0 a 200
-					break;
-
-				case X:
-					autoJugador.setDirectionUpSpeed2(true); // velocidad de 200 a 400
-					break;
-
-				default:
-					break;
-
-				}
-			}
-		};
-		
-		keyReleaseEventHandler = new EventHandler<KeyEvent>() {
-//			@Override
-			public void handle(KeyEvent event) {
-
-				switch (event.getCode()) {
-				case RIGHT:
-				case D:
-					autoJugador.setDirectionRight(false);
-					break;
-
-				case LEFT:
-				case A:
-					autoJugador.setDirectionLeft(false);
-					break;
-
-				case X:
-				case Z: // voy disminuyendo la velocidad de y hasta cero..
-					autoJugador.setDirectionUpSpeed1(false);
-					autoJugador.setDirectionUpSpeed2(false);
-					break;
-				default:
-					break;
-
-				}
-			}
-		};
-		
-	}
 
 }
