@@ -1,13 +1,16 @@
 package road_fighter.objects;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import coordenada.Coordenada;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -22,7 +25,7 @@ import usuario.Usuario;
 
 public class Auto extends GameObject implements Actualizable, Renderizable, Colisionador {
 
-	private Rectangle collider;
+	
 	
 	private static final int VELOCIDAD_INICIAL = 0;
 	private final int VELOCIDAD_MAX1 = 200;
@@ -32,15 +35,14 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private final int POSICION_MITAD_PANTALLA = 600; ///?????
 	
 	private static int cantAutos = 0;
-	private final int VEL_HORIZONTAL = 300; // velocidad desplazamiento hacia los izq y der.
+	private final int VEL_HORIZONTAL = 80; // velocidad desplazamiento hacia los izq y der.
 
-	private static final int posXAuto = 297;// 397
-	private static final int posYAuto = 650;// 550
+	private static final int posXAuto = 297;
+	private static final int posYAuto = 650;
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
 	private static int velocidad = VELOCIDAD_INICIAL;
-//	public static int velocidad = VELOCIDAD_INICIAL;
-//	public static int velocidad = VELOCIDAD_INICIAL;
+
 	private Coordenada ubicacion;
 	private Usuario piloto;
 
@@ -49,6 +51,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private boolean directionUpSpeed1 = false;
 	private boolean directionUpSpeed2 = false;
 
+	private Rectangle collider;
 	private ImageView render;
 	private Image spriteNormal;
 	private boolean dead;
@@ -59,30 +62,44 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	
 	public Auto(Usuario piloto) {
 		collider = new Rectangle(Config.ANCHO_AUTO, Config.ANCHO_AUTO);
-		collider.setFill(null);
+		collider.setFill(Color.DARKBLUE);
 		collider.setStroke(Color.FUCHSIA);
+
 		
 		cantAutos++;
-		this.ubicacion = new Coordenada(posXAuto, 0);
+		this.ubicacion = new Coordenada(0, 0);
 		this.piloto = piloto;
 
 		spriteNormal = new Image(Config.CAR_IMG, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
 		render = new ImageView(spriteNormal);
+		
 		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
-		render.relocate(-Config.ANCHO_AUTO / 2, -Config.ALTO_AUTO / 2); // render en la mitad del auto..
+//		render.relocate(-Config.ANCHO_AUTO / 2 + posXAuto,posYAuto); 
+//		collider.relocate(-Config.ANCHO_AUTO / 2 + posXAuto, posYAuto); 
+		
+		render.relocate(posXAuto, posYAuto); // render en la mitad del auto y en el medio de la pantalla..
+		collider.relocate(posXAuto, posYAuto); // render en la mitad del auto y en el medio de la pantalla..
 
-		setX(posXAuto);		
-		render.setY(posYAuto); ///solo hay que asignar una vez este valor, porque el auto no se mueve en el eje Y
+		
 
 	}
-
-	public ImageView getRender() {
+	
+	public Node getRender() {
 		return render;
 	}
 
-
+	@Override
+	public void colisionar(Colisionable colisionable) {		
+		if(colisionable.getClass() == Enemy.class) {
+			Auto.velocidad /= 2;
+			System.out.println("se redujo la velocidad");
+			render.setOpacity(0.5); ///test colision
+		}
+		
+	}
+	
 	public void setVelocidad(int velocidad) {
-		this.velocidad = velocidad;
+		Auto.velocidad = velocidad;
 	}
 
 	public Coordenada getUbicacion() {
@@ -91,7 +108,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	// Verificar que no haya obstaculo ni nada en esa posicion.
 	public void restablecerUbicacion() {
-		this.ubicacion.setX(POSICION_MITAD_PANTALLA);
+//		this.ubicacion.setX(POSICION_MITAD_PANTALLA);
 	}
 
 	public Usuario getPiloto() {
@@ -113,30 +130,36 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void reducirVelocidadPowerUp() {
-		velocidad -= 200;
+		Auto.velocidad -= 200;
 	}
 
 	public void aumentarVelocidadPowerUp() {
-		this.velocidad += 200;
+		Auto.velocidad += 200;
 	}
 
 	public void setX(int x) {
-		if(!dead) {
-		if (ubicacion.getX() < 152) { // 152 margen izq calle
-			x = 152;
-			die();
-		} else if (ubicacion.getX() > 400) { // 400 margen der calle
-			x = 400;
-			die();
-		}
+		///por ahi la colision la podemos hacer en el mapa directamente y no ensuciamos la logica del auto
+//		if(!dead) {
+//			if (ubicacion.getX() < 152) { // 152 margen izq calle
+//				x = 152;
+//				die();
+//			} else if (ubicacion.getX() > 400) { // 400 margen der calle
+//				x = 400;
+//				die();
+//			}
+//		}
+			this.ubicacion.setX(x);
+			render.setX(x);
+			collider.setX(x);
 
-		this.ubicacion.setX(x);
-		render.setX(x);
-		}
 	}
 
 	public void setY(int y) {
-		this.ubicacion.setY(y);
+		this.ubicacion.setY(y); ///esta es la unica Y que se va cambiar, porque es la que determina que tan avanzado esta un auto respecto desde que arrancó la carrera
+//		
+//		System.out.println(ubicacion.toString());
+//		System.out.println("render player:" + render.getX() + " " + render.getY());
+//		System.out.println("collider: " + collider.toString());
 	}
 
 	public void update(double deltaTime) { // delta time es el tiempo que paso desde la ultima actualizacion.	
@@ -144,7 +167,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
 			velocidad += TASA_ACELERACION;			
 		}
-		
+		render.setOpacity(1); ///test colision
 		
 		///si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
 		//ó si no estoy tocando para acelerar, desacelero
@@ -161,8 +184,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
 		setX((int) (this.ubicacion.getX() + direction * VEL_HORIZONTAL * deltaTime));
-		setY((int) (this.ubicacion.getY() + this.velocidad * deltaTime));
-		System.out.println(ubicacion.toString());
+		setY((int) (this.ubicacion.getY() + Auto.velocidad * deltaTime));
 	}
 
 	public void setDirectionRight(boolean b) {
@@ -221,15 +243,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return collider;
 	}
 
-	@Override
-	public void colisionar(Colisionable colisionable) {
-//		System.out.println("COLISION!!: "  + colisionable.getClass());
-		if(colisionable.getClass() == Enemy.class) {
-//			Auto.velocidad /= 2;
-			System.out.println("se redujo la velocidad");
-		}
-		
-	}
+	
 
 	@Override
 	public void destroy() {

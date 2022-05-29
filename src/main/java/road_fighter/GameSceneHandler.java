@@ -102,8 +102,8 @@ public class GameSceneHandler extends SceneHandler {
 		Usuario usr = new Usuario("test","test");
 		fondo = new Background();
 		autoJugador = new Auto(usr);
-		autoNPC1 = new Enemy(0,0, 150);
-		autoNPC2 = new Enemy(50,-30, 200);
+		autoNPC1 = new Enemy(0,50, 90);
+		autoNPC2 = new Enemy(50,0, 150);
 
 		
 //		 Add to builder
@@ -111,7 +111,6 @@ public class GameSceneHandler extends SceneHandler {
 		gameOB.setRootNode(root);
 		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2);
 
-//
 		if (fullStart) {
 			addTimeEventsAnimationTimer();
 			addInputEvents();
@@ -142,9 +141,6 @@ public class GameSceneHandler extends SceneHandler {
 				Colisionable collideable = collideables.get(j);
 				Shape intersect = Shape.intersect(collidator.getCollider(), collideable.getCollider());
 
-				// TODO test times
-				// XXX Si el substract es distinto???
-				// Check intersects
 				if (intersect.getBoundsInLocal().getWidth() != -1) {
 					collidator.colisionar(collideable);
 				} else {
