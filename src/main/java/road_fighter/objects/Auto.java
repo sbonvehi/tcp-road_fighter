@@ -35,10 +35,11 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private final int POSICION_MITAD_PANTALLA = 600; ///?????
 	
 	private static int cantAutos = 0;
-	private final int VEL_HORIZONTAL = 80; // velocidad desplazamiento hacia los izq y der.
+	private final int VEL_HORIZONTAL = 300; // velocidad desplazamiento hacia los izq y der.
 
 	private static final int posXAuto = 297;
 	private static final int posYAuto = 650;
+	private boolean flagFueraDeMapa = false;
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
 	private static int velocidad = VELOCIDAD_INICIAL;
@@ -95,6 +96,11 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			System.out.println("se redujo la velocidad");
 			render.setOpacity(0.5); ///test colision
 		}
+		if(colisionable.getClass() == Background.class) {
+			flagFueraDeMapa = false;
+			render.setOpacity(1);
+			System.out.println("estoy en la calle");
+		}
 		
 	}
 	
@@ -104,11 +110,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public Coordenada getUbicacion() {
 		return ubicacion;
-	}
-
-	// Verificar que no haya obstaculo ni nada en esa posicion.
-	public void restablecerUbicacion() {
-//		this.ubicacion.setX(POSICION_MITAD_PANTALLA);
 	}
 
 	public Usuario getPiloto() {
@@ -138,16 +139,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setX(int x) {
-		///por ahi la colision la podemos hacer en el mapa directamente y no ensuciamos la logica del auto
-//		if(!dead) {
-//			if (ubicacion.getX() < 152) { // 152 margen izq calle
-//				x = 152;
-//				die();
-//			} else if (ubicacion.getX() > 400) { // 400 margen der calle
-//				x = 400;
-//				die();
-//			}
-//		}
 			this.ubicacion.setX(x);
 			render.setX(x);
 			collider.setX(x);
@@ -164,10 +155,17 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void update(double deltaTime) { // delta time es el tiempo que paso desde la ultima actualizacion.	
 		///acelerado mientras no me pase del limite
+		
+		if(flagFueraDeMapa) {
+			render.setOpacity(0.5); ///test colision
+			System.out.println("me fui del mapa :(");
+		}
+		
+		flagFueraDeMapa = true;
+		
 		if((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
 			velocidad += TASA_ACELERACION;			
 		}
-		render.setOpacity(1); ///test colision
 		
 		///si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
 		//ó si no estoy tocando para acelerar, desacelero

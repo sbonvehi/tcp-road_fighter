@@ -3,6 +3,7 @@ package road_fighter.objects;
 import java.lang.StackWalker.StackFrame;
 
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -10,30 +11,39 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import road_fighter.Config;
 import road_fighter.interfaces.Actualizable;
+import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Renderizable;
 import road_fighter.utils.GameObject;
 
-public class Background extends GameObject implements Actualizable, Renderizable {
+public class Background extends GameObject implements Actualizable, Renderizable, Colisionable {
 	
 	private HBox render;
 	private HBox renderMapa;
 	private HBox renderBarraMarcador;
 	private Text textoVelocidadJugador;
+	
+	private Rectangle calleCollider;
+	
 	private double posY = 0;
 
 	public Background()  {
-		
+		/// no se por que pero la si achica el margen de colision de la calle  (119px) se rompe en el medio
+		calleCollider =  new Rectangle(125, 999999);
+		calleCollider.setFill(Color.FUCHSIA);
+		calleCollider.setStroke(Color.FUCHSIA);
+		calleCollider.relocate(160, 0);
 		//MAPA
 		Image imagenMapa = new Image(Config.MAP_IMG, Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA, false, false);
 		ImagePattern imagePatternMapa = new ImagePattern(imagenMapa, -Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA, Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA , false);
 		Rectangle fondoMapa = new Rectangle(Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA);
 		fondoMapa.setFill(imagePatternMapa);
 
-		//BARRA DE MARCADORES
+		//BARRA DE MARCADORES (podria ser una clase fuera de background)
 		Rectangle fondoBarraMarcador = new Rectangle(Config.ANCHO_FRAME_ESCENA - Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_ESCENA);
 
 		fondoBarraMarcador.setFill(Color.BLACK);
@@ -89,6 +99,11 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	
 	@Override
 	public void destroy() { }
+
+	@Override
+	public Shape getCollider() {
+		return calleCollider;
+	}
 
 
 
