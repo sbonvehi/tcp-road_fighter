@@ -1,51 +1,47 @@
 package road_fighter;
 import exception.Exception_RoadFighter;
 import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import road_fighter.objects.Auto;
+import road_fighter.objects.Background;
+import road_fighter.objects.Enemy;
+import usuario.Usuario;
 
 public class RoadFighterGame extends Application {
 	
 	private Stage stage;
 
 //	private MenuSceneHandler menuSceneHandler;
-//
-//	private GameSceneHandler gameSceneHandler;
 
-	public static void main(String[] args) throws InterruptedException, Exception_RoadFighter {
+	private GameSceneHandler gameSceneHandler;
 
-//		Menu menu = new Menu(new GestorLogin("./archivoLogin/usuarios.txt"));
-//
-//		menu.primeraPantalla();
-//		
-//		menu.segundaPantalla();
-		
-		launch();
-		
-	}
 
-	@Override
+	
 	public void start(Stage stage) throws Exception {
-		
 		this.stage = stage;
-
-//		menuSceneHandler = new MenuSceneHandler(this);
-//		Scene scene = menuSceneHandler.getScene();
-//		stage.setScene(scene);
-//
-//		menuSceneHandler.load();
 		
-		// XXX patron state para controlar paso de escenas?
-
-		// Scale
-		// TODO scale and fill to maintain proportion (also center)
-		// scale = new Scale();
-		// dinamico, cada vez que cambio el tamaÃ±o de ventana
-		// scale.setX(scene.getWidth() / WIDTH);
-		// scale.setY(scene.getHeight() / HEIGHT);
-		// images.getTransforms().add(scale);
-
-//		stage.getIcons().add(new Image("file:src/main/resources/ico/logo.png"));
+		gameSceneHandler = new GameSceneHandler(this);
+		Scene scene = gameSceneHandler.getScene();
+		stage.setScene(scene);
+		gameSceneHandler.load(true);
+	
+		stage.setResizable(false);
 		stage.setTitle("Road Fighter");
 		stage.show();
 	}
+	
+	public static void main(String[] args){
+		launch();
+	}
+	
+	public void startGame() {
+//		menuSceneHandler.unload();
+		gameSceneHandler = new GameSceneHandler(this);
+		Scene scene = gameSceneHandler.getScene();
+		stage.setScene(scene);
+		gameSceneHandler.load(true);
+	}
+	
 }

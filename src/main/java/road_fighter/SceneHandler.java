@@ -1,6 +1,7 @@
 package road_fighter;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -15,6 +16,11 @@ public abstract class SceneHandler {
 	protected final long NANOS_IN_SECOND = 1_000_000_000;
 	protected final double NANOS_IN_SECOND_D = 1_000_000_000.0;	
 	
+	protected int frames = 0;
+	protected int last_fps_frame = 0;
+	protected AtomicInteger fps = new AtomicInteger(0);
+	
+	
 	protected AnimationTimer gameTimer;
 	protected long previousNanoFrame;
 	protected long previousNanoSecond;
@@ -22,7 +28,8 @@ public abstract class SceneHandler {
 
 	protected Scene scene;
 	
-	protected EventHandler<KeyEvent> keyEventHandler;
+	protected EventHandler<KeyEvent> keyPressEventHandler;
+	protected EventHandler<KeyEvent> keyReleaseEventHandler;
 	protected EventHandler<MouseEvent> mouseEventHandler;
 
 	public SceneHandler(RoadFighterGame g) {
@@ -31,54 +38,50 @@ public abstract class SceneHandler {
 			defineEventHandlers();
 	}
 	
-//	public void oneSecondUpdate(double delta) {
-//		fps.set(frames - last_fps_frame);
-//		last_fps_frame = frames;
-//	}
+	public void oneSecondUpdate(double delta) {
+		fps.set(frames - last_fps_frame);
+		last_fps_frame = frames;
+	}
 
 	public Scene getScene() {
 		return scene;
 	}
 	
-	public void update(double delta) {
-//		frames++;
-
-		List<Actualizable> updatables = GameObjectBuilder.getInstance().getUpdatables();
-		for (Actualizable updatable : updatables) {
-			updatable.update(delta);
+	public void update(double deltaTime) {
+		frames++;
+		List<Actualizable> actualizables = GameObjectBuilder.getInstance().getUpdatables();
+		
+		for (Actualizable actualizable : actualizables) {
+			actualizable.update(deltaTime);		
 		}
+
+		
 	}
 
 	protected void addTimeEventsAnimationTimer() {
-		gameTimer = new AnimationTimer() {
+		previousNanoFrame = System.nanoTime();
+		AnimationTimer gameTimer = new AnimationTimer() {
 			@Override
 			public void handle(long currentNano) {
-				// Update tick
-				update((currentNano - previousNanoFrame) / NANOS_IN_SECOND_D);
+				//update Tick
+				update((currentNano - previousNanoFrame) / 1_000_000_000.0);
 				previousNanoFrame = currentNano;
-	
-				// Update second
-				if (currentNano - previousNanoSecond > NANOS_IN_SECOND) {
-//					oneSecondUpdate((currentNano - previousNanoSecond) / NANOS_IN_SECOND_D);
-					previousNanoSecond = currentNano;
-				}
-	
 			}
 		};
-	
-		previousNanoSecond = System.nanoTime();
-		previousNanoFrame = System.nanoTime();
-		gameTimer.start();
+		
+		gameTimer.start();	
 	}
 
 	protected void addInputEvents() {
-		scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEventHandler);
-		scene.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEventHandler);
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, keyPressEventHandler);
+		scene.addEventHandler(KeyEvent.KEY_RELEASED, keyReleaseEventHandler);
+//		scene.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEventHandler);
 	}
 
 	protected void removeInputEvents() {
-		scene.removeEventHandler(KeyEvent.KEY_PRESSED, keyEventHandler);
-		scene.removeEventHandler(MouseEvent.MOUSE_PRESSED, mouseEventHandler);
+		scene.removeEventHandler(KeyEvent.KEY_PRESSED, keyPressEventHandler);
+		scene.removeEventHandler(KeyEvent.KEY_RELEASED, keyReleaseEventHandler);
+//		scene.removeEventHandler(MouseEvent.MOUSE_PRESSED, mouseEventHandler);
 	}
 	
 	protected abstract void prepareScene();

@@ -8,13 +8,23 @@ import javafx.animation.TranslateTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import road_fighter.Config;
+import road_fighter.interfaces.Actualizable;
+import road_fighter.interfaces.Colisionable;
+import road_fighter.interfaces.Colisionador;
+import road_fighter.interfaces.Renderizable;
+import road_fighter.utils.GameObject;
 import usuario.Usuario;
 
-public class Auto {
+public class Auto extends GameObject implements Actualizable, Renderizable, Colisionador {
 
-	private final int VELOCIDAD_INICIAL = 0;
+	private Rectangle collider;
+	
+	private static final int VELOCIDAD_INICIAL = 0;
 	private final int VELOCIDAD_MAX1 = 200;
 	private final int TASA_ACELERACION = 2;
 	private final int VELOCIDAD_MAX2 = 400;
@@ -28,7 +38,9 @@ public class Auto {
 	private static final int posYAuto = 650;// 550
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
-	private int velocidad = VELOCIDAD_INICIAL;
+	private static int velocidad = VELOCIDAD_INICIAL;
+//	public static int velocidad = VELOCIDAD_INICIAL;
+//	public static int velocidad = VELOCIDAD_INICIAL;
 	private Coordenada ubicacion;
 	private Usuario piloto;
 
@@ -41,8 +53,15 @@ public class Auto {
 	private Image spriteNormal;
 	private boolean dead;
 
+	public static int getVelocidad() {
+		return velocidad;
+	}
+	
 	public Auto(Usuario piloto) {
-
+		collider = new Rectangle(Config.ANCHO_AUTO, Config.ANCHO_AUTO);
+		collider.setFill(null);
+		collider.setStroke(Color.FUCHSIA);
+		
 		cantAutos++;
 		this.ubicacion = new Coordenada(posXAuto, 0);
 		this.piloto = piloto;
@@ -61,9 +80,6 @@ public class Auto {
 		return render;
 	}
 
-	public int getVelocidad() {
-		return velocidad;
-	}
 
 	public void setVelocidad(int velocidad) {
 		this.velocidad = velocidad;
@@ -123,8 +139,7 @@ public class Auto {
 		this.ubicacion.setY(y);
 	}
 
-	public void update(double deltaTime) { // delta time es el tiempo que paso desde la ultima actualizacion.
-	
+	public void update(double deltaTime) { // delta time es el tiempo que paso desde la ultima actualizacion.	
 		///acelerado mientras no me pase del limite
 		if((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
 			velocidad += TASA_ACELERACION;			
@@ -147,7 +162,7 @@ public class Auto {
 		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
 		setX((int) (this.ubicacion.getX() + direction * VEL_HORIZONTAL * deltaTime));
 		setY((int) (this.ubicacion.getY() + this.velocidad * deltaTime));
-		
+		System.out.println(ubicacion.toString());
 	}
 
 	public void setDirectionRight(boolean b) {
@@ -201,4 +216,22 @@ public class Auto {
 
 	}
 
+	@Override
+	public Shape getCollider() {
+		return collider;
+	}
+
+	@Override
+	public void colisionar(Colisionable colisionable) {
+		if(colisionable.getClass() == Enemy.class) {
+			velocidad /= 2;
+		}
+		
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
 }

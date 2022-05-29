@@ -23,14 +23,13 @@ public class Config {
 	public static final int FONT_SIZE_MARCADOR = 30;
 	
 	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
-//	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalle.png";
 	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalleLargo2.png";
     public static final String TREE_IMG = "file:src/main/resources/img/tree.png";
     public static final String TREES_IMG = "file:src/main/resources/img/trees.png";
     public static final String HOUSE_IMG = "file:src/main/resources/img/home.png";
-    public final String CRASH_CAR = "file:src/main/resources/img/boom.png";
-    public final static String BLUE_CAR = "file:src/main/resources/img/bluecar.png";
-    public final static String YELLOW_CAR = "file:src/main/resources/img/yellowcar.png";
+    public static final String CRASH_CAR = "file:src/main/resources/img/boom.png";
+    public static final  String BLUE_CAR = "file:src/main/resources/img/bluecar.png";
+    public static final  String YELLOW_CAR = "file:src/main/resources/img/yellowcar.png";
     public static final String[] ENEMIES = { 
         BLUE_CAR,
         YELLOW_CAR,}; 

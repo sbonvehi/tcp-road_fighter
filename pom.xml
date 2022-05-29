@@ -49,7 +49,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>${javafx.maven.plugin.version}</version>
 				<configuration>
-					<mainClass>movilidad.Movilidad</mainClass>
+					<mainClass>road_fighter.RoadFighterGame</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

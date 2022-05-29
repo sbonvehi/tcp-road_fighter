@@ -6,17 +6,19 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import road_fighter.Config;
+import road_fighter.interfaces.Actualizable;
+import road_fighter.interfaces.Renderizable;
+import road_fighter.utils.GameObject;
 
-public class Enemy {
+public class Enemy extends GameObject implements Actualizable, Renderizable {
 	
 	private Image carImage = new Image(Config.BLUE_CAR, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
 	private Coordenada ubicacion;
-    private final int VELOCIDAD_MAX = 200;
-    private int velocidad = VELOCIDAD_MAX;
+    private final int VELOCIDAD = 150;
 
     private ImageView render; 
     	
-    public Enemy(int x, int y) {
+    public Enemy(double x, double y) {
     	ubicacion = new Coordenada(x, y);
 
         render = new ImageView(carImage);
@@ -28,16 +30,25 @@ public class Enemy {
 		return render;
 	}
     
-    public void setY(int y) {
+    public void setY(double y) {
 		this.ubicacion.setY(y);
 		render.setY(y);
 	}
     
-    public void update(double deltaTime, double velocidadAutoJugador) { //delta time es el tiempo que paso desde la ultima actualizacion.
+    
+    @Override
+    public void update(double deltaTime) {
+    	double difVelocidadAutos = VELOCIDAD - Auto.getVelocidad();
+		setY(this.ubicacion.getY() - difVelocidadAutos * deltaTime);
+    }
 
-		double difVelocidadAutos = velocidad - velocidadAutoJugador;
-		setY((int) (this.ubicacion.getY() - difVelocidadAutos * deltaTime));
-
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
 	}
+
+
+
 	
 }

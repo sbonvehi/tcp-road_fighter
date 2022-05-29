@@ -1,29 +1,31 @@
 package coordenada;
 
+import java.util.Objects;
+
 public class Coordenada {
 
-	private int x;
-	private int y;
+	private double x;
+	private double y;
 	
-	public Coordenada(int x, int y) {
+	public Coordenada(double x, double y) {
 		super();
 		this.x = x;
 		this.y = y;
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
@@ -34,11 +36,7 @@ public class Coordenada {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + x;
-		result = prime * result + y;
-		return result;
+		return Objects.hash(x, y);
 	}
 
 	@Override
@@ -50,11 +48,10 @@ public class Coordenada {
 		if (getClass() != obj.getClass())
 			return false;
 		Coordenada other = (Coordenada) obj;
-		if (x != other.x)
-			return false;
-		if (y != other.y)
-			return false;
-		return true;
+		return Double.doubleToLongBits(x) == Double.doubleToLongBits(other.x)
+				&& Double.doubleToLongBits(y) == Double.doubleToLongBits(other.y);
 	}
+
+	
 	
 }

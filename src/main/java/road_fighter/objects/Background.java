@@ -79,21 +79,17 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		return render;
 	}
 
-//	@Override 
-	public void update(double deltaTime, double velocidadAutoJugador) {
-		posY += velocidadAutoJugador * deltaTime;
+	@Override
+	public void update(double deltaTime) {
+		posY += Auto.getVelocidad() * deltaTime;
 		///estos valores de 3.5 y 2.2 me los saqué de la galera, pero es para que el movimiento el mapa sea fluido
-		textoVelocidadJugador.setText(velocidadAutoJugador + "KM/H");
+		textoVelocidadJugador.setText(Auto.getVelocidad() + "KM/H");
 		renderMapa.setTranslateY(-Config.ALTO_FRAME_ESCENA * 3.5 + (posY % Config.ALTO_FRAME_ESCENA * 2.2) );
 	}
-
+	
 	@Override
 	public void destroy() { }
 
-	@Override
-	public void update(double deltaTime) {
-		// TODO Auto-generated method stub
-		//este metodo lo tengo que tener si o si porque sino no compila
-	}
+
 
 }
