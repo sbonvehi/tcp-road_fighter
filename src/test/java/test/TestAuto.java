@@ -33,7 +33,7 @@ public class TestAuto {
 
 	@Test
 	public void testPerderControl() throws InterruptedException {
-		auto.setVelocidad(200);
+//		auto.setVelocidad(200);
 		auto.perderControl();
 		assertEquals(0, auto.getVelocidad());
 	}
