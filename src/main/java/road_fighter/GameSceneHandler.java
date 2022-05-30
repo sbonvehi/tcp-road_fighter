@@ -14,6 +14,7 @@ import road_fighter.interfaces.Colisionador;
 import road_fighter.objects.Auto;
 import road_fighter.objects.Background;
 import road_fighter.objects.Enemy;
+import road_fighter.objects.FinishLine;
 import road_fighter.utils.GameObjectBuilder;
 import usuario.Usuario;
 
@@ -24,6 +25,7 @@ public class GameSceneHandler extends SceneHandler {
 	private Enemy autoNPC1;
 	private Enemy autoNPC2;
 	private Background fondo;
+	private FinishLine finishLine;
 	
 	public GameSceneHandler(RoadFighterGame g) {
 		super(g);
@@ -103,11 +105,11 @@ public class GameSceneHandler extends SceneHandler {
 		autoJugador = new Auto(usr);
 		autoNPC1 = new Enemy(0,-50, 100);
 		autoNPC2 = new Enemy(10,-300, 110);
-
+		finishLine = new FinishLine();
 	
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
-		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2);
+		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2, finishLine);
 
 		if (fullStart) {
 			addTimeEventsAnimationTimer();

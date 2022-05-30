@@ -24,6 +24,7 @@ public class Config {
 	
 	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
 	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalleLargo2.png";
+	public static final String FINISH_LINE_IMG = "file:src/main/resources/img/finish-line.jpg";
     public static final String TREE_IMG = "file:src/main/resources/img/tree.png";
     public static final String TREES_IMG = "file:src/main/resources/img/trees.png";
     public static final String HOUSE_IMG = "file:src/main/resources/img/home.png";

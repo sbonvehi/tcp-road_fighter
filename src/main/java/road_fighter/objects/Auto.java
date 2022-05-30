@@ -35,8 +35,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private final int VEL_HORIZONTAL = 300; 
 	
 
-	private static final int posXAutoInicial = 297;
-	private static final int posYAutoInicial = 650;
+	public static final int posXAutoInicial = 297;
+	public static final int posYAutoInicial = 650;
 	private boolean flagFueraDeMapa = false;
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
@@ -66,13 +66,13 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		
 		cantAutos++;
-		this.ubicacion = new Coordenada(posXAutoInicial, posYAutoInicial);
+		this.ubicacion = new Coordenada(posXAutoInicial, 0);
 		this.piloto = piloto;
 
 		spriteNormal = new Image(Config.CAR_IMG, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
 		render = new ImageView(spriteNormal);
 		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
-		
+		render.setViewOrder(5);
 		
 		///ubicacion inicial
 		render.setX(posXAutoInicial);
@@ -95,6 +95,12 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		///Si "colisiono" con la calle es que estoy bien, si dejo de colisionar entonces me fui del mapa
 		if(colisionable.getClass() == Background.class) {
 			flagFueraDeMapa = false;
+		}
+		
+		if(colisionable.getClass() == FinishLine.class) {
+			Auto.velocidad = 0;
+			System.out.println("GANASTE PAPUU");
+			///aca habria que llamar a una funcion para que termine la partida / saque al auto de la competencia
 		}
 		
 	}
@@ -150,29 +156,28 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.ubicacion.setX(x);
 		render.setX(x);
 		collider.setX(x);
 		
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.ubicacion.setY(y); ///esta es la unica Y que se va cambiar, porque es la que determina que tan avanzado esta un auto respecto desde que arrancó la carrera
 //		
-//		System.out.println(ubicacion.toString());
+		System.out.println(ubicacion.toString());
 //		System.out.println("render player:" + render.getX() + " " + render.getY());
 //		System.out.println("collider: " + collider.toString());
 	}
 
-	public void update(double deltaTime) { // delta time es el tiempo que paso desde la ultima actualizacion.	
-		///acelerado mientras no me pase del limite
-		
+	public void update(double deltaTime) { 
 		if(flagFueraDeMapa) {
 			die();
 //			System.out.println("me fui del mapa :(");
 		}
 		
+		///acelerando mientras no me pase del limite
 		flagFueraDeMapa = true;
 		
 		if((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
@@ -193,8 +198,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 
 		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
-		setX((int) (this.ubicacion.getX() + direction * VEL_HORIZONTAL * deltaTime));
-		setY((int) (this.ubicacion.getY() + Auto.velocidad * deltaTime));
+		setX( this.ubicacion.getX() + direction * VEL_HORIZONTAL * deltaTime);
+		setY( this.ubicacion.getY() + Auto.velocidad * deltaTime);
 	}
 
 	public void setDirectionRight(boolean b) {

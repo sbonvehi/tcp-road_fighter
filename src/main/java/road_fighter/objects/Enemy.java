@@ -69,7 +69,7 @@ public class Enemy extends GameObject implements Actualizable, Renderizable, Col
     @Override
     public void update(double deltaTime) {
     	double difVelocidadAutos = velocidad - Auto.getVelocidad();
-		setY(this.ubicacion.getY() - difVelocidadAutos * deltaTime * 2.15); //el 2.15 es para que el autoNPC se mueva proporcionalmente en relacion al mapa
+		setY(this.ubicacion.getY() - difVelocidadAutos * deltaTime * Background.FACTOR_DESPLAZAMIENTO); //FACTOR_DESPLAZAMIENTO es para que el autoNPC se mueva proporcionalmente en relacion al mapa
     }
 
 	@Override

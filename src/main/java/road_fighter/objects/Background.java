@@ -31,6 +31,8 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	public static final int MARGEN_IZQ_CALLE = 150;
 	public static final int MARGEN_DER_CALLE = 400;
 	public static int ANCHO_CALLE = MARGEN_DER_CALLE - MARGEN_IZQ_CALLE;
+	public static final int LARGO_MAPA = 1500;
+	public static final double FACTOR_DESPLAZAMIENTO = 2.2;
 	
 	private double posY = 0;
 
@@ -86,7 +88,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		renderBarraMarcador.setTranslateY(-1450);
 		render = new HBox(renderMapa, renderBarraMarcador);
 		
-		render.setViewOrder(10);
+		render.setViewOrder(50); ///está al fondo de todo en el eje Z
 	}
 
 	@Override
@@ -99,7 +101,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		posY += Auto.getVelocidad() * deltaTime;
 		///estos valores de 3.5 y 2.2 me los saqué de la galera, pero es para que el movimiento el mapa sea fluido
 		textoVelocidadJugador.setText((int) Auto.getVelocidad() + "KM/H");
-		renderMapa.setTranslateY(-Config.ALTO_FRAME_ESCENA * 3.5 + (posY % Config.ALTO_FRAME_ESCENA * 2.2) );
+		renderMapa.setTranslateY(-Config.ALTO_FRAME_ESCENA * 3.5 + (posY % Config.ALTO_FRAME_ESCENA * FACTOR_DESPLAZAMIENTO) );
 	}
 	
 	@Override
