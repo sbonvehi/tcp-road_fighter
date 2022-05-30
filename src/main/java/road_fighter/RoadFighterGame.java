@@ -13,8 +13,8 @@ public class RoadFighterGame extends Application {
 	
 	private Stage stage;
 
-//	private MenuSceneHandler menuSceneHandler;
 
+	private MenuSceneHandler menuSceneHandler;
 	private GameSceneHandler gameSceneHandler;
 
 
@@ -22,11 +22,12 @@ public class RoadFighterGame extends Application {
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
 		
-		gameSceneHandler = new GameSceneHandler(this);
-		Scene scene = gameSceneHandler.getScene();
+		menuSceneHandler = new MenuSceneHandler(this);
+		Scene scene = menuSceneHandler.getScene();
 		stage.setScene(scene);
-		gameSceneHandler.load(true);
-	
+
+		menuSceneHandler.load();
+				
 		stage.setResizable(false);
 		stage.setTitle("Road Fighter");
 		stage.show();
@@ -37,11 +38,19 @@ public class RoadFighterGame extends Application {
 	}
 	
 	public void startGame() {
-//		menuSceneHandler.unload();
+		menuSceneHandler.unload();
 		gameSceneHandler = new GameSceneHandler(this);
 		Scene scene = gameSceneHandler.getScene();
 		stage.setScene(scene);
 		gameSceneHandler.load(true);
+	}
+	
+	public void startMenu() {
+		gameSceneHandler.unload();
+		menuSceneHandler = new MenuSceneHandler(this);
+		Scene scene = menuSceneHandler.getScene();
+		stage.setScene(scene);
+		menuSceneHandler.load();
 	}
 	
 }

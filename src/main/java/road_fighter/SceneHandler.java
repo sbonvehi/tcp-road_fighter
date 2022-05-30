@@ -60,7 +60,7 @@ public abstract class SceneHandler {
 
 	protected void addTimeEventsAnimationTimer() {
 		previousNanoFrame = System.nanoTime();
-		AnimationTimer gameTimer = new AnimationTimer() {
+		gameTimer = new AnimationTimer() {
 			@Override
 			public void handle(long currentNano) {
 				//update Tick

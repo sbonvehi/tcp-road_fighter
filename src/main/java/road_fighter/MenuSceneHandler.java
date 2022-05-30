@@ -1,33 +1,84 @@
 package road_fighter;
 
+
+import javafx.event.EventHandler;
 import javafx.scene.Group;
-import road_fighter.objects.Auto;
-import road_fighter.objects.Background;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import road_fighter.objects.menu.BackgroundMenu;
+import road_fighter.utils.GameObjectBuilder;
 
 public class MenuSceneHandler extends SceneHandler {
-	
-	private Auto player;
-	private Background background;
-//	private Ground ground;
-//	private Title title;
 
+
+	private BackgroundMenu fondoMenu;
+	
 	private Group rootGroup;
 
 	public MenuSceneHandler(RoadFighterGame g) {
 		super(g);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void prepareScene() {
-		// TODO Auto-generated method stub
-		
+		Group rootGroup = new Group();
+		scene = new Scene(rootGroup, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, Color.BLACK);
 	}
 
 	@Override
 	protected void defineEventHandlers() {
-		// TODO Auto-generated method stub
+		keyPressEventHandler = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+				switch (event.getCode()) {
+				case ENTER:
+					g.startGame();
+					break;
+				case ESCAPE:
+					System.exit(0);
+					break;
+				}
+			}
+		};
 		
+		keyReleaseEventHandler = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+					///vacio para que funcione
+			}
+		};
+		
+	}
+	
+	public void load() {
+		boolean fullStart = true;
+		Group root = new Group();
+		scene.setRoot(root);
+		
+		
+		///Instancio todos los objectos de la partida
+		fondoMenu = new BackgroundMenu();
+
+	
+		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
+		gameOB.setRootNode(root);
+		gameOB.add(fondoMenu);
+
+		if (fullStart) {
+			addTimeEventsAnimationTimer();
+			addInputEvents();
+		}
+	}
+	
+	private void cleanData() {
+		GameObjectBuilder.getInstance().removeAll();
+//		ended = false;
+//		started = false;
+//		Config.baseSpeed = 250;
+	}
+	
+	public void unload() {
+		cleanData();
+		super.unload();
 	}
 
 }

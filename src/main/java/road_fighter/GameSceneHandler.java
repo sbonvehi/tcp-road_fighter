@@ -155,6 +155,22 @@ public class GameSceneHandler extends SceneHandler {
 		}
 	}
 
+	public void restart() {
+		cleanData();
+		load(false);
+	}
+	
+	private void cleanData() {
+		GameObjectBuilder.getInstance().removeAll();
+//		ended = false;
+//		started = false;
+//		Config.baseSpeed = 250;
+	}
+	
+	public void unload() {
+		cleanData();
+		super.unload();
+	}
 	
 
 }
