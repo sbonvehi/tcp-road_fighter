@@ -20,7 +20,6 @@ import usuario.Usuario;
 
 public class GameSceneHandler extends SceneHandler {
 	
-	
 	private Auto autoJugador;
 	private Enemy autoNPC1;
 	private Enemy autoNPC2;
@@ -102,11 +101,10 @@ public class GameSceneHandler extends SceneHandler {
 		Usuario usr = new Usuario("test","test");
 		fondo = new Background();
 		autoJugador = new Auto(usr);
-		autoNPC1 = new Enemy(0,50, 90);
-		autoNPC2 = new Enemy(50,0, 150);
+		autoNPC1 = new Enemy(0,-50, 100);
+		autoNPC2 = new Enemy(10,-300, 110);
 
-		
-//		 Add to builder
+	
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
 		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2);

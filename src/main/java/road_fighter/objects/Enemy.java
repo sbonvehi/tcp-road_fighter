@@ -23,8 +23,8 @@ public class Enemy extends GameObject implements Actualizable, Renderizable, Col
     private ImageView render; 
     private Rectangle collider;
     
-    private static final int posXAutoInicial = 200;
-	private static final int posYAutoInicial = 200;
+    private static final int posXAutoInicial = 260;
+	private static final int posYAutoInicial = 260;
     
     private double OFFSET_X_POSICION;
     private double OFFSET_Y_POSICION;
@@ -32,7 +32,7 @@ public class Enemy extends GameObject implements Actualizable, Renderizable, Col
     public Enemy(double x, double y, double velocidad) {
     	OFFSET_X_POSICION = x;
     	OFFSET_Y_POSICION = y;
-    	ubicacion = new Coordenada(x, y);
+    	ubicacion = new Coordenada(OFFSET_X_POSICION, OFFSET_Y_POSICION);
     	this.velocidad = velocidad; 
     	
     	collider = new Rectangle(Config.ANCHO_AUTO, Config.ALTO_AUTO);
@@ -41,11 +41,14 @@ public class Enemy extends GameObject implements Actualizable, Renderizable, Col
     	
         render = new ImageView(carImage);
         render.setViewport( new Rectangle2D(0,0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
-//		render.relocate(300 + x, 550 + y);
-//		render.relocate(-Config.ANCHO_AUTO / 2 + 300, -Config.ALTO_AUTO / 2 + 550);
-//		collider.relocate(-Config.ANCHO_AUTO * 2, -Config.ALTO_AUTO * 2);
-        render.relocate(posXAutoInicial + OFFSET_X_POSICION, posYAutoInicial + OFFSET_Y_POSICION);
-        collider.relocate(posXAutoInicial + OFFSET_X_POSICION, posYAutoInicial + OFFSET_Y_POSICION);
+        
+        
+		///ubicacion inicial (tiene por defecto una posicion y se le ajusta segun los parametros del constructor)
+
+        render.setX(posXAutoInicial + OFFSET_X_POSICION);
+        render.setY(posYAutoInicial + OFFSET_Y_POSICION);
+		collider.setX(posXAutoInicial + OFFSET_X_POSICION);
+		collider.setY(posYAutoInicial + OFFSET_Y_POSICION);
     }
     
     public ImageView getRender() {

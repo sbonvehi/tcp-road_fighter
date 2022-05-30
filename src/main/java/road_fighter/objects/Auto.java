@@ -1,6 +1,5 @@
 package road_fighter.objects;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import coordenada.Coordenada;
@@ -26,23 +25,22 @@ import usuario.Usuario;
 public class Auto extends GameObject implements Actualizable, Renderizable, Colisionador {
 
 	
+	private static int cantAutos = 0;
 	
 	private static final int VELOCIDAD_INICIAL = 0;
 	private final int VELOCIDAD_MAX1 = 200;
-	private final int TASA_ACELERACION = 2;
 	private final int VELOCIDAD_MAX2 = 400;
+	private final int TASA_ACELERACION = 2;
 	private final int TASA_FRENADO = 1;
-	private final int POSICION_MITAD_PANTALLA = 600; ///?????
+	private final int VEL_HORIZONTAL = 300; 
 	
-	private static int cantAutos = 0;
-	private final int VEL_HORIZONTAL = 300; // velocidad desplazamiento hacia los izq y der.
 
-	private static final int posXAuto = 297;
-	private static final int posYAuto = 650;
+	private static final int posXAutoInicial = 297;
+	private static final int posYAutoInicial = 650;
 	private boolean flagFueraDeMapa = false;
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
-	private static int velocidad = VELOCIDAD_INICIAL;
+	private static double velocidad = VELOCIDAD_INICIAL;
 
 	private Coordenada ubicacion;
 	private Usuario piloto;
@@ -57,7 +55,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private Image spriteNormal;
 	private boolean dead;
 
-	public static int getVelocidad() {
+	public static double getVelocidad() {
 		return velocidad;
 	}
 	
@@ -68,20 +66,19 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		
 		cantAutos++;
-		this.ubicacion = new Coordenada(0, 0);
+		this.ubicacion = new Coordenada(posXAutoInicial, posYAutoInicial);
 		this.piloto = piloto;
 
 		spriteNormal = new Image(Config.CAR_IMG, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
 		render = new ImageView(spriteNormal);
-		
 		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
-//		render.relocate(-Config.ANCHO_AUTO / 2 + posXAuto,posYAuto); 
-//		collider.relocate(-Config.ANCHO_AUTO / 2 + posXAuto, posYAuto); 
 		
-		render.relocate(posXAuto, posYAuto); // render en la mitad del auto y en el medio de la pantalla..
-		collider.relocate(posXAuto, posYAuto); // render en la mitad del auto y en el medio de la pantalla..
-
 		
+		///ubicacion inicial
+		render.setX(posXAutoInicial);
+		render.setY(posYAutoInicial);
+		collider.setX(posXAutoInicial);
+		collider.setY(posYAutoInicial);
 
 	}
 	
@@ -93,21 +90,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	public void colisionar(Colisionable colisionable) {		
 		if(colisionable.getClass() == Enemy.class) {
 			Auto.velocidad /= 2;
-			System.out.println("se redujo la velocidad");
-			render.setOpacity(0.5); ///test colision
+			System.out.println("choque contra auto NPC");
 		}
+		///Si "colisiono" con la calle es que estoy bien, si dejo de colisionar entonces me fui del mapa
 		if(colisionable.getClass() == Background.class) {
 			flagFueraDeMapa = false;
-			render.setOpacity(1);
-			System.out.println("estoy en la calle");
 		}
 		
 	}
 	
-	public void setVelocidad(int velocidad) {
-		Auto.velocidad = velocidad;
-	}
-
 	public Coordenada getUbicacion() {
 		return ubicacion;
 	}
@@ -116,6 +107,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return piloto;
 	}
 
+		
+	//esto seria como die()?  si es asi, lo podemos sacar
 	public void perderControl() throws InterruptedException {
 
 		while (velocidad > 1) {
@@ -137,12 +130,31 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	public void aumentarVelocidadPowerUp() {
 		Auto.velocidad += 200;
 	}
+	
+	public void die() {
+		setX(posXAutoInicial);
+		Auto.velocidad = VELOCIDAD_INICIAL;
+		
+//		Image spriteBoom = new Image(Config.CRASH_CAR, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
+//		render = new ImageView(spriteBoom);
+//		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
+////
+//		TranslateTransition explotarEnElLugar = new TranslateTransition(Duration.millis(500), render);
+//		explotarEnElLugar.setToX(300);
+//		explotarEnElLugar.play();
+
+		System.out.println("Mori");
+
+//		this.dead = true;
+//		resetearRender();
+
+	}
 
 	public void setX(int x) {
-			this.ubicacion.setX(x);
-			render.setX(x);
-			collider.setX(x);
-
+		this.ubicacion.setX(x);
+		render.setX(x);
+		collider.setX(x);
+		
 	}
 
 	public void setY(int y) {
@@ -157,8 +169,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		///acelerado mientras no me pase del limite
 		
 		if(flagFueraDeMapa) {
-			render.setOpacity(0.5); ///test colision
-			System.out.println("me fui del mapa :(");
+			die();
+//			System.out.println("me fui del mapa :(");
 		}
 		
 		flagFueraDeMapa = true;
@@ -198,41 +210,26 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		this.directionUpSpeed1 = b;
 	}
 
-	// esto esta bien
 	public void setDirectionUpSpeed2(boolean b) {
 		topeVelocidad = VELOCIDAD_MAX2;
 		this.directionUpSpeed2 = b;
 	}
 
-	public void die() {
 
-//		Image spriteBoom = new Image(Config.CRASH_CAR, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
-//		render = new ImageView(spriteBoom);
-//		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
-//
-//		TranslateTransition explotarEnElLugar = new TranslateTransition(Duration.millis(500), render);
-//		explotarEnElLugar.setToX(300);
-//		explotarEnElLugar.play();
-
-		System.out.println("Mori");
-
-//		this.dead = true;
-//		resetearRender();
-
-	}
 
 	// reseteo la posicion en el origen despues de explotar..
+	// no seria como lo mismo que die()?
 	public void resetearRender() {
 		
 		this.dead = false;
-		ubicacion.setX(posXAuto);
-		ubicacion.setY(posYAuto);
+		ubicacion.setX(posXAutoInicial);
+		ubicacion.setY(posYAutoInicial);
 		render = new ImageView(spriteNormal);
 		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
 		render.relocate(-Config.ANCHO_AUTO / 2, -Config.ALTO_AUTO / 2); // render en la mitad del auto..
 
-		setX(posXAuto);
-		setY(posYAuto);
+		setX(posXAutoInicial);
+		setY(posYAutoInicial);
 
 	}
 

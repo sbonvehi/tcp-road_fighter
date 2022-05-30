@@ -28,15 +28,20 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	private Text textoVelocidadJugador;
 	
 	private Rectangle calleCollider;
+	public static final int MARGEN_IZQ_CALLE = 150;
+	public static final int MARGEN_DER_CALLE = 400;
+	public static int ANCHO_CALLE = MARGEN_DER_CALLE - MARGEN_IZQ_CALLE;
 	
 	private double posY = 0;
 
 	public Background()  {
 		/// no se por que pero la si achica el margen de colision de la calle  (119px) se rompe en el medio
-		calleCollider =  new Rectangle(125, 999999);
+		calleCollider =  new Rectangle(ANCHO_CALLE, 999999);
 		calleCollider.setFill(Color.FUCHSIA);
 		calleCollider.setStroke(Color.FUCHSIA);
-		calleCollider.relocate(160, 0);
+		calleCollider.setX(MARGEN_IZQ_CALLE);
+		
+		
 		//MAPA
 		Image imagenMapa = new Image(Config.MAP_IMG, Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA, false, false);
 		ImagePattern imagePatternMapa = new ImagePattern(imagenMapa, -Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA, Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA , false);
@@ -69,7 +74,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		
 		//---FIN BARRA DE MARCADORES--
 		
-		
+
 		//tengo dos renders, uno para el mapa y otro para la barra de marcadores
 		//de esta manera, puedo desplazar el mapa verticalmente sin que se 
 		//desplace la barra de marcadores tambien. Luego, las agrupo en un render solo para devolverlo en el metodo getRender()
@@ -93,7 +98,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	public void update(double deltaTime) {
 		posY += Auto.getVelocidad() * deltaTime;
 		///estos valores de 3.5 y 2.2 me los saqué de la galera, pero es para que el movimiento el mapa sea fluido
-		textoVelocidadJugador.setText(Auto.getVelocidad() + "KM/H");
+		textoVelocidadJugador.setText((int) Auto.getVelocidad() + "KM/H");
 		renderMapa.setTranslateY(-Config.ALTO_FRAME_ESCENA * 3.5 + (posY % Config.ALTO_FRAME_ESCENA * 2.2) );
 	}
 	
