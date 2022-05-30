@@ -59,6 +59,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private Rectangle collider;
 	private ImageView render;
 	private Image spriteNormal;
+	private boolean tieneModificadorVelocidad = false;
 	private boolean dead;
 
 	public static double getVelocidad() {
@@ -88,6 +89,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		collider.setX(posXAutoInicial);
 		collider.setY(posYAutoInicial);
 
+		
+
+		
+		
 	}
 	
 	public Node getRender() {
@@ -108,6 +113,13 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if(colisionable.getClass() == FinishLine.class) {
 			Auto.velocidad = 0;
 			System.out.println("GANASTE PAPUU");
+			///aca habria que llamar a una funcion para que termine la partida / saque al auto de la competencia
+		}
+		
+		if(colisionable.getClass() == ColisionPowerUp.class) {
+//			Auto.velocidad = 0;
+			this.aumentarVelocidadPowerUp();
+			System.out.println("COLISION CON POWERUP");
 			///aca habria que llamar a una funcion para que termine la partida / saque al auto de la competencia
 		}
 		
@@ -138,11 +150,27 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void reducirVelocidadPowerUp() {
-		Auto.velocidad -= 200;
+		tieneModificadorVelocidad = true;
+		topeVelocidad -= 200;
+		
 	}
 
 	public void aumentarVelocidadPowerUp() {
-		Auto.velocidad += 200;
+		tieneModificadorVelocidad = true;
+		topeVelocidad = VELOCIDAD_MAX2 + 200;
+		
+		System.out.println("antes del delay");
+		
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		        		topeVelocidad = VELOCIDAD_MAX2;
+		        		Auto.velocidad = topeVelocidad;
+		        		tieneModificadorVelocidad = false;
+		            }
+		        }, 
+		        10000);
 	}
 	
 	public void die() {
@@ -174,7 +202,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	public void setY(double y) {
 		this.ubicacion.setY(y); ///esta es la unica Y que se va cambiar, porque es la que determina que tan avanzado esta un auto respecto desde que arrancó la carrera
 //		
-		System.out.println(ubicacion.toString());
+//		System.out.println(ubicacion.toString());
 //		System.out.println("render player:" + render.getX() + " " + render.getY());
 //		System.out.println("collider: " + collider.toString());
 	}
@@ -219,12 +247,16 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
-		topeVelocidad = VELOCIDAD_MAX1;	
+		if(!tieneModificadorVelocidad) {
+			topeVelocidad = VELOCIDAD_MAX1;				
+		}
 		this.directionUpSpeed1 = b;
 	}
 
 	public void setDirectionUpSpeed2(boolean b) {
-		topeVelocidad = VELOCIDAD_MAX2;
+		if(!tieneModificadorVelocidad) {			
+			topeVelocidad = VELOCIDAD_MAX2;
+		}
 		this.directionUpSpeed2 = b;
 	}
 

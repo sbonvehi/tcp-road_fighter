@@ -31,7 +31,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	public static final int MARGEN_IZQ_CALLE = 150;
 	public static final int MARGEN_DER_CALLE = 400;
 	public static int ANCHO_CALLE = MARGEN_DER_CALLE - MARGEN_IZQ_CALLE;
-	public static final int LARGO_MAPA = 1500;
+	public static final int LARGO_MAPA = 10000;
 	public static final double FACTOR_DESPLAZAMIENTO = 2.2;
 	
 	private double posY = 0;
