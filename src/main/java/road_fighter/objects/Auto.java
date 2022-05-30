@@ -2,6 +2,7 @@ package road_fighter.objects;
 
 import java.util.concurrent.TimeUnit;
 
+import animation.SpriteAnimation;
 import coordenada.Coordenada;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
@@ -35,6 +36,11 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private final int VEL_HORIZONTAL = 300; 
 	
 
+	private Image spriteImages;
+    private SpriteAnimation crash1;
+    private SpriteAnimation crash2;
+    private SpriteAnimation crash3;
+	
 	public static final int posXAutoInicial = 297;
 	public static final int posYAutoInicial = 650;
 	private boolean flagFueraDeMapa = false;
@@ -60,6 +66,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 	
 	public Auto(Usuario piloto) {
+//		render.setViewport(new Rectangle2D(3, 3, 14*3, 19*3));
+		
 		collider = new Rectangle(Config.ANCHO_AUTO, Config.ANCHO_AUTO);
 		collider.setFill(Color.DARKBLUE);
 		collider.setStroke(Color.FUCHSIA);
@@ -238,6 +246,23 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	}
 
+	private void restablecerViewPort() {
+        render.setViewport(new Rectangle2D(3, 3, 14*3, 19*3));
+    }
+    private void initImages() {
+//        spriteNormal = new Image(Config.CAR_IMG, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
+        spriteImages = new Image(Config.GENERAL_SPRITES_IMG, 328 * 3, 179 * 3, false, false);
+    }
+    
+    private void initSpriteAnimations() { ///estan bien cargados los sprites.        
+        crash1 = new SpriteAnimation(render,Duration.millis(200), 3, 3, 15 * 3, 34 * 3, 0, 14*3, 19*3);
+//        crash1.play();
+        crash2 = new SpriteAnimation(render,Duration.millis(200), 3, 3, 30 * 3, 34 * 3, 0, 15*3, 19*3);
+//        crash2.play();
+        crash3 = new SpriteAnimation(render,Duration.millis(200), 3, 3, 49 * 3, 34 * 3, 0, 14*3, 19*3); 
+//        crash3.play();
+    }
+	
 	@Override
 	public Shape getCollider() {
 		return collider;
