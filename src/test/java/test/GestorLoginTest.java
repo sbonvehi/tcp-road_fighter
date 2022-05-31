@@ -22,7 +22,7 @@ public class GestorLoginTest {
 	
 	public GestorLoginTest()
 	{
-		this._gestorLogin = new GestorLogin(fileRegistrarTest);
+		this._gestorLogin = new GestorLogin();
 	}
 	
 	@BeforeClass
