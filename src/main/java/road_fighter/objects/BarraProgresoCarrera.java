@@ -32,13 +32,14 @@ public class BarraProgresoCarrera extends GameObject implements Renderizable, Ac
 		renderAuto.setTranslateY(-75);
 		
 		renderTotal = new VBox(renderImagen, renderAuto);
-		renderTotal.setTranslateX(440);
+		renderTotal.setTranslateX(450);
 	}
 
 	@Override
 	public void update(double deltaTime) {
-		posY += Auto.getVelocidad() * deltaTime;
-		renderAuto.setTranslateY( - posY * Background.FACTOR_DESPLAZAMIENTO ); //FACTOR_DESPLAZAMIENTO es un numero que uso para que se mueva el mapa en conjunto con la meta
+		posY =  0.068 * Auto.getUbicacion().getY();
+		System.out.println(posY);
+		renderAuto.setTranslateY(-75 - posY); //FACTOR_DESPLAZAMIENTO es un numero que uso para que se mueva el mapa en conjunto con la meta
 	}
 
 	@Override

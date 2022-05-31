@@ -54,7 +54,6 @@ public class Background extends GameObject implements Actualizable, Renderizable
 
 		//BARRA DE MARCADORES (podria ser una clase fuera de background)
 		Rectangle fondoBarraMarcador = new Rectangle(Config.ANCHO_FRAME_ESCENA - Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_ESCENA);
-
 		fondoBarraMarcador.setFill(Color.BLACK);
 		
 		
@@ -75,7 +74,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		//El stackPane es un contenedor que tiene al texto sobre el fondo negro
 		StackPane contenedorMarcador = new StackPane();
 		contenedorMarcador.getChildren().addAll(fondoBarraMarcador, contenedorTexto);	
-		
+		contenedorMarcador.setTranslateX(20);
 		//---FIN BARRA DE MARCADORES--
 		
 

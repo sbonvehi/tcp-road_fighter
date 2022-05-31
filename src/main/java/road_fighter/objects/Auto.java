@@ -47,7 +47,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private int topeVelocidad = VELOCIDAD_MAX1;
 	private static double velocidad = VELOCIDAD_INICIAL;
 
-	private Coordenada ubicacion;
+	private static Coordenada ubicacion;
 	private Usuario piloto;
 
 	private boolean directionLeft = false;
@@ -134,7 +134,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	}
 
-	public Coordenada getUbicacion() {
+	public static Coordenada getUbicacion() {
 		return ubicacion;
 	}
 
@@ -155,7 +155,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		tieneModificadorVelocidad = true;
 		topeVelocidad = VELOCIDAD_MAX2 + 200;
 
-		System.out.println("antes del delay");
 
 		new java.util.Timer().schedule(new java.util.TimerTask() {
 			@Override
@@ -201,7 +200,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			this.ubicacion.setX(x);
 			render.setX(x);
 		}
-		System.out.println("Posicion actual: " + this.ubicacion.toString());
+//		System.out.println("Posicion actual: " + this.ubicacion.toString());
 
 	}
 
