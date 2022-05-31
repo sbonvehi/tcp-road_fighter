@@ -14,7 +14,10 @@ public class Config {
     public static final int ALTO_FRAME_ESCENA = 800;
     public static final int ANCHO_FRAME_MAPA = 477;
     public static final int ALTO_FRAME_MAPA = 3700;
-    
+
+    public static final int X_OPCION1 = 100;
+    public static final int X_OPCION2 = 150;
+    public static final int X_OPCION3 = 200;
     
 	public static final int ANCHO_AUTO = 30;
 	public static final int ALTO_AUTO = 45;
