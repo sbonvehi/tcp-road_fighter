@@ -5,6 +5,7 @@ import java.lang.StackWalker.StackFrame;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -27,6 +28,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	private HBox renderBarraMarcador;
 	private Text textoVelocidadJugador;
 	
+	
 	private Rectangle calleCollider;
 	public static final int MARGEN_IZQ_CALLE = 150;
 	public static final int MARGEN_DER_CALLE = 400;
@@ -41,6 +43,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		calleCollider.setFill(Color.FUCHSIA);
 		calleCollider.setStroke(Color.FUCHSIA);
 		calleCollider.setX(MARGEN_IZQ_CALLE);
+		
 		
 		
 		//MAPA

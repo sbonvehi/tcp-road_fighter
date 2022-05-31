@@ -1,9 +1,7 @@
 package road_fighter.objects;
 
-import java.util.concurrent.TimeUnit;
 
 import animation.SpriteAnimation;
-import colision.colisionObstaculo;
 import coordenada.Coordenada;
 import javafx.animation.Animation;
 import javafx.geometry.Rectangle2D;
@@ -35,6 +33,12 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private Image spriteImages;
 	private SpriteAnimation crash;
+	private int multiplic = 3;
+	private int anchoAuto = 14;
+	private int altoAuto = 19;
+	private int espaciador = 2;
+	private int anchoImagen = 328;
+	private int altoImagen = 179;
 
 	public static final int posXAutoInicial = 270;
 	public static final int posYAutoInicial = 650;
@@ -69,9 +73,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		this.ubicacion = new Coordenada(posXAutoInicial, 0);
 		this.piloto = piloto;
 
-		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, 328 * 3, 179 * 3, false, false);
+		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, anchoImagen * multiplic, altoImagen * multiplic, false,
+				false);
 		render = new ImageView(spriteImages);
-		render.setViewport(new Rectangle2D(3, 3, 14 * 3, 19 * 3));
+		render.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
 		render.setViewOrder(5);
 
 		render.relocate(-Config.ANCHO_AUTO / 2, -Config.ALTO_AUTO / 2); // Ancla del render en la mitad del auto..
@@ -83,17 +88,16 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		render.setY(posYAutoInicial);
 		collider.setX(posXAutoInicial);
 		collider.setY(posYAutoInicial);
-	
-		
+
 	}
 
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
 		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
-		crash.setCycleCount(Animation.INDEFINITE);
+        crash.setCycleCount(Animation.INDEFINITE);
 	}
 
 	private void resetViewPort() {
-		render.setViewport(new Rectangle2D(3, 3, 14 * 3, 19 * 3));
+		render.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
 	}
 
 	public Node getRender() {
@@ -119,15 +123,14 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			/// auto de la competencia
 		}
 
-		if(colisionable.getClass() == ColisionPowerUp.class) {
+		if (colisionable.getClass() == ColisionPowerUp.class) {
 			this.aumentarVelocidadPowerUp();
 			System.out.println("COLISION CON POWERUP");
 		}
-		if(colisionable.getClass() == ColisionObstaculo.class) {
+		if (colisionable.getClass() == ColisionObstaculo.class) {
 			this.reducirVelocidadObstaculo();
 			System.out.println("COLISION CON OBSTACULO");
 		}
-		
 
 	}
 
@@ -139,32 +142,29 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return piloto;
 	}
 
-	
 	public void perderControl() throws InterruptedException {
 
 	}
 
 	public void reducirVelocidadObstaculo() {
 		Auto.velocidad /= 1.1;
-		
+
 	}
 
 	public void aumentarVelocidadPowerUp() {
 		tieneModificadorVelocidad = true;
 		topeVelocidad = VELOCIDAD_MAX2 + 200;
-		
+
 		System.out.println("antes del delay");
-		
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		        		topeVelocidad = VELOCIDAD_MAX2;
-		        		Auto.velocidad = topeVelocidad;
-		        		tieneModificadorVelocidad = false;
-		            }
-		        }, 
-		        10000);
+
+		new java.util.Timer().schedule(new java.util.TimerTask() {
+			@Override
+			public void run() {
+				topeVelocidad = VELOCIDAD_MAX2;
+				Auto.velocidad = topeVelocidad;
+				tieneModificadorVelocidad = false;
+			}
+		}, 10000);
 	}
 
 	/**
@@ -173,9 +173,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	public void die() {
 		if (!dead) {
 			setDirectionRight(false);
-	        setDirectionLeft(false);
-	        setDirectionUpSpeed1(false);
-	        setDirectionUpSpeed2(false);
+			setDirectionLeft(false);
+			setDirectionUpSpeed1(false);
+			setDirectionUpSpeed2(false);
 			collider.setX(posXAutoInicial);
 			this.dead = true;
 			Auto.velocidad = VELOCIDAD_INICIAL;
@@ -189,7 +189,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 					Auto.this.dead = false;
 					setX(posXAutoInicial);
 				}
-			}, 1000);
+			}, 1100);
 
 			System.out.println("Mori");
 		}
@@ -208,15 +208,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	public void setY(double y) {
 		if (!dead) {
 			this.ubicacion.setY(y); /// esta es la unica Y que se va cambiar, porque es la que determina que tan
-		}								/// avanzado esta un auto respecto desde que arranc� la carrera
+		} /// avanzado esta un auto respecto desde que arranc  la carrera
 
 	}
 
 	public void update(double deltaTime) {
-		if(dead) {
+		if (dead) {
 			return;
 		}
-		
+
 		if (flagFueraDeMapa) {
 			die();
 //			System.out.println("me fui del mapa :(");
@@ -230,7 +230,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 
 		/// si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
-		// � si no estoy tocando para acelerar, desacelero
+		//   si no estoy tocando para acelerar, desacelero
 		if ((directionUpSpeed1 && velocidad >= topeVelocidad) || (!directionUpSpeed1 && !directionUpSpeed2)) {
 			velocidad -= TASA_FRENADO;
 		}
@@ -254,18 +254,17 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
-		
-		if(!tieneModificadorVelocidad) {
-			topeVelocidad = VELOCIDAD_MAX1;				
-		}
 
+		if (!tieneModificadorVelocidad) {
+			topeVelocidad = VELOCIDAD_MAX1;
+		}
 
 		this.directionUpSpeed1 = b;
 	}
 
 	public void setDirectionUpSpeed2(boolean b) {
-		
-		if(!tieneModificadorVelocidad) {			
+
+		if (!tieneModificadorVelocidad) {
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
 		this.directionUpSpeed2 = b;
