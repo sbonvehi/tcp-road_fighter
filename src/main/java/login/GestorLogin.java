@@ -12,9 +12,9 @@ public class GestorLogin {
 
 	private String _filePath;
 	
-	public GestorLogin(String filePath)
+	public GestorLogin()
 	{
-		_filePath = filePath;
+		_filePath = "./archivoLogin/usuarios.txt";
 	}
 	
 	public boolean registrarUsuario(String nombre, String contrasenia) {

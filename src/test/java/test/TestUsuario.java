@@ -121,7 +121,7 @@ public class TestUsuario {
 		
 	@Test
 	public void testCrearSala() throws Exception_RoadFighter {
-		Menu menu = new Menu(new GestorLogin("asd"));
+		Menu menu = new Menu(new GestorLogin());
 		Usuario anfitrion = new Usuario("anfitrion", "1234");
 		Sala sala = new Sala(anfitrion, "salaTest");
 		
@@ -132,7 +132,7 @@ public class TestUsuario {
 	
 	@Test(expected = Exception_RoadFighter.class)
 	public void testErrorSalaRepetida() throws Exception_RoadFighter {
-		Menu menu = new Menu(new GestorLogin("asd"));
+		Menu menu = new Menu(new GestorLogin());
 		Usuario anfitrion = new Usuario("anfitrion", "1234");
 		Sala sala = new Sala(anfitrion, "salaTest");
 		

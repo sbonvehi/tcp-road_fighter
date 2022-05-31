@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import road_fighter.Config;
 import road_fighter.GameSceneHandler;
-import road_fighter.MenuSceneHandler;
+import road_fighter.LoginSceneHandler;
 import road_fighter.objects.Auto;
 import road_fighter.objects.Background;
 import road_fighter.objects.Enemy;
