@@ -23,8 +23,8 @@ public class Sala {
 		this.listaMapas = new ArrayList<Mapa>();
 
 		listaUsuarios.add(this.anfitrion);
-
-		/// Cargamos unos mapas
+ 
+		/// Cargamos unos mapas 
 		listaMapas.add(new Mapa("mapa1", 30, 100));
 		listaMapas.add(new Mapa("mapa2", 40, 100));
 		listaMapas.add(new Mapa("mapa3", 50, 100));

@@ -2,7 +2,7 @@ package colision;
 
 import java.util.concurrent.TimeUnit;
 
-import auto.Auto;
+import road_fighter.objects.Auto;
 
 public class colisionPowerUp extends modoColision {
 

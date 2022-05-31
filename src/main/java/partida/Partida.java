@@ -3,9 +3,9 @@ package partida;
 import java.util.ArrayList;
 import java.util.List;
 
-import auto.Auto;
 import exception.Exception_RoadFighter;
 import mapa.Mapa;
+import road_fighter.objects.Auto;
 import usuario.Usuario;
 
 public class Partida {
