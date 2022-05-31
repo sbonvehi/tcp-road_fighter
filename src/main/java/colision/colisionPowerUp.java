@@ -17,7 +17,7 @@ public class colisionPowerUp extends modoColision {
 			e.printStackTrace();
 		}
 
-		auto.reducirVelocidadPowerUp();
+//		auto.reducirVelocidadPowerUp();
 	}
 
 }

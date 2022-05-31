@@ -34,7 +34,7 @@ public class LoginSceneHandler extends SceneHandler {
 			public void handle(KeyEvent event) {
 				switch (event.getCode()) {
 				case ENTER:
-					g.startGame(Config.MAP_IMG);
+					g.startMenu();
 					break;
 				case ESCAPE:
 					System.exit(0);

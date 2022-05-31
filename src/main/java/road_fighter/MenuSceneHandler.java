@@ -5,7 +5,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import road_fighter.objects.menu.BackgroundLogin;
 import road_fighter.objects.menu.BackgroundMenu;
 import road_fighter.utils.GameObjectBuilder;
 

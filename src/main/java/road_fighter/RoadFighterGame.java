@@ -9,6 +9,7 @@ import road_fighter.objects.Background;
 import road_fighter.objects.Enemy;
 import usuario.Usuario;
 
+
 public class RoadFighterGame extends Application {
 	
 	private Stage stage;
@@ -50,7 +51,6 @@ public class RoadFighterGame extends Application {
 	
 	public void startMenu()
 	{
-		//gameSceneHandler.unload();
 		loginSceneHandler.unload();
 		menuSceneHandler = new MenuSceneHandler(this);
 		Scene scene = menuSceneHandler.getScene();

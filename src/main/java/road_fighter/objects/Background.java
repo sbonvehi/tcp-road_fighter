@@ -37,7 +37,6 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	private double posY = 0;
 
 	public Background(String mapConfig)  {
-		/// no se por que pero la si achica el margen de colision de la calle  (119px) se rompe en el medio
 		calleCollider =  new Rectangle(ANCHO_CALLE, 999999);
 		calleCollider.setFill(Color.FUCHSIA);
 		calleCollider.setStroke(Color.FUCHSIA);
