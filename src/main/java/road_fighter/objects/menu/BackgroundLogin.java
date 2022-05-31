@@ -34,22 +34,26 @@ import road_fighter.interfaces.Actualizable;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Renderizable;
 import road_fighter.utils.GameObject;
+import usuario.Usuario;
 
-public class BackgroundMenu extends GameObject implements Renderizable {
+public class BackgroundLogin extends GameObject implements Renderizable {
 	private Image imagenMenu;
 	private ImageView renderImagenMenu;
 	private GridPane grid;
 	private GestorLogin gestorLogin;
 	private RoadFighterGame g;
 	
-	private Label crearLabel;
-	private Label unirseLabel;
+	private Usuario anfitrion;
+	
+	private Label registerLabel;
+	private Label iniciarLabel;
 	private Label salirLabel;
 	
 	StackPane contenedorMenu;
 
-	public BackgroundMenu(RoadFighterGame g)  {
+	public BackgroundLogin(RoadFighterGame g)  {
 		this.g = g;
+		gestorLogin = new GestorLogin();
 		imagenMenu = new Image(Config.MENU_IMG, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, false, false);
 		renderImagenMenu = new ImageView(imagenMenu);
 		renderImagenMenu.setViewport(new Rectangle2D(0, 0, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA));
@@ -64,12 +68,7 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 		contenedorMenu = new StackPane();
 		contenedorMenu.getChildren().addAll(renderImagenMenu);	
 		
-		Label nom = new Label(g.getAnfitrion().getNombre());
-		nom.setTextFill(Color.WHITE);
-		nom.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		contenedorMenu.getChildren().add(nom);
-		System.out.println(nom.getText());
-		//iniciarLabels();
+		iniciarLabels();
 	}
 
 	@Override
@@ -85,35 +84,40 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 
 	private void iniciarLabels()
 	{
-		crearLabel = new Label("Crear sala");
-		unirseLabel = new Label("Unirse a sala");
+		registerLabel = new Label("Registrarse");
+		iniciarLabel = new Label("Iniciar sesion");
 		salirLabel = new Label("Salir");
 		
-		crearLabel.setTextFill(Color.WHITE);
-		crearLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		crearLabel.setTranslateY(Config.X_OPCION1);
+		registerLabel.setTextFill(Color.WHITE);
+		registerLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		registerLabel.setTranslateY(Config.X_OPCION1);
 		
-		unirseLabel.setTextFill(Color.WHITE);
-		unirseLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		unirseLabel.setTranslateY(Config.X_OPCION2);
+		iniciarLabel.setTextFill(Color.WHITE);
+		iniciarLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		iniciarLabel.setTranslateY(Config.X_OPCION2);
 		
 		salirLabel.setTextFill(Color.WHITE);		
 		salirLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
 		salirLabel.setTranslateY(Config.X_OPCION3);
 		
-		crearLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(crearLabel, unirseLabel, salirLabel);	
+		registerLabel.setOnMouseClicked(e -> {
+			contenedorMenu.getChildren().removeAll(registerLabel, iniciarLabel, salirLabel);	
 			getGrid(false);
 			});
 		
-		unirseLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(crearLabel, unirseLabel, salirLabel);	
+		iniciarLabel.setOnMouseClicked(e -> {
+			contenedorMenu.getChildren().removeAll(registerLabel, iniciarLabel, salirLabel);	
 			getGrid(true);
 			;});
 		
 		salirLabel.setOnMouseClicked(e -> {System.exit(0);});
 		
-		contenedorMenu.getChildren().addAll(crearLabel, unirseLabel, salirLabel);	
+		contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);	
+	}
+	
+	public Usuario getAnfitrion()
+	{
+		return anfitrion;
 	}
 
 	private void getGrid(boolean isLogin)
@@ -172,7 +176,7 @@ public class BackgroundMenu extends GameObject implements Renderizable {
             @Override
             public void handle(ActionEvent e) {
             	contenedorMenu.getChildren().remove(grid);
-            	contenedorMenu.getChildren().addAll(crearLabel, unirseLabel, salirLabel);
+            	contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
             }
         });
         
@@ -192,6 +196,8 @@ public class BackgroundMenu extends GameObject implements Renderizable {
             				actiontarget.setText("Se inicio correctamente");
             				actiontarget.setFill(Color.GREEN);
             				Thread.sleep(2000);
+            				anfitrion = new Usuario(userTextField.getText(), pwBox.getText());
+            				g.setAnfitrion(anfitrion);
             				g.startMenu();
             			}
                 		else
@@ -219,7 +225,7 @@ public class BackgroundMenu extends GameObject implements Renderizable {
                 		//ARREGLAR ESTO PORQUE NO SE MUESTRAN LOS MENSAJES
                 		Thread.sleep(2000);
                 		contenedorMenu.getChildren().remove(grid);
-                    	contenedorMenu.getChildren().addAll(crearLabel, unirseLabel, salirLabel);
+                    	contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
                 	}      
             	}
             	catch(Exception ex)

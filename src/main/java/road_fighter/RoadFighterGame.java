@@ -14,19 +14,22 @@ public class RoadFighterGame extends Application {
 	private Stage stage;
 
 
+	private LoginSceneHandler loginSceneHandler;
 	private MenuSceneHandler menuSceneHandler;
 	private GameSceneHandler gameSceneHandler;
-
-
 	
+	protected Usuario anfitrion;
+
+
+	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
 		
-		menuSceneHandler = new MenuSceneHandler(this);
-		Scene scene = menuSceneHandler.getScene();
+		loginSceneHandler = new LoginSceneHandler(this);
+		Scene scene = loginSceneHandler.getScene();
 		stage.setScene(scene);
 
-		menuSceneHandler.load();
+		loginSceneHandler.load();
 				
 		stage.setResizable(false);
 		stage.setTitle("Road Fighter");
@@ -37,6 +40,24 @@ public class RoadFighterGame extends Application {
 		launch();
 	}
 	
+	public void startLogin() {
+		gameSceneHandler.unload();
+		loginSceneHandler = new LoginSceneHandler(this);
+		Scene scene = loginSceneHandler.getScene();
+		stage.setScene(scene);
+		loginSceneHandler.load();
+	}
+	
+	public void startMenu()
+	{
+		//gameSceneHandler.unload();
+		loginSceneHandler.unload();
+		menuSceneHandler = new MenuSceneHandler(this);
+		Scene scene = menuSceneHandler.getScene();
+		stage.setScene(scene);
+		menuSceneHandler.load();
+	}
+	
 	public void startGame() {
 		menuSceneHandler.unload();
 		gameSceneHandler = new GameSceneHandler(this);
@@ -45,12 +66,13 @@ public class RoadFighterGame extends Application {
 		gameSceneHandler.load(true);
 	}
 	
-	public void startMenu() {
-		gameSceneHandler.unload();
-		menuSceneHandler = new MenuSceneHandler(this);
-		Scene scene = menuSceneHandler.getScene();
-		stage.setScene(scene);
-		menuSceneHandler.load();
+	public Usuario getAnfitrion()
+	{
+		return anfitrion;
 	}
 	
+	public void setAnfitrion(Usuario anfitrion)
+	{
+		this.anfitrion = anfitrion;
+	}
 }

@@ -1,19 +1,25 @@
 package road_fighter;
 
+
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import road_fighter.objects.menu.BackgroundLogin;
-import road_fighter.objects.menu.BackgroundMenu;
 import road_fighter.utils.GameObjectBuilder;
 
-public class MenuSceneHandler extends SceneHandler{
+public class LoginSceneHandler extends SceneHandler {
 
-	private BackgroundMenu fondoMenu;
+
+	private BackgroundLogin fondoLogin;
 	
-	public MenuSceneHandler(RoadFighterGame g) {
-		super(g);
+	private Group rootGroup;
 
+	public LoginSceneHandler(RoadFighterGame g) {
+		super(g);
 	}
 
 	@Override
@@ -24,7 +30,24 @@ public class MenuSceneHandler extends SceneHandler{
 
 	@Override
 	protected void defineEventHandlers() {
-		// TODO Auto-generated method stub
+		keyPressEventHandler = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+				switch (event.getCode()) {
+				case ENTER:
+					g.startGame();
+					break;
+				case ESCAPE:
+					System.exit(0);
+					break;
+				}
+			}
+		};
+		
+		keyReleaseEventHandler = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+					///vacio para que funcione
+			}
+		};
 		
 	}
 	
@@ -34,18 +57,18 @@ public class MenuSceneHandler extends SceneHandler{
 		scene.setRoot(root);
 		
 		///Instancio todos los objectos de la partida
-		fondoMenu = new BackgroundMenu(g);
-
+		fondoLogin = new BackgroundLogin(g);
+		
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
-		gameOB.add(fondoMenu);
+		gameOB.add(fondoLogin);
 
 		if (fullStart) {
 			addTimeEventsAnimationTimer();
 			addInputEvents();
 		}
 	}
-
+	
 	private void cleanData() {
 		GameObjectBuilder.getInstance().removeAll();
 //		ended = false;
@@ -57,4 +80,5 @@ public class MenuSceneHandler extends SceneHandler{
 		cleanData();
 		super.unload();
 	}
+
 }
