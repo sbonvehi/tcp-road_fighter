@@ -26,7 +26,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private static int cantAutos = 0;
 
-	private static final int VELOCIDAD_INICIAL = 0;
+	private static final double VELOCIDAD_INICIAL = 0.0000000001;
 	private final int VELOCIDAD_MAX1 = 200;
 	private final int VELOCIDAD_MAX2 = 400;
 	private final int TASA_ACELERACION = 2;
@@ -34,9 +34,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private final int VEL_HORIZONTAL = 300;
 
 	private Image spriteImages;
-	private SpriteAnimation crash1;
-	private SpriteAnimation crash2;
-	private SpriteAnimation crash3;
+	private SpriteAnimation crash;
 
 	public static final int posXAutoInicial = 270;
 	public static final int posYAutoInicial = 650;
@@ -55,7 +53,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private Rectangle collider;
 	private ImageView render;
-	private Image spriteNormal;
 	private boolean tieneModificadorVelocidad = false;
 	private boolean dead;
 
@@ -72,10 +69,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		this.ubicacion = new Coordenada(posXAutoInicial, 0);
 		this.piloto = piloto;
 
-//		spriteNormal = new Image(Config.CAR_IMG, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
-//		render = new ImageView(spriteNormal);
-//		render.setViewport(new Rectangle2D(0, 0, Config.ANCHO_AUTO, Config.ALTO_AUTO));
-//
 		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, 328 * 3, 179 * 3, false, false);
 		render = new ImageView(spriteImages);
 		render.setViewport(new Rectangle2D(3, 3, 14 * 3, 19 * 3));
@@ -90,21 +83,13 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		render.setY(posYAutoInicial);
 		collider.setX(posXAutoInicial);
 		collider.setY(posYAutoInicial);
-
-		
-
-		
+	
 		
 	}
 
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
-		crash1 = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
-		crash1.setCycleCount(Animation.INDEFINITE);
-//		crash1.setCycleCount(1);
-
-//		crash1 = new SpriteAnimation(render, Duration.millis(200), 3, 3, 41 * 3, 34 * 3, 0, 14 * 3, 19 * 3);
-//		crash2 = new SpriteAnimation(render, Duration.millis(200), 3, 3, 30 * 3, 34 * 3, 0, 15 * 3, 19 * 3);
-//		crash3 = new SpriteAnimation(render, Duration.millis(200), 3, 3, 49 * 3, 34 * 3, 0, 14 * 3, 19 * 3);
+		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
+		crash.setCycleCount(Animation.INDEFINITE);
 	}
 
 	private void resetViewPort() {
@@ -154,19 +139,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return piloto;
 	}
 
-	// esto seria como die()? si es asi, lo podemos sacar
+	
 	public void perderControl() throws InterruptedException {
 
-		while (velocidad > 1) {
-			velocidad *= 0.3;
-			TimeUnit.SECONDS.sleep(1);
-
-//			if(golpe margen) {
-//				auto.resetearPosicion();
-//			}
-		}
-		// no explote..
-		velocidad = 0;
 	}
 
 	public void reducirVelocidadObstaculo() {
@@ -196,28 +171,35 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	 * Cuando choca contra los costados de la calle se podricen estas animaciones..
 	 */
 	public void die() {
-		this.dead = true;
+		if (!dead) {
+			setDirectionRight(false);
+	        setDirectionLeft(false);
+	        setDirectionUpSpeed1(false);
+	        setDirectionUpSpeed2(false);
+			collider.setX(posXAutoInicial);
+			this.dead = true;
+			Auto.velocidad = VELOCIDAD_INICIAL;
+			crash.play();
+			new java.util.Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
+					crash.stop();
+					resetViewPort();
+					// reseteo la pos x del auto..
+					Auto.this.dead = false;
+					setX(posXAutoInicial);
+				}
+			}, 1000);
 
-		Auto.velocidad = VELOCIDAD_INICIAL;
-		crash1.play();
-		new java.util.Timer().schedule(new java.util.TimerTask() {
-			@Override
-			public void run() {
-				crash1.stop();
-				resetViewPort();
-				Auto.this.dead = false;
-				setX(posXAutoInicial);
-			}
-		}, 1000);
-
-		System.out.println("Mori");
+			System.out.println("Mori");
+		}
 	}
 
 	public void setX(double x) {
 		if (!dead) {
+			collider.setX(x);
 			this.ubicacion.setX(x);
 			render.setX(x);
-			collider.setX(x);
 		}
 		System.out.println("Posicion actual: " + this.ubicacion.toString());
 
@@ -225,15 +207,16 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void setY(double y) {
 		if (!dead) {
-		this.ubicacion.setY(y); /// esta es la unica Y que se va cambiar, porque es la que determina que tan
+			this.ubicacion.setY(y); /// esta es la unica Y que se va cambiar, porque es la que determina que tan
 		}								/// avanzado esta un auto respecto desde que arranc� la carrera
-//		
-//		System.out.println(ubicacion.toString());
-//		System.out.println("render player:" + render.getX() + " " + render.getY());
-//		System.out.println("collider: " + collider.toString());
+
 	}
 
 	public void update(double deltaTime) {
+		if(dead) {
+			return;
+		}
+		
 		if (flagFueraDeMapa) {
 			die();
 //			System.out.println("me fui del mapa :(");
@@ -271,7 +254,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
-
+		
 		if(!tieneModificadorVelocidad) {
 			topeVelocidad = VELOCIDAD_MAX1;				
 		}
@@ -281,6 +264,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setDirectionUpSpeed2(boolean b) {
+		
 		if(!tieneModificadorVelocidad) {			
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
