@@ -18,6 +18,7 @@ public class Config {
     public static final int X_OPCION1 = 100;
     public static final int X_OPCION2 = 150;
     public static final int X_OPCION3 = 200;
+    public static final int X_OPCION4 = 250;
     
 	public static final int ANCHO_AUTO = 30;
 	public static final int ALTO_AUTO = 45;
@@ -30,6 +31,8 @@ public class Config {
 	public static final String MENU_IMG = "file:src/main/resources/img/titulo_juego.png";
 	public static final String GENERAL_SPRITES_IMG = "file:src/main/resources/img/GeneralSprites.png";
 	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalleLargo2.png";
+	public static final String MAP_IMG2 = "file:src/main/resources/img/fondoCalleLargo2v2.png";
+	public static final String MAP_IMG3 = "file:src/main/resources/img/fondoCalleLargo2v3.png";
 	public static final String FINISH_LINE_IMG = "file:src/main/resources/img/finish-line.jpg";
     public static final String TREE_IMG = "file:src/main/resources/img/tree.png";
     public static final String TREES_IMG = "file:src/main/resources/img/trees.png";

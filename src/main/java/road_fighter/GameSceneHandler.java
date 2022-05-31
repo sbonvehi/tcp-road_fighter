@@ -26,9 +26,11 @@ public class GameSceneHandler extends SceneHandler {
 	private Enemy autoNPC2;
 	private Background fondo;
 	private FinishLine finishLine;
+	private String mapNombre;
 	
-	public GameSceneHandler(RoadFighterGame g) {
+	public GameSceneHandler(RoadFighterGame g, String mapNombre) {
 		super(g);
+		this.mapNombre = mapNombre;
 	}
 
 	protected void prepareScene() {
@@ -101,7 +103,7 @@ public class GameSceneHandler extends SceneHandler {
 		
 		///Instancio todos los objectos de la partida
 		Usuario usr = new Usuario("test","test");
-		fondo = new Background();
+		fondo = new Background(mapNombre);
 		autoJugador = new Auto(usr);
 		autoNPC1 = new Enemy(0,-50, 100);
 		autoNPC2 = new Enemy(10,-300, 110);

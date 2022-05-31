@@ -77,37 +77,33 @@ public class Menu {
 			
 			switch (opcionElegida) {
 			case 1:	
-				Sala sala = _anfitrion.crearSala(_scanner);
+				//Sala sala = _anfitrion.crearSala(_scanner);
 				
-				try {
-					agregarSala(sala);
-				} catch (Exception_RoadFighter e) {
-					e.printStackTrace();
-				}
 				
-				Partida partida = _anfitrion.configurarSala(sala, _scanner);
+				
+				//Partida partida = _anfitrion.configurarSala(sala, _scanner);
 				
 				System.out.println("3....2....1... GO");
 								
 				// Muestro los autos, y mostrar el estado de los pilotos,
 				// y la ubicacion
 				
-				List<Auto> listaAutos = partida.getListaAutos();
+				//List<Auto> listaAutos = partida.getListaAutos();
 			
-				for (Auto auto : listaAutos ) {
-				System.out.println(auto.getPiloto().getNombre() + " Jugando: " + auto.getPiloto().getJugando());
-				}
-				
-				System.out.println("Carrera en curso...");
-
-				TimeUnit.SECONDS.sleep(3);
-				
-				partida.finalizar();
-				
-				for (Auto auto : listaAutos ) {
-					System.out.println(auto.getPiloto().getNombre() + " Jugando: " + auto.getPiloto().getJugando());
-				}
-				
+//				for (Auto auto : listaAutos ) {
+//				System.out.println(auto.getPiloto().getNombre() + " Jugando: " + auto.getPiloto().getJugando());
+//				}
+//				
+//				System.out.println("Carrera en curso...");
+//
+//				TimeUnit.SECONDS.sleep(3);
+//				
+//				partida.finalizar();
+//				
+//				for (Auto auto : listaAutos ) {
+//					System.out.println(auto.getPiloto().getNombre() + " Jugando: " + auto.getPiloto().getJugando());
+//				}
+//				
 				System.out.println("Fin de la carrera");
 				
 				break;

@@ -41,7 +41,8 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 	private GridPane grid;
 	private GestorLogin gestorLogin;
 	private RoadFighterGame g;
-	
+
+	private Label jugarLabel;
 	private Label crearLabel;
 	private Label unirseLabel;
 	private Label salirLabel;
@@ -64,12 +65,7 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 		contenedorMenu = new StackPane();
 		contenedorMenu.getChildren().addAll(renderImagenMenu);	
 		
-		Label nom = new Label(g.getAnfitrion().getNombre());
-		nom.setTextFill(Color.WHITE);
-		nom.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		contenedorMenu.getChildren().add(nom);
-		System.out.println(nom.getText());
-		//iniciarLabels();
+		iniciarLabels();
 	}
 
 	@Override
@@ -85,35 +81,77 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 
 	private void iniciarLabels()
 	{
-		crearLabel = new Label("Crear sala");
+		jugarLabel = new Label("Single Player");
+		crearLabel = new Label("Elegir mapa");
 		unirseLabel = new Label("Unirse a sala");
 		salirLabel = new Label("Salir");
 		
+		jugarLabel.setTextFill(Color.WHITE);
+		jugarLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		jugarLabel.setTranslateY(Config.X_OPCION1);
+		
 		crearLabel.setTextFill(Color.WHITE);
 		crearLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		crearLabel.setTranslateY(Config.X_OPCION1);
+		crearLabel.setTranslateY(Config.X_OPCION2);
 		
-		unirseLabel.setTextFill(Color.WHITE);
+		unirseLabel.setTextFill(Color.WHITE);		
 		unirseLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		unirseLabel.setTranslateY(Config.X_OPCION2);
+		unirseLabel.setTranslateY(Config.X_OPCION3);
 		
 		salirLabel.setTextFill(Color.WHITE);		
 		salirLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		salirLabel.setTranslateY(Config.X_OPCION3);
+		salirLabel.setTranslateY(Config.X_OPCION4);
+		
+		jugarLabel.setOnMouseClicked(e -> {
+				g.startGame(Config.MAP_IMG);
+			});
 		
 		crearLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(crearLabel, unirseLabel, salirLabel);	
-			getGrid(false);
+			contenedorMenu.getChildren().removeAll(jugarLabel, crearLabel, unirseLabel, salirLabel);	
+			elegirMapa(false);
 			});
 		
 		unirseLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(crearLabel, unirseLabel, salirLabel);	
-			getGrid(true);
+//			contenedorMenu.getChildren().removeAll(crearLabel, unirseLabel, salirLabel);	
+//			getGrid(true);
 			;});
 		
 		salirLabel.setOnMouseClicked(e -> {System.exit(0);});
 		
-		contenedorMenu.getChildren().addAll(crearLabel, unirseLabel, salirLabel);	
+		contenedorMenu.getChildren().addAll(jugarLabel, crearLabel, unirseLabel, salirLabel);	
+	}
+
+	private void elegirMapa(boolean b) {
+		Label mapa1Label = new Label("Mapa 1");
+		Label mapa2Label = new Label("Mapa 2");
+		Label mapa3Label = new Label("Mapa 3");
+		
+		mapa1Label.setTextFill(Color.WHITE);		
+		mapa1Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		mapa1Label.setTranslateY(Config.X_OPCION1);
+		
+
+		mapa2Label.setTextFill(Color.WHITE);		
+		mapa2Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		mapa2Label.setTranslateY(Config.X_OPCION2);
+		
+		mapa3Label.setTextFill(Color.WHITE);		
+		mapa3Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		mapa3Label.setTranslateY(Config.X_OPCION3);
+		
+		mapa1Label.setOnMouseClicked(e -> {
+			g.startGame(Config.MAP_IMG);
+			});
+		
+		mapa2Label.setOnMouseClicked(e -> {
+			g.startGame(Config.MAP_IMG2);
+			});
+		
+		mapa3Label.setOnMouseClicked(e -> {
+			g.startGame(Config.MAP_IMG3);
+			});
+		
+		contenedorMenu.getChildren().addAll(mapa1Label, mapa2Label, mapa3Label);	
 	}
 
 	private void getGrid(boolean isLogin)
@@ -126,30 +164,14 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 		
 		contenedorMenu.getChildren().add(grid);
 				
-		Text scenetitle = new Text();
-		
-		if(isLogin)
-			scenetitle.setText("Login");
-		else
-			scenetitle.setText("Registrarse");
-		
+		Text scenetitle = new Text("Ingrese nombre de sala");
+				
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		scenetitle.setFill(Color.WHITE);
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		Label userName = new Label("User Name:");
-		userName.setTextFill(Color.WHITE);
-		grid.add(userName, 0, 1);
-
-		final TextField userTextField = new TextField();
-		grid.add(userTextField, 1, 1);
-
-		Label pw = new Label("Password:");
-		pw.setTextFill(Color.WHITE);
-		grid.add(pw, 0, 2);
-
-		final PasswordField pwBox = new PasswordField();
-		grid.add(pwBox, 1, 2);
+		final TextField salaTextField = new TextField();
+		grid.add(salaTextField, 1, 1);
 		
 		Button btnCancel = new Button("Cancelar");
 		Button btnOk = new Button("Confirmar");
@@ -172,7 +194,7 @@ public class BackgroundMenu extends GameObject implements Renderizable {
             @Override
             public void handle(ActionEvent e) {
             	contenedorMenu.getChildren().remove(grid);
-            	contenedorMenu.getChildren().addAll(crearLabel, unirseLabel, salirLabel);
+            	contenedorMenu.getChildren().addAll(jugarLabel, crearLabel, unirseLabel, salirLabel);
             }
         });
         
@@ -182,45 +204,8 @@ public class BackgroundMenu extends GameObject implements Renderizable {
             public void handle(ActionEvent e) {
             	try
             	{
-            		boolean result = false;
-                	if(isLogin)
-                	{
-                		result = gestorLogin.login(userTextField.getText(), pwBox.getText());
-                		
-                		if(result)
-            			{
-            				actiontarget.setText("Se inicio correctamente");
-            				actiontarget.setFill(Color.GREEN);
-            				Thread.sleep(2000);
-            				g.startMenu();
-            			}
-                		else
-                		{
-                			actiontarget.setText("Error al logearse");
-                			actiontarget.setFill(Color.RED);
-                			Thread.sleep(2000);
-                		}
-                		
-                	}
-                	else
-                	{
-                		result = gestorLogin.registrarUsuario(userTextField.getText(), pwBox.getText());
-                		if(result)
-                		{
-                			actiontarget.setText("Se registro correctamente");
-                			actiontarget.setFill(Color.GREEN);
-                		}
-                		else
-                		{
-                			actiontarget.setFill(Color.RED);
-                			actiontarget.setText("No se pudo registrarse");
-                		}
-                			
-                		//ARREGLAR ESTO PORQUE NO SE MUESTRAN LOS MENSAJES
-                		Thread.sleep(2000);
-                		contenedorMenu.getChildren().remove(grid);
-                    	contenedorMenu.getChildren().addAll(crearLabel, unirseLabel, salirLabel);
-                	}      
+            		g.getAnfitrion().crearSala(salaTextField.toString());
+            		
             	}
             	catch(Exception ex)
             	{

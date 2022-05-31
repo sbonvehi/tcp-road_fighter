@@ -1,7 +1,9 @@
 package road_fighter;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import road_fighter.objects.menu.BackgroundLogin;
 import road_fighter.objects.menu.BackgroundMenu;
@@ -24,7 +26,24 @@ public class MenuSceneHandler extends SceneHandler{
 
 	@Override
 	protected void defineEventHandlers() {
-		// TODO Auto-generated method stub
+		keyPressEventHandler = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+				switch (event.getCode()) {
+				case ENTER:
+					g.startGame(Config.MAP_IMG);
+					break;
+				case ESCAPE:
+					System.exit(0);
+					break;
+				}
+			}
+		};
+		
+		keyReleaseEventHandler = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+					///vacio para que funcione
+			}
+		};
 		
 	}
 	

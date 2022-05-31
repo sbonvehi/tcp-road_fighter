@@ -157,9 +157,7 @@ public class Usuario {
 	}
 
 
-	public Sala crearSala(Scanner scanner){ 
-		System.out.println("Ingrese el nombre de la sala: ");
-		String nombreSala = scanner.next();
+	public Sala crearSala(String nombreSala){ 
 		return new Sala(this, nombreSala);
 	}
 	
