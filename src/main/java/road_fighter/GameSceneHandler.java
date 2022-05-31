@@ -14,6 +14,7 @@ import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
 import road_fighter.objects.Auto;
 import road_fighter.objects.Background;
+import road_fighter.objects.ColisionObstaculo;
 import road_fighter.objects.ColisionPowerUp;
 import road_fighter.objects.Enemy;
 import road_fighter.objects.FinishLine;
@@ -29,6 +30,7 @@ public class GameSceneHandler extends SceneHandler {
 	private Background fondo;
 	private FinishLine finishLine;
 	private ColisionPowerUp powerUp1;
+	private ColisionObstaculo obstaculo1;
 	
 	public GameSceneHandler(RoadFighterGame g) {
 		super(g);
@@ -109,13 +111,13 @@ public class GameSceneHandler extends SceneHandler {
 		autoNPC1 = new Enemy(0,-50, 100);
 		autoNPC2 = new Enemy(10,-300, 110);
 		powerUp1 = new ColisionPowerUp(250, 650);
-		
+		obstaculo1 = new ColisionObstaculo(300, 200);
 		
 		finishLine = new FinishLine();
 	
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
-		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2, finishLine, powerUp1);
+		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2, finishLine, powerUp1, obstaculo1);
 
 		if (fullStart) {
 			addTimeEventsAnimationTimer();

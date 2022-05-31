@@ -3,6 +3,7 @@ package road_fighter.objects;
 import java.util.concurrent.TimeUnit;
 
 import animation.SpriteAnimation;
+import colision.colisionObstaculo;
 import coordenada.Coordenada;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
@@ -120,7 +121,11 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 //			Auto.velocidad = 0;
 			this.aumentarVelocidadPowerUp();
 			System.out.println("COLISION CON POWERUP");
-			///aca habria que llamar a una funcion para que termine la partida / saque al auto de la competencia
+		}
+		if(colisionable.getClass() == ColisionObstaculo.class) {
+//			Auto.velocidad = 0;
+//			this.aumentarVelocidadPowerUp();
+			System.out.println("COLISION CON OBSTACULO");
 		}
 		
 	}

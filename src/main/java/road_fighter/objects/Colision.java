@@ -15,24 +15,21 @@ import road_fighter.utils.GameObject;
 
 public abstract class Colision extends GameObject implements Actualizable, Renderizable, Colisionable{
 
-	private Image spriteGeneral;
-	private ImageView render;
-	private Rectangle collider;
-	private double posY = 0;
-	private int ubicacionX = 100;
-	private int ubicacionY = 100;
+	protected Image spriteGeneral;
+	protected ImageView render;
+	protected Rectangle collider;
+	protected double posY = 0;
+	protected int ubicacionX = 100;
+	protected int ubicacionY = 100;
 	
-	public Colision(int ubicacionX, int ubicacionY) {
+	public Colision(int ubicacionX, int ubicacionY, int anchoFigura, int altoFigura) {
 		
 		this.ubicacionX = ubicacionX;
 		this.ubicacionY = ubicacionY;
-		
-		collider = new Rectangle(Config.ANCHO_AUTO, Config.ALTO_AUTO);
-		collider.setFill(null);
-		
+			
+		collider = new Rectangle(anchoFigura, altoFigura);
 		spriteGeneral = new Image(Config.GENERAL_SPRITES_IMG, 328 * 3, 179 * 3, false, false);
 		render = new ImageView(spriteGeneral);
-		render.setViewport(new Rectangle2D(26 * 3, 34 * 3, Config.ANCHO_AUTO, Config.ALTO_AUTO));
 		
 		
 		render.setX(ubicacionX);
@@ -40,9 +37,7 @@ public abstract class Colision extends GameObject implements Actualizable, Rende
 		render.setViewOrder(15);
 		collider.setStroke(Color.FUCHSIA);
 		collider.setX(ubicacionX);
-		collider.setY(Auto.posYAutoInicial - ubicacionY *Background.FACTOR_DESPLAZAMIENTO);
-
-			
+		collider.setY(Auto.posYAutoInicial - ubicacionY *Background.FACTOR_DESPLAZAMIENTO);		
 	}
 
 	@Override
