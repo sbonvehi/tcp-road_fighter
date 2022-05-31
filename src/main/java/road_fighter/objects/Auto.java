@@ -118,13 +118,11 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 		
 		if(colisionable.getClass() == ColisionPowerUp.class) {
-//			Auto.velocidad = 0;
 			this.aumentarVelocidadPowerUp();
 			System.out.println("COLISION CON POWERUP");
 		}
 		if(colisionable.getClass() == ColisionObstaculo.class) {
-//			Auto.velocidad = 0;
-//			this.aumentarVelocidadPowerUp();
+			this.reducirVelocidadObstaculo();
 			System.out.println("COLISION CON OBSTACULO");
 		}
 		
@@ -154,9 +152,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		velocidad = 0;
 	}
 
-	public void reducirVelocidadPowerUp() {
-		tieneModificadorVelocidad = true;
-		topeVelocidad -= 200;
+	public void reducirVelocidadObstaculo() {
+		Auto.velocidad /= 1.1;
 		
 	}
 
