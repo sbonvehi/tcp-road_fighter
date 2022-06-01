@@ -26,6 +26,7 @@ import usuario.Usuario;
 public class GameSceneHandler extends SceneHandler {
 	
 	private Auto autoJugador;
+	private Auto autoJugador2;
 	private Enemy autoNPC1;
 	private Enemy autoNPC2;
 	private Background fondo;
@@ -51,25 +52,42 @@ public class GameSceneHandler extends SceneHandler {
 		keyPressEventHandler = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 
-				switch (event.getCode()) {
-				case RIGHT:
+				switch (event.getCode()) {	
 				case D:
 					autoJugador.setDirectionRight(true);
 					break;
-
-				case LEFT:
 				case A:
 					autoJugador.setDirectionLeft(true);
 					break;
-
-				case Z:
+				case V:
 					autoJugador.setDirectionUpSpeed1(true); // velocidad de 0 a 200
 					break;
-
-				case X:
+				case B:
 					autoJugador.setDirectionUpSpeed2(true); // velocidad de 200 a 400
 					break;
+					
+				case RIGHT:
+					autoJugador2.setDirectionRight(true);
+					break;
+				case LEFT:
+					autoJugador2.setDirectionLeft(true);
+					break;
+				case K:
+					autoJugador2.setDirectionUpSpeed1(true); // velocidad de 0 a 200
+					break;
 
+				case L:
+					autoJugador2.setDirectionUpSpeed2(true); // velocidad de 200 a 400
+					break;
+					
+				case Q:
+				case ESCAPE:
+					g.startMenu();
+					break;
+					
+				case T: // teletransportar el auto 2 a la pantalla donde lo vea tamb el player 1..
+					//setY(auto2);
+					break;
 				default:
 					break;
 
@@ -81,21 +99,30 @@ public class GameSceneHandler extends SceneHandler {
 			public void handle(KeyEvent event) {
 
 				switch (event.getCode()) {
-				case RIGHT:
 				case D:
 					autoJugador.setDirectionRight(false);
 					break;
-
-				case LEFT:
 				case A:
 					autoJugador.setDirectionLeft(false);
 					break;
-
-				case X:
-				case Z: // voy disminuyendo la velocidad de y hasta cero..
+				case V:
+				case B: // voy disminuyendo la velocidad de y hasta cero..
 					autoJugador.setDirectionUpSpeed1(false);
 					autoJugador.setDirectionUpSpeed2(false);
 					break;
+					
+				case RIGHT:
+					autoJugador2.setDirectionRight(false);
+					break;
+				case LEFT:
+					autoJugador2.setDirectionLeft(false);
+					break;
+				case K:
+				case L: // voy disminuyendo la velocidad de y hasta cero..
+					autoJugador2.setDirectionUpSpeed1(false);
+					autoJugador2.setDirectionUpSpeed2(false);
+					break;
+					
 				default:
 					break;
 
