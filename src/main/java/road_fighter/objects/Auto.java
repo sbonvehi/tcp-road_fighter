@@ -106,10 +106,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		lostControlSpriteRight = new SpriteAnimation(render, Duration.millis(1000), 12, 13, 0, 20 * 3, 2 * 3, 15 * 3,
 				18 * 3);
 		
-//		lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
-//		lostControlSpriteLeft.play();
-		lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
-		lostControlSpriteRight.play();
+		lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
+		lostControlSpriteLeft.play();
+//		lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
+//		lostControlSpriteRight.play();
 
 	}
 
