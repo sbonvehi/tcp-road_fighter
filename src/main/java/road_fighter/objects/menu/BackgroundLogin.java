@@ -39,36 +39,18 @@ import usuario.Usuario;
 public class BackgroundLogin extends GameObject implements Renderizable {
 	private Image imagenMenu;
 	private ImageView renderImagenMenu;
-	private GridPane grid;
-	private GestorLogin gestorLogin;
-	private RoadFighterGame g;
-	
-	private Usuario anfitrion;
-	
-	private Label registerLabel;
-	private Label iniciarLabel;
-	private Label salirLabel;
-	
+
 	StackPane contenedorMenu;
 
-	public BackgroundLogin(RoadFighterGame g)  {
-		this.g = g;
-		gestorLogin = new GestorLogin();
+	public BackgroundLogin()  {
+		
 		imagenMenu = new Image(Config.MENU_IMG, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, false, false);
 		renderImagenMenu = new ImageView(imagenMenu);
 		renderImagenMenu.setViewport(new Rectangle2D(0, 0, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA));
 		renderImagenMenu.setViewOrder(50);
-		
-//		Text textoJuego = new Text("ENTER para empezar \n ESCAPE para salir");
-//		textoJuego.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
-//		textoJuego.setFill(Color.WHITE);
-//		textoJuego.setTranslateY(100);
-		
-		
+				
 		contenedorMenu = new StackPane();
-		contenedorMenu.getChildren().addAll(renderImagenMenu);	
-		
-		iniciarLabels();
+		contenedorMenu.getChildren().addAll(renderImagenMenu);
 	}
 
 	@Override
@@ -80,160 +62,5 @@ public class BackgroundLogin extends GameObject implements Renderizable {
 	public void destroy() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	private void iniciarLabels()
-	{
-		registerLabel = new Label("Registrarse");
-		iniciarLabel = new Label("Iniciar sesion");
-		salirLabel = new Label("Salir");
-		
-		registerLabel.setTextFill(Color.WHITE);
-		registerLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		registerLabel.setTranslateY(Config.X_OPCION1);
-		
-		iniciarLabel.setTextFill(Color.WHITE);
-		iniciarLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		iniciarLabel.setTranslateY(Config.X_OPCION2);
-		
-		salirLabel.setTextFill(Color.WHITE);		
-		salirLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		salirLabel.setTranslateY(Config.X_OPCION3);
-		
-		registerLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(registerLabel, iniciarLabel, salirLabel);	
-			getGrid(false);
-			});
-		
-		iniciarLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(registerLabel, iniciarLabel, salirLabel);	
-			getGrid(true);
-			;});
-		
-		salirLabel.setOnMouseClicked(e -> {System.exit(0);});
-		
-		contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);	
-	}
-	
-	public Usuario getAnfitrion()
-	{
-		return anfitrion;
-	}
-
-	private void getGrid(boolean isLogin)
-	{
-		grid = new GridPane();
-		grid.setAlignment(Pos.BASELINE_CENTER);
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(450, 150, 100, 100));
-		
-		contenedorMenu.getChildren().add(grid);
-				
-		Text scenetitle = new Text();
-		
-		if(isLogin)
-			scenetitle.setText("Login");
-		else
-			scenetitle.setText("Registrarse");
-		
-		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		scenetitle.setFill(Color.WHITE);
-		grid.add(scenetitle, 0, 0, 2, 1);
-
-		Label userName = new Label("User Name:");
-		userName.setTextFill(Color.WHITE);
-		grid.add(userName, 0, 1);
-
-		final TextField userTextField = new TextField();
-		grid.add(userTextField, 1, 1);
-
-		Label pw = new Label("Password:");
-		pw.setTextFill(Color.WHITE);
-		grid.add(pw, 0, 2);
-
-		final PasswordField pwBox = new PasswordField();
-		grid.add(pwBox, 1, 2);
-		
-		Button btnCancel = new Button("Cancelar");
-		Button btnOk = new Button("Confirmar");
-		btnCancel.setTextFill(Color.WHITE);
-		btnCancel.setStyle("-fx-background-color: transparent");
-		btnOk.setTextFill(Color.WHITE);
-		btnOk.setStyle("-fx-background-color: transparent");
-		HBox hbBtn = new HBox(10);
-		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-		hbBtn.getChildren().add(btnOk);
-		hbBtn.getChildren().add(btnCancel);
-		grid.add(hbBtn, 1, 4);
-		
-		final Text actiontarget = new Text();
-		
-        grid.add(actiontarget, 1, 6);
-        
-        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
-        	 
-            @Override
-            public void handle(ActionEvent e) {
-            	contenedorMenu.getChildren().remove(grid);
-            	contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
-            }
-        });
-        
-        btnOk.setOnAction(new EventHandler<ActionEvent>() {
-        	 
-            @Override
-            public void handle(ActionEvent e) {
-            	try
-            	{
-            		boolean result = false;
-                	if(isLogin)
-                	{
-                		result = gestorLogin.login(userTextField.getText(), pwBox.getText());
-                		
-                		if(result)
-            			{
-            				actiontarget.setText("Se inicio correctamente");
-            				actiontarget.setFill(Color.GREEN);
-            				Thread.sleep(2000);
-            				anfitrion = new Usuario(userTextField.getText(), pwBox.getText());
-            				g.setAnfitrion(anfitrion);
-            				g.startMenu();
-            			}
-                		else
-                		{
-                			actiontarget.setText("Error al logearse");
-                			actiontarget.setFill(Color.RED);
-                			Thread.sleep(2000);
-                		}
-                		
-                	}
-                	else
-                	{
-                		result = gestorLogin.registrarUsuario(userTextField.getText(), pwBox.getText());
-                		if(result)
-                		{
-                			actiontarget.setText("Se registro correctamente");
-                			actiontarget.setFill(Color.GREEN);
-                		}
-                		else
-                		{
-                			actiontarget.setFill(Color.RED);
-                			actiontarget.setText("No se pudo registrarse");
-                		}
-                			
-                		//ARREGLAR ESTO PORQUE NO SE MUESTRAN LOS MENSAJES
-                		Thread.sleep(2000);
-                		contenedorMenu.getChildren().remove(grid);
-                    	contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
-                	}      
-            	}
-            	catch(Exception ex)
-            	{
-            		 System.out.println(ex.getMessage());;
-            	}
-            }
-        });
-	}
-
+	}	
 }

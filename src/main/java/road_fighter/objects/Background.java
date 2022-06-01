@@ -5,6 +5,7 @@ import java.lang.StackWalker.StackFrame;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -27,6 +28,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	private HBox renderBarraMarcador;
 	private Text textoVelocidadJugador;
 	
+	
 	private Rectangle calleCollider;
 	public static final int MARGEN_IZQ_CALLE = 150;
 	public static final int MARGEN_DER_CALLE = 400;
@@ -43,6 +45,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		calleCollider.setX(MARGEN_IZQ_CALLE);
 		
 		
+		
 		//MAPA
 		Image imagenMapa = new Image(mapConfig, Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA, false, false);
 		ImagePattern imagePatternMapa = new ImagePattern(imagenMapa, -Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA, Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA , false);
@@ -51,7 +54,6 @@ public class Background extends GameObject implements Actualizable, Renderizable
 
 		//BARRA DE MARCADORES (podria ser una clase fuera de background)
 		Rectangle fondoBarraMarcador = new Rectangle(Config.ANCHO_FRAME_ESCENA - Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_ESCENA);
-
 		fondoBarraMarcador.setFill(Color.BLACK);
 		
 		
@@ -72,7 +74,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		//El stackPane es un contenedor que tiene al texto sobre el fondo negro
 		StackPane contenedorMarcador = new StackPane();
 		contenedorMarcador.getChildren().addAll(fondoBarraMarcador, contenedorTexto);	
-		
+		contenedorMarcador.setTranslateX(20);
 		//---FIN BARRA DE MARCADORES--
 		
 

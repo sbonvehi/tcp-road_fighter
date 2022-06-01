@@ -1,9 +1,6 @@
 package road_fighter.objects;
 
-import java.util.concurrent.TimeUnit;
-
 import animation.SpriteAnimation;
-import colision.colisionObstaculo;
 import coordenada.Coordenada;
 import javafx.animation.Animation;
 import javafx.geometry.Rectangle2D;
@@ -35,6 +32,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private Image spriteImages;
 	private SpriteAnimation crash;
+	private Image lostControl;
+	private ImageView renderLostControl;
+	private SpriteAnimation lostControlSpriteLeft;
+	private SpriteAnimation lostControlSpriteRight;
 	private int multiplic = 3;
 	private int anchoAuto = 14;
 	private int altoAuto = 19;
@@ -49,7 +50,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private int topeVelocidad = VELOCIDAD_MAX1;
 	private static double velocidad = VELOCIDAD_INICIAL;
 
-	private Coordenada ubicacion;
+	private static Coordenada ubicacion;
 	private Usuario piloto;
 
 	private boolean directionLeft = false;
@@ -95,7 +96,21 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
 		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
-        crash.setCycleCount(Animation.INDEFINITE);
+		crash.setCycleCount(Animation.INDEFINITE);
+
+		lostControl = new Image(Config.LOST_CONTROL_SPRITES_IMG, 328 * multiplic, 40 * multiplic, false, false);
+		renderLostControl = new ImageView(lostControl);
+		render = new ImageView(lostControl);
+		lostControlSpriteLeft = new SpriteAnimation(render, Duration.millis(1000), 12, 13, 0, 2 * 3, 2 * 3, 15 * 3,
+				18 * 3);
+		lostControlSpriteRight = new SpriteAnimation(render, Duration.millis(1000), 12, 13, 0, 20 * 3, 2 * 3, 15 * 3,
+				18 * 3);
+		
+//		lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
+//		lostControlSpriteLeft.play();
+		lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
+		lostControlSpriteRight.play();
+
 	}
 
 	private void resetViewPort() {
@@ -136,7 +151,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	}
 
-	public Coordenada getUbicacion() {
+	public static Coordenada getUbicacion() {
 		return ubicacion;
 	}
 
@@ -156,8 +171,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	public void aumentarVelocidadPowerUp() {
 		tieneModificadorVelocidad = true;
 		topeVelocidad = VELOCIDAD_MAX2 + 200;
-
-		System.out.println("antes del delay");
 
 		new java.util.Timer().schedule(new java.util.TimerTask() {
 			@Override
@@ -187,7 +200,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				public void run() {
 					crash.stop();
 					resetViewPort();
-					// reseteo la pos x del auto..
 					Auto.this.dead = false;
 					setX(posXAutoInicial);
 				}
@@ -203,15 +215,14 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			this.ubicacion.setX(x);
 			render.setX(x);
 		}
-		System.out.println("Posicion actual: " + this.ubicacion.toString());
+//		System.out.println("Posicion actual: " + this.ubicacion.toString());
 
 	}
 
 	public void setY(double y) {
 		if (!dead) {
-			this.ubicacion.setY(y); /// esta es la unica Y que se va cambiar, porque es la que determina que tan
-		} /// avanzado esta un auto respecto desde que arranc� la carrera
-
+			this.ubicacion.setY(y);/// esta es la unica Y que se va cambiar, porque es la que determina que tan
+		}
 	}
 
 	public void update(double deltaTime) {
@@ -232,7 +243,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 
 		/// si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
-		// � si no estoy tocando para acelerar, desacelero
+		// si no estoy tocando para acelerar, desacelero
 		if ((directionUpSpeed1 && velocidad >= topeVelocidad) || (!directionUpSpeed1 && !directionUpSpeed2)) {
 			velocidad -= TASA_FRENADO;
 		}

@@ -29,7 +29,9 @@ public class Config {
 	
 	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
 	public static final String MENU_IMG = "file:src/main/resources/img/titulo_juego.png";
+	public static final String BARRA_PROGRESO_CARRERA_IMG = "file:src/main/resources/img/barra_progreso_carrera2.png";
 	public static final String GENERAL_SPRITES_IMG = "file:src/main/resources/img/GeneralSprites.png";
+	public static final String LOST_CONTROL_SPRITES_IMG = "file:src/main/resources/img/animacionGiros.png";	
 	public static final String MAP_IMG = "file:src/main/resources/img/fondoCalleLargo2.png";
 	public static final String MAP_IMG2 = "file:src/main/resources/img/fondoCalleLargo2v2.png";
 	public static final String MAP_IMG3 = "file:src/main/resources/img/fondoCalleLargo2v3.png";

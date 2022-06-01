@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import road_fighter.objects.LoginForm;
 import road_fighter.objects.menu.BackgroundLogin;
 import road_fighter.utils.GameObjectBuilder;
 
@@ -15,6 +16,7 @@ public class LoginSceneHandler extends SceneHandler {
 
 
 	private BackgroundLogin fondoLogin;
+	private LoginForm form;
 	
 	private Group rootGroup;
 
@@ -57,11 +59,12 @@ public class LoginSceneHandler extends SceneHandler {
 		scene.setRoot(root);
 		
 		///Instancio todos los objectos de la partida
-		fondoLogin = new BackgroundLogin(g);
+		fondoLogin = new BackgroundLogin();
+		form = new LoginForm(g);
 		
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
-		gameOB.add(fondoLogin);
+		gameOB.add(fondoLogin, form);
 
 		if (fullStart) {
 			addTimeEventsAnimationTimer();
