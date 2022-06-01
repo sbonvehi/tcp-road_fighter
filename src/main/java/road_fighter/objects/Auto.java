@@ -32,7 +32,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private Image spriteImages;
 	private SpriteAnimation crash;
-	private Image lostControl;
+	private Image imageLostControl;
 	private ImageView renderLostControl;
 	private SpriteAnimation lostControlSpriteLeft;
 	private SpriteAnimation lostControlSpriteRight;
@@ -62,6 +62,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private ImageView render;
 	private boolean tieneModificadorVelocidad = false;
 	private boolean dead;
+	private boolean perdiElControl;
+
+	private boolean ultimaDireccionRight;
 
 	public static double getVelocidad() {
 		return velocidad;
@@ -78,11 +81,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, anchoImagen * multiplic, altoImagen * multiplic, false,
 				false);
+		imageLostControl = new Image(Config.LOST_CONTROL_SPRITES_IMG, 328 * multiplic, 40 * multiplic, false, false);
 		render = new ImageView(spriteImages);
 		render.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
 		render.setViewOrder(5);
-
-		render.relocate(-Config.ANCHO_AUTO / 2, -Config.ALTO_AUTO / 2); // Ancla del render en la mitad del auto..
 
 		initSpriteAnimations();
 
@@ -97,20 +99,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
 		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
 		crash.setCycleCount(Animation.INDEFINITE);
-
-		lostControl = new Image(Config.LOST_CONTROL_SPRITES_IMG, 328 * multiplic, 40 * multiplic, false, false);
-		renderLostControl = new ImageView(lostControl);
-		render = new ImageView(lostControl);
-		lostControlSpriteLeft = new SpriteAnimation(render, Duration.millis(1000), 12, 13, 0, 2 * 3, 2 * 3, 15 * 3,
-				18 * 3);
-		lostControlSpriteRight = new SpriteAnimation(render, Duration.millis(1000), 12, 13, 0, 20 * 3, 2 * 3, 15 * 3,
-				18 * 3);
-		
-		lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
-		lostControlSpriteLeft.play();
-//		lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
-//		lostControlSpriteRight.play();
-
 	}
 
 	private void resetViewPort() {
@@ -125,6 +113,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	public void colisionar(Colisionable colisionable) {
 		if (colisionable.getClass() == Enemy.class) {
 			Auto.velocidad /= 2;
+			perderControl();
 			System.out.println("choque contra auto NPC");
 		}
 		/// Si "colisiono" con la calle es que estoy bien, si dejo de colisionar
@@ -159,8 +148,39 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return piloto;
 	}
 
-	public void perderControl() throws InterruptedException {
+	public void perderControl() {
+		if (!perdiElControl) {
+			perdiElControl = true;
 
+			render.setImage(imageLostControl);
+
+			if (ultimaDireccionRight) {
+				lostControlSpriteLeft = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 2 * 3, 2 * 3,
+						15 * 3, 18 * 3);
+				lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
+			} else {
+				lostControlSpriteRight = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 20 * 3, 2 * 3,
+						15 * 3, 18 * 3);
+				lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
+			}
+			SpriteAnimation sprite = ultimaDireccionRight ? lostControlSpriteLeft : lostControlSpriteRight;
+
+			setDirectionRight(false);
+			setDirectionLeft(false);
+			setDirectionUpSpeed1(false);
+			setDirectionUpSpeed2(false);
+
+			sprite.play();
+			new java.util.Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
+					sprite.stop();
+					render.setImage(spriteImages);
+					resetViewPort();
+					perdiElControl = false;
+				}
+			}, 1100);
+		}
 	}
 
 	public void reducirVelocidadObstaculo() {
@@ -260,10 +280,12 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void setDirectionRight(boolean b) {
 		this.directionRight = b;
+		this.ultimaDireccionRight = true;
 	}
 
 	public void setDirectionLeft(boolean b) {
 		this.directionLeft = b;
+		this.ultimaDireccionRight = false;
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
