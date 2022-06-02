@@ -30,7 +30,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private final int VELOCIDAD_MAX2 = 400;
 	private final double TASA_ACELERACION1 = 1.5;
 	private final double TASA_ACELERACION2 = 0.9;
-	private final double  TASA_FRENADO = 0.8;
+	private final double TASA_FRENADO = 0.8;
 	private final int VEL_HORIZONTAL = 300;
 
 	private Image spriteImages;
@@ -77,10 +77,13 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private AudioClip driveAudio;
 	private AudioClip skidAudio;
 	private AudioClip explosionAudio;
+	private AudioClip powerUpAudio;
 
 	private boolean desactivoSkid;
 
 	private boolean colisioneConObstaculo;
+
+	private boolean banderaDesactivo;
 
 	public static double getVelocidad() {
 		return velocidad;
@@ -123,10 +126,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		skidAudio = AudioResources.getSkidAudio();
 		skidAudio.setVolume(0.3);
 		skidAudio.setCycleCount(AudioClip.INDEFINITE);
-		;
 		explosionAudio = AudioResources.getExplosionAudio();
 		explosionAudio.setVolume(0.7);
-
+		powerUpAudio = AudioResources.getPowerUpAudio();
+		powerUpAudio.setVolume(0.7);
 	}
 
 	private void resetViewPort() {
@@ -140,7 +143,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	@Override
 	public void colisionar(Colisionable colisionable) {
 		if (colisionable.getClass() == Enemy.class) {
-			Auto.velocidad /= 2;
 			perderControl();
 			System.out.println("choque contra auto NPC");
 		}
@@ -159,21 +161,33 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
 			this.aumentarVelocidadPowerUp();
-			System.out.println("COLISION CON POWERUP");
+			if (!colisioneConObstaculo) {
+				colisioneConObstaculo = true;
+				powerUpAudio.play();
+				new java.util.Timer().schedule(new java.util.TimerTask() {
+					@Override
+					public void run() {
+//						powerUpAudio.stop();
+						colisioneConObstaculo = false;
+					}
+				}, 800);
+				System.out.println("COLISION CON POWER-UP");
+			}
 		}
 		if (colisionable.getClass() == ColisionObstaculo.class) {
 			this.reducirVelocidadObstaculo();
-			if(!colisioneConObstaculo) {
+			if (!colisioneConObstaculo) {
 				colisioneConObstaculo = true;
 				skidAudio.play();
 				new java.util.Timer().schedule(new java.util.TimerTask() {
 					@Override
 					public void run() {
 						skidAudio.stop();
+						colisioneConObstaculo = false;
 					}
 				}, 800);
+				System.out.println("COLISION CON OBSTACULO");
 			}
-			System.out.println("COLISION CON OBSTACULO");
 		}
 
 	}
@@ -188,8 +202,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void perderControl() {
 		if (!perdiElControl) {
+			Auto.velocidad /= 2;
 			perdiElControl = true;
-
+			skidAudio.play();
 			render.setImage(imageLostControl);
 
 			if (ultimaDireccionRight) {
@@ -209,6 +224,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			setDirectionUpSpeed2(false);
 
 			sprite.play();
+
 			new java.util.Timer().schedule(new java.util.TimerTask() {
 				@Override
 				public void run() {
@@ -216,6 +232,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 					render.setImage(spriteImages);
 					resetViewPort();
 					perdiElControl = false;
+					skidAudio.stop();
 				}
 			}, 1100);
 		}
@@ -235,8 +252,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			@Override
 			public void run() {
 				topeVelocidad = VELOCIDAD_MAX2;
-				if(Auto.velocidad > topeVelocidad) {
-					Auto.velocidad = topeVelocidad;					
+				if (Auto.velocidad > topeVelocidad) {
+					Auto.velocidad = topeVelocidad;
 				}
 				tienePowerUp = false;
 			}
@@ -304,8 +321,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 		/// acelerando mientras no me pase del limite
 		flagFueraDeMapa = true;
-		
-		//lo saque porque es medio molesto xd --facu
+
+		// lo saque porque es medio molesto xd --facu
 //		activeSkidSound();
 
 		if ((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
@@ -339,26 +356,24 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
-
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
 		activeDriveSound(b);
 		this.directionUpSpeed1 = b;
-//		if(Auto.velocidad <= topeVelocidad) {			
+		if (Auto.velocidad <= topeVelocidad) {
 			this.aceleracion = TASA_ACELERACION1;
-//		}
+		}
+
 	}
 
 	public void setDirectionUpSpeed2(boolean b) {
-
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
 		activeDriveSound(b);
 		this.directionUpSpeed2 = b;
 		this.aceleracion = TASA_ACELERACION2;
-
 	}
 
 	private void activeDriveSound(boolean b) {
@@ -366,12 +381,20 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			driveAudio.play();
 			noEstoyAcelerando = true;
 			System.err.println("Active el drive sound");
-		} else if (!b && noEstoyAcelerando) {
-			driveAudio.stop();
-			noEstoyAcelerando = false;
-			System.err.println("Desactive el drive sound");
+		} else if (!b && noEstoyAcelerando && !banderaDesactivo) {
+			banderaDesactivo = true;
+			new java.util.Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
+					if (!b && noEstoyAcelerando) {
+						driveAudio.stop();
+						noEstoyAcelerando = false;
+						System.err.println("Desactive el drive sound");
+						banderaDesactivo = false;
+					}
+				}
+			}, 1000);
 		}
-
 	}
 
 	private void activeSkidSound() {

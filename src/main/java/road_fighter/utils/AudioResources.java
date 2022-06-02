@@ -23,6 +23,10 @@ public final class AudioResources {
 	public static AudioClip getSkidAudio() {
 		return create("snd/skid.wav");
 	}
+	
+	public static AudioClip getPowerUpAudio() {
+		return create("snd/powerUp.wav");
+	}
 
 	public static AudioClip getExplosionAudio() {
 		return create("snd/explosion.wav");

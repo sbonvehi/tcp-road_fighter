@@ -168,8 +168,8 @@ public class GameSceneHandler extends SceneHandler {
 		Media media = new Media(Paths.get(Config.RACE_MUSIC).toUri().toString()); 
 		player = new MediaPlayer(media); 
 		player.setVolume(0.2);
-		player.play();
-		player.setAutoPlay(true);
+//		player.play();
+//		player.setAutoPlay(true);
 		System.out.println("le di play");
 	}
 	
