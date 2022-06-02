@@ -11,6 +11,7 @@ import road_fighter.utils.GameObjectBuilder;
 public class MenuSceneHandler extends SceneHandler{
 
 	private BackgroundMenu fondoMenu;
+	private Group rootGroup;
 	
 	public MenuSceneHandler(RoadFighterGame g) {
 		super(g);
@@ -19,7 +20,7 @@ public class MenuSceneHandler extends SceneHandler{
 
 	@Override
 	protected void prepareScene() {
-		Group rootGroup = new Group();
+		rootGroup = new Group();
 		scene = new Scene(rootGroup, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, Color.BLACK);
 	}
 
@@ -28,7 +29,7 @@ public class MenuSceneHandler extends SceneHandler{
 		keyPressEventHandler = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 				switch (event.getCode()) {
-				case ENTER:
+				case F1:
 					g.startGame(Config.MAP_IMG);
 					break;
 				case ESCAPE:
