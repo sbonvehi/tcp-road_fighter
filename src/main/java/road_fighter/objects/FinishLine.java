@@ -42,7 +42,7 @@ public class FinishLine extends GameObject implements Actualizable, Renderizable
 		collider.setY(Auto.posYAutoInicial - Background.LARGO_MAPA*Background.FACTOR_DESPLAZAMIENTO - Config.ALTO_AUTO);
 	}
 	
-
+ 
 	@Override
 	public void update(double deltaTime) {
 		posY += Auto.getVelocidad() * deltaTime;

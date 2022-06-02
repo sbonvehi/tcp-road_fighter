@@ -346,10 +346,13 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (velocidad < VELOCIDAD_INICIAL) {
 			velocidad = VELOCIDAD_INICIAL;
 		}
-
+		System.out.println("Y auto: " + Auto.ubicacion.getY());
+		
 		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
 		setX(collider.getX() + direction * VEL_HORIZONTAL * deltaTime);
-		setY(collider.getX() + Auto.velocidad * deltaTime);
+		if(jugadorReal) {
+			setY(Auto.ubicacion.getY() + Auto.velocidad * deltaTime);			
+		}
 	}
 
 	public void setDirectionRight(boolean b) {
