@@ -1,8 +1,12 @@
 package road_fighter;
+import java.nio.file.Paths;
+
 import exception.Exception_RoadFighter;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import road_fighter.objects.Auto;
 import road_fighter.objects.Background;
@@ -14,7 +18,7 @@ public class RoadFighterGame extends Application {
 	
 	private Stage stage;
 
-
+	
 	private LoginSceneHandler loginSceneHandler;
 	private MenuSceneHandler menuSceneHandler;
 	private GameSceneHandler gameSceneHandler;
@@ -31,7 +35,8 @@ public class RoadFighterGame extends Application {
 		stage.setScene(scene);
 
 		loginSceneHandler.load();
-				
+		
+		
 		stage.setResizable(false);
 		stage.setTitle("Road Fighter");
 		stage.show();
@@ -64,7 +69,9 @@ public class RoadFighterGame extends Application {
 		Scene scene = gameSceneHandler.getScene();
 		stage.setScene(scene);
 		gameSceneHandler.load(true);
+		
 	}
+	
 	
 	public Usuario getAnfitrion()
 	{
