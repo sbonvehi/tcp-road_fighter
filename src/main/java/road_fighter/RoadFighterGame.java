@@ -63,6 +63,15 @@ public class RoadFighterGame extends Application {
 		menuSceneHandler.load();
 	}
 	
+	public void menuFromGame()
+	{
+		gameSceneHandler.unload();
+		menuSceneHandler = new MenuSceneHandler(this);
+		Scene scene = menuSceneHandler.getScene();
+		stage.setScene(scene);
+		menuSceneHandler.load();
+	}
+	
 	public void startGame(String map) {
 		menuSceneHandler.unload();
 		gameSceneHandler = new GameSceneHandler(this, map);
@@ -72,6 +81,26 @@ public class RoadFighterGame extends Application {
 		
 	}
 	
+
+	public void startGameWithoutLogin(String map) {
+		loginSceneHandler.unload();
+		gameSceneHandler = new GameSceneHandler(this, map);
+		Scene scene = gameSceneHandler.getScene();
+		stage.setScene(scene);
+		gameSceneHandler.load(true);
+	}
+	
+	public void logout()
+	{
+		this.anfitrion = null;
+		
+		menuSceneHandler.unload();
+		loginSceneHandler = new LoginSceneHandler(this);
+		Scene scene = loginSceneHandler.getScene();
+		stage.setScene(scene);
+		loginSceneHandler.load();
+	}
+
 	
 	public Usuario getAnfitrion()
 	{
