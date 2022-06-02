@@ -7,6 +7,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -16,6 +17,7 @@ import road_fighter.interfaces.Actualizable;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
 import road_fighter.interfaces.Renderizable;
+import road_fighter.utils.AudioResources;
 import road_fighter.utils.GameObject;
 import usuario.Usuario;
 
@@ -63,8 +65,14 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private boolean tieneModificadorVelocidad = false;
 	private boolean dead;
 	private boolean perdiElControl;
-
 	private boolean ultimaDireccionRight;
+	private boolean noEstoyAcelerando;
+
+	private AudioClip driveAudio;
+	private AudioClip skidAudio;
+	private AudioClip explosionAudio;
+
+	private boolean desactivoSkid;
 
 	public static double getVelocidad() {
 		return velocidad;
@@ -87,18 +95,29 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		render.setViewOrder(5);
 
 		initSpriteAnimations();
-
+		initAudios();
 		/// ubicacion inicial
 		render.setX(posXAutoInicial);
 		render.setY(posYAutoInicial);
 		collider.setX(posXAutoInicial);
-		collider.setY(posYAutoInicial);
-
+		collider.setY(posYAutoInicial);		
 	}
 
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
 		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
 		crash.setCycleCount(Animation.INDEFINITE);
+	}
+
+	private void initAudios() {
+		driveAudio = AudioResources.getDriveAudio();
+		driveAudio.setVolume(0.3);
+		driveAudio.setCycleCount(AudioClip.INDEFINITE);
+		skidAudio = AudioResources.getSkidAudio();
+		skidAudio.setVolume(0.3);
+		skidAudio.setCycleCount(AudioClip.INDEFINITE);;
+		explosionAudio = AudioResources.getExplosionAudio();
+		explosionAudio.setVolume(0.3);
+		
 	}
 
 	private void resetViewPort() {
@@ -218,6 +237,13 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			new java.util.Timer().schedule(new java.util.TimerTask() {
 				@Override
 				public void run() {
+					explosionAudio.play();
+				}
+			}, 100);
+			
+			new java.util.Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
 					crash.stop();
 					resetViewPort();
 					Auto.this.dead = false;
@@ -254,10 +280,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			die();
 //			System.out.println("me fui del mapa :(");
 		}
-
 		/// acelerando mientras no me pase del limite
 		flagFueraDeMapa = true;
-
+		activeSkidSound();
+		
 		if ((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
 			velocidad += TASA_ACELERACION;
 		}
@@ -293,7 +319,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (!tieneModificadorVelocidad) {
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
-
+		activeDriveSound(b);
 		this.directionUpSpeed1 = b;
 	}
 
@@ -302,7 +328,35 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (!tieneModificadorVelocidad) {
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
+		activeDriveSound(b);
 		this.directionUpSpeed2 = b;
+	}
+
+	private void activeDriveSound(boolean b) {
+		if (b && !noEstoyAcelerando) {
+			driveAudio.play();
+			noEstoyAcelerando = true;
+			System.err.println("Active el drive sound");
+		} else if (!b && noEstoyAcelerando) {
+			driveAudio.stop();
+			noEstoyAcelerando = false;
+			System.err.println("Desactive el drive sound");
+		}
+
+	}
+
+	private void activeSkidSound() {
+		boolean b = !directionUpSpeed1 && !directionUpSpeed2;
+		if ( b && (int)velocidad > 0 && !desactivoSkid) {
+			skidAudio.play();
+			System.err.println("Active el skid sound");
+			desactivoSkid = true;
+		}
+		else if( ((int)velocidad == 0) && desactivoSkid) {
+			skidAudio.stop();
+			System.err.println("Desactive el skid sound");
+			desactivoSkid = false;
+		}
 	}
 
 	@Override

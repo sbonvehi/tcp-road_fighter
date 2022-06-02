@@ -3,10 +3,12 @@ import exception.Exception_RoadFighter;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import road_fighter.objects.Auto;
 import road_fighter.objects.Background;
 import road_fighter.objects.Enemy;
+import road_fighter.utils.AudioResources;
 import usuario.Usuario;
 
 
@@ -29,9 +31,8 @@ public class RoadFighterGame extends Application {
 		loginSceneHandler = new LoginSceneHandler(this);
 		Scene scene = loginSceneHandler.getScene();
 		stage.setScene(scene);
-
-		loginSceneHandler.load();
-				
+		loginSceneHandler.load();	
+		
 		stage.setResizable(false);
 		stage.setTitle("Road Fighter");
 		stage.show();
@@ -50,7 +51,7 @@ public class RoadFighterGame extends Application {
 	}
 	
 	public void startMenu()
-	{
+	{	
 		loginSceneHandler.unload();
 		menuSceneHandler = new MenuSceneHandler(this);
 		Scene scene = menuSceneHandler.getScene();

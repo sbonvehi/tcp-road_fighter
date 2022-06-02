@@ -6,9 +6,11 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import exception.Exception_RoadFighter;
+import javafx.scene.media.AudioClip;
 import login.GestorLogin;
 import partida.Partida;
 import road_fighter.objects.Auto;
+import road_fighter.utils.AudioResources;
 import sala.Sala;
 import usuario.Usuario;
 
@@ -19,7 +21,6 @@ public class Menu {
 	private Scanner _scanner;
 	private Usuario _anfitrion;
 	
-
 	public Menu(GestorLogin gestorLogin) {
 		_gestorLogin = gestorLogin;
 		listaSalas = new ArrayList<Sala>();
@@ -28,9 +29,8 @@ public class Menu {
 	}
 
 	public void primeraPantalla()
-	{
+	{	
 		mostrarTitulo();
-		
 		boolean estaLogueado = false;
 		Usuario user = null;
 		
