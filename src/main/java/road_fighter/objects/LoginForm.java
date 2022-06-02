@@ -40,6 +40,8 @@ public class LoginForm extends GameObject implements Renderizable{
 	private boolean isLogin;
 	
 	StackPane contenedorMenu;
+	public static String nombreUsuario = "JUGADOR 1";
+	
 	
 	public LoginForm(RoadFighterGame g)
 	{
@@ -160,6 +162,7 @@ public class LoginForm extends GameObject implements Renderizable{
 			Thread.sleep(2000);
 			g.setAnfitrion(new Usuario(userTextField.getText(), pwBox.getText()));
 			g.startMenu();
+			nombreUsuario = userTextField.getText();
 		}
 		else
 		{
@@ -176,6 +179,7 @@ public class LoginForm extends GameObject implements Renderizable{
 		{
 			actiontarget.setText("Se registro correctamente");
 			actiontarget.setFill(Color.GREEN);
+			nombreUsuario = userTextField.getText();
 		}
 		else
 		{

@@ -53,7 +53,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		fondoBarraMarcador.setFill(Color.BLACK);
 		
 		
-		Text textoNombreJugador = new Text("JUGADOR 1");
+		Text textoNombreJugador = new Text(LoginForm.nombreUsuario);
 		textoNombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
 		textoNombreJugador.setFill(Color.WHITE);
 		

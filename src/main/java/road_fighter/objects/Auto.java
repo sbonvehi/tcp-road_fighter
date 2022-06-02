@@ -152,7 +152,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (colisionable.getClass() == FinishLine.class) {
 			Auto.velocidad = 0;
 			GameSceneHandler.apagarMusica();
-			
+			ScoreBoard.mostrar();
+			System.out.println("ganasteee");
 			
 		}
 

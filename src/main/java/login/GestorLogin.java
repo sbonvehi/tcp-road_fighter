@@ -12,6 +12,8 @@ public class GestorLogin {
 
 	private String _filePath;
 	
+	
+	
 	public GestorLogin()
 	{
 		_filePath = "./archivoLogin/usuarios.txt";

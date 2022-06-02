@@ -22,6 +22,7 @@ import road_fighter.objects.ColisionObstaculo;
 import road_fighter.objects.ColisionPowerUp;
 import road_fighter.objects.Enemy;
 import road_fighter.objects.FinishLine;
+import road_fighter.objects.ScoreBoard;
 import road_fighter.utils.AudioResources;
 import road_fighter.utils.GameObjectBuilder;
 import usuario.Usuario;
@@ -38,12 +39,14 @@ public class GameSceneHandler extends SceneHandler {
 	private ColisionPowerUp powerUp1;
 	private ColisionObstaculo obstaculo1;
 	private BarraProgresoCarrera barraProgreso;
+	private ScoreBoard scoreBoard;
 
 	private String mapNombre;
 	private AudioClip finishAudio;
 	private AudioClip countdownAudio;
 	public static MediaPlayer raceMusic;
 
+	
 	
 	private void initAudios() {
 		
@@ -184,10 +187,12 @@ public class GameSceneHandler extends SceneHandler {
 		
 		finishLine = new FinishLine();
 		barraProgreso = new BarraProgresoCarrera();
+		scoreBoard = new ScoreBoard();
+		
 		
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
-		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2, finishLine, powerUp1, obstaculo1, barraProgreso);
+		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2, finishLine, powerUp1, obstaculo1, barraProgreso, scoreBoard);
 	
 		if (fullStart) {
 			addTimeEventsAnimationTimer();
