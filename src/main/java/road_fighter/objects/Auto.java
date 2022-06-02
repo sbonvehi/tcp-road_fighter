@@ -322,9 +322,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		/// acelerando mientras no me pase del limite
 		flagFueraDeMapa = true;
 
-		// lo saque porque es medio molesto xd --facu
-//		activeSkidSound();
-
 		if ((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
 			velocidad += aceleracion;
 		}
@@ -347,7 +344,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void setDirectionRight(boolean b) {
 		this.directionRight = b;
-		this.ultimaDireccionRight = true;
+	 	this.ultimaDireccionRight = true;
 	}
 
 	public void setDirectionLeft(boolean b) {
@@ -375,41 +372,33 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		this.directionUpSpeed2 = b;
 		this.aceleracion = TASA_ACELERACION2;
 	}
-
+	
 	private void activeDriveSound(boolean b) {
 		if (b && !noEstoyAcelerando) {
 			driveAudio.play();
 			noEstoyAcelerando = true;
 			System.err.println("Active el drive sound");
-		} else if (!b && noEstoyAcelerando && !banderaDesactivo) {
-			banderaDesactivo = true;
-			new java.util.Timer().schedule(new java.util.TimerTask() {
-				@Override
-				public void run() {
-					if (!b && noEstoyAcelerando) {
-						driveAudio.stop();
-						noEstoyAcelerando = false;
-						System.err.println("Desactive el drive sound");
-						banderaDesactivo = false;
-					}
-				}
-			}, 1000);
+		} else if (!b && noEstoyAcelerando) {
+			driveAudio.stop();
+			noEstoyAcelerando = false;
+			System.err.println("Desactive el drive sound");
 		}
-	}
 
-	private void activeSkidSound() {
-		boolean b = !directionUpSpeed1 && !directionUpSpeed2;
-		if (b && (int) velocidad > 0 && !desactivoSkid) {
-			skidAudio.play();
-			System.err.println("Active el skid sound");
-			desactivoSkid = true;
-		} else if ((((int) velocidad == 0) && desactivoSkid)
-				|| (desactivoSkid && (directionUpSpeed1 || directionUpSpeed2))) {
-			skidAudio.stop();
-			System.err.println("Desactive el skid sound");
-			desactivoSkid = false;
-		}
 	}
+	
+//	private void activeSkidSound() {
+//		boolean b = !directionUpSpeed1 && !directionUpSpeed2;
+//		if (b && (int) velocidad > 0 && !desactivoSkid) {
+//			skidAudio.play();
+//			System.err.println("Active el skid sound");
+//			desactivoSkid = true;
+//		} else if ((((int) velocidad == 0) && desactivoSkid)
+//				|| (desactivoSkid && (directionUpSpeed1 || directionUpSpeed2))) {
+//			skidAudio.stop();
+//			System.err.println("Desactive el skid sound");
+//			desactivoSkid = false;
+//		}
+//	}
 
 	@Override
 	public Shape getCollider() {
