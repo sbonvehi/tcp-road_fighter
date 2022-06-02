@@ -30,7 +30,7 @@ import usuario.Usuario;
 
 public class GameSceneHandler extends SceneHandler {
 	
-	private Auto autoJugador;
+	private Auto autoJugador1;
 	private Auto autoJugador2;
 	private Enemy autoNPC1;
 	private Enemy autoNPC2;
@@ -80,16 +80,16 @@ public class GameSceneHandler extends SceneHandler {
 
 				switch (event.getCode()) {	
 				case D:
-					autoJugador.setDirectionRight(true);
+					autoJugador1.setDirectionRight(true);
 					break;
 				case A:
-					autoJugador.setDirectionLeft(true);
+					autoJugador1.setDirectionLeft(true);
 					break;
 				case V:
-					autoJugador.setDirectionUpSpeed1(true); // velocidad de 0 a 200
+					autoJugador1.setDirectionUpSpeed1(true); // velocidad de 0 a 200
 					break;
 				case B:
-					autoJugador.setDirectionUpSpeed2(true); // velocidad de 200 a 400
+					autoJugador1.setDirectionUpSpeed2(true); // velocidad de 200 a 400
 					break;
 					
 				case RIGHT:
@@ -126,16 +126,16 @@ public class GameSceneHandler extends SceneHandler {
 
 	 			switch (event.getCode()) {
 				case D:
-					autoJugador.setDirectionRight(false);
+					autoJugador1.setDirectionRight(false);
 					break;
 				case A:
-					autoJugador.setDirectionLeft(false);
+					autoJugador1.setDirectionLeft(false);
 					break;
 				case V:
-					autoJugador.setDirectionUpSpeed1(false);
+					autoJugador1.setDirectionUpSpeed1(false);
 					break;
 				case B: // voy disminuyendo la velocidad de y hasta cero..
-					autoJugador.setDirectionUpSpeed2(false);
+					autoJugador1.setDirectionUpSpeed2(false);
 					break;
 					
 				case RIGHT:
@@ -178,8 +178,10 @@ public class GameSceneHandler extends SceneHandler {
 		
 		///Instancio todos los objectos de la partida
 		Usuario usr = new Usuario("test","test");
+		Usuario usr2 = new Usuario("test2","test2");
+		autoJugador1 = new Auto(usr, -40, true);
+		autoJugador2 = new Auto(usr2, 30, false);
 		fondo = new Background(mapNombre);
-		autoJugador = new Auto(usr);
 		autoNPC1 = new Enemy(0,-50, 100);
 		autoNPC2 = new Enemy(10,-300, 110);
 		powerUp1 = new ColisionPowerUp(250, 650);
@@ -192,7 +194,7 @@ public class GameSceneHandler extends SceneHandler {
 		
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
-		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2, finishLine, powerUp1, obstaculo1, barraProgreso, scoreBoard);
+		gameOB.add(autoJugador1, autoJugador2, fondo, autoNPC1, autoNPC2, finishLine, powerUp1, obstaculo1, barraProgreso, scoreBoard);
 	
 		if (fullStart) {
 			addTimeEventsAnimationTimer();

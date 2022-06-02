@@ -22,7 +22,7 @@ import road_fighter.utils.AudioResources;
 import road_fighter.utils.GameObject;
 import usuario.Usuario;
 
-public class Auto extends GameObject implements Actualizable, Renderizable, Colisionador {
+public class Auto extends GameObject implements Actualizable, Renderizable, Colisionador, Colisionable {
 
 	private static int cantAutos = 0;
 
@@ -47,8 +47,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private int anchoImagen = 328;
 	private int altoImagen = 179;
 
-	public static final int posXAutoInicial = 270;
-	public static final int posYAutoInicial = 650;
+	public int posXAutoInicial = 270;
+	public static int posYAutoInicial = 650;
 	private boolean flagFueraDeMapa = false;
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
@@ -70,6 +70,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private boolean ultimaDireccionRight;
 	private boolean noEstoyAcelerando;
 	private boolean tienePowerUp = false;
+	private boolean jugadorReal;
 
 	private AudioClip driveAudio;
 	private AudioClip skidAudio;
@@ -81,7 +82,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return velocidad;
 	}
 
-	public Auto(Usuario piloto) {
+	public Auto(Usuario piloto, int offSetX, boolean jugadorReal) {
+		this.jugadorReal = jugadorReal;
+		posXAutoInicial += offSetX;
 		collider = new Rectangle(Config.ANCHO_AUTO, Config.ANCHO_AUTO);
 		collider.setFill(Color.DARKBLUE);
 		collider.setStroke(Color.FUCHSIA);
@@ -142,6 +145,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			perderControl();
 			System.out.println("choque contra auto NPC");
 		}			
+		if (colisionable.getClass() == Auto.class && !perdiElControl) {
+			perderControl();
+			System.out.println("choque contra auto de competidor");
+		}	
 		
 		/// Si "colisiono" con la calle es que estoy bien, si dejo de colisionar
 		/// entonces me fui del mapa
@@ -328,9 +335,12 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		/// si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
 		// si no estoy tocando para acelerar, desacelero
-		if ((directionUpSpeed1 && velocidad >= topeVelocidad) || (!directionUpSpeed1 && !directionUpSpeed2)) {
-			velocidad -= TASA_FRENADO;
+		if(jugadorReal) {
+			if ((directionUpSpeed1 && velocidad >= topeVelocidad) || (!directionUpSpeed1 && !directionUpSpeed2)) {
+				velocidad -= TASA_FRENADO;
+			}			
 		}
+		
 
 		/// para que la velocidad no sea negativa
 		if (velocidad < VELOCIDAD_INICIAL) {
@@ -338,8 +348,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 
 		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
-		setX(Auto.ubicacion.getX() + direction * VEL_HORIZONTAL * deltaTime);
-		setY(Auto.ubicacion.getY() + Auto.velocidad * deltaTime);
+		setX(collider.getX() + direction * VEL_HORIZONTAL * deltaTime);
+		setY(collider.getX() + Auto.velocidad * deltaTime);
 	}
 
 	public void setDirectionRight(boolean b) {
