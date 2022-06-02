@@ -109,8 +109,9 @@ public class GameSceneHandler extends SceneHandler {
 					autoJugador.setDirectionLeft(false);
 					break;
 				case V:
+					autoJugador.setDirectionUpSpeed1(false);
+					break;
 				case B: // voy disminuyendo la velocidad de y hasta cero..
-		 			autoJugador.setDirectionUpSpeed1(false);
 					autoJugador.setDirectionUpSpeed2(false);
 					break;
 					
@@ -121,8 +122,9 @@ public class GameSceneHandler extends SceneHandler {
 					autoJugador2.setDirectionLeft(false);
 					break;
 				case K:
-				case L: // voy disminuyendo la velocidad de y hasta cero..
 					autoJugador2.setDirectionUpSpeed1(false);
+					break;
+				case L: // voy disminuyendo la velocidad de y hasta cero..
 					autoJugador2.setDirectionUpSpeed2(false);
 					break;
 					

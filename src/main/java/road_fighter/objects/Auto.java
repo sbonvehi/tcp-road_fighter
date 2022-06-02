@@ -360,6 +360,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
 		activeDriveSound(b);
+		System.out.println("booleando vel1: " + b);
+
 		this.directionUpSpeed1 = b;
 		if (Auto.velocidad <= topeVelocidad) {
 			this.aceleracion = TASA_ACELERACION1;
@@ -372,6 +374,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
 		activeDriveSound(b);
+		System.out.println("booleando vel2: " + b);
 		this.directionUpSpeed2 = b;
 		this.aceleracion = TASA_ACELERACION2;
 	}
@@ -397,19 +400,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 	}
 
-	private void activeSkidSound() {
-		boolean b = !directionUpSpeed1 && !directionUpSpeed2;
-		if (b && (int) velocidad > 0 && !desactivoSkid) {
-			skidAudio.play();
-			System.err.println("Active el skid sound");
-			desactivoSkid = true;
-		} else if ((((int) velocidad == 0) && desactivoSkid)
-				|| (desactivoSkid && (directionUpSpeed1 || directionUpSpeed2))) {
-			skidAudio.stop();
-			System.err.println("Desactive el skid sound");
-			desactivoSkid = false;
-		}
-	}
 
 	@Override
 	public Shape getCollider() {
