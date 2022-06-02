@@ -13,6 +13,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import road_fighter.Config;
+import road_fighter.GameSceneHandler;
 import road_fighter.interfaces.Actualizable;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
@@ -70,10 +71,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private boolean noEstoyAcelerando;
 	private boolean tienePowerUp = false;
 
-//	public static boolean tienePowerUp() {
-//		return tienePowerUp;
-//	}
-
 	private AudioClip driveAudio;
 	private AudioClip skidAudio;
 	private AudioClip explosionAudio;
@@ -95,7 +92,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		collider.setStroke(Color.FUCHSIA);
 
 		cantAutos++;
-		this.ubicacion = new Coordenada(posXAutoInicial, 0);
+		Auto.ubicacion = new Coordenada(posXAutoInicial, 0);
 		this.piloto = piloto;
 
 		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, anchoImagen * multiplic, altoImagen * multiplic, false,
@@ -130,6 +127,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		explosionAudio.setVolume(0.7);
 		powerUpAudio = AudioResources.getPowerUpAudio();
 		powerUpAudio.setVolume(0.7);
+		
+		
 	}
 
 	private void resetViewPort() {
@@ -140,12 +139,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return render;
 	}
 
+	
+	
 	@Override
 	public void colisionar(Colisionable colisionable) {
-		if (colisionable.getClass() == Enemy.class) {
+		if (colisionable.getClass() == Enemy.class && !perdiElControl) {
 			perderControl();
 			System.out.println("choque contra auto NPC");
-		}
+		}			
+		
 		/// Si "colisiono" con la calle es que estoy bien, si dejo de colisionar
 		/// entonces me fui del mapa
 		if (colisionable.getClass() == Background.class) {
@@ -154,9 +156,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		if (colisionable.getClass() == FinishLine.class) {
 			Auto.velocidad = 0;
-			System.out.println("GANASTE PAPUU");
-			/// aca habria que llamar a una funcion para que termine la partida / saque al
-			/// auto de la competencia
+			GameSceneHandler.apagarMusica();
+			
+			
 		}
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
@@ -174,6 +176,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				System.out.println("COLISION CON POWER-UP");
 			}
 		}
+		
+		
 		if (colisionable.getClass() == ColisionObstaculo.class) {
 			this.reducirVelocidadObstaculo();
 			if (!colisioneConObstaculo) {
@@ -297,16 +301,16 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	public void setX(double x) {
 		if (!dead) {
 			collider.setX(x);
-			this.ubicacion.setX(x);
+			Auto.ubicacion.setX(x);
 			render.setX(x);
 		}
-//		System.out.println("Posicion actual: " + this.ubicacion.toString());
+//		System.out.println("Posicion actual: " + Auto.ubicacion.toString());
 
 	}
 
 	public void setY(double y) {
 		if (!dead) {
-			this.ubicacion.setY(y);/// esta es la unica Y que se va cambiar, porque es la que determina que tan
+			Auto.ubicacion.setY(y);/// esta es la unica Y que se va cambiar, porque es la que determina que tan
 		}
 	}
 
@@ -338,8 +342,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 
 		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
-		setX(this.ubicacion.getX() + direction * VEL_HORIZONTAL * deltaTime);
-		setY(this.ubicacion.getY() + Auto.velocidad * deltaTime);
+		setX(Auto.ubicacion.getX() + direction * VEL_HORIZONTAL * deltaTime);
+		setY(Auto.ubicacion.getY() + Auto.velocidad * deltaTime);
 	}
 
 	public void setDirectionRight(boolean b) {
@@ -357,7 +361,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
 		activeDriveSound(b);
-		System.out.println("booleando vel1: " + b);
+//		System.out.println("booleando vel1: " + b);
 
 		this.directionUpSpeed1 = b;
 		if (Auto.velocidad <= topeVelocidad) {
@@ -371,7 +375,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
 		activeDriveSound(b);
-		System.out.println("booleando vel2: " + b);
+//		System.out.println("booleando vel2: " + b);
 		this.directionUpSpeed2 = b;
 		this.aceleracion = TASA_ACELERACION2;
 	}

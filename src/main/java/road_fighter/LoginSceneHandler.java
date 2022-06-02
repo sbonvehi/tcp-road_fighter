@@ -7,9 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import road_fighter.objects.LoginForm;
 import road_fighter.objects.menu.BackgroundLogin;
+import road_fighter.utils.AudioResources;
 import road_fighter.utils.GameObjectBuilder;
 
 public class LoginSceneHandler extends SceneHandler {
@@ -19,9 +21,15 @@ public class LoginSceneHandler extends SceneHandler {
 	private LoginForm form;
 	
 	private Group rootGroup;
-
+	private AudioClip startAudio;
+	
 	public LoginSceneHandler(RoadFighterGame g) {
 		super(g);
+	}
+	
+	private void initAudios() {	
+		startAudio = AudioResources.getStartAudio();
+		startAudio.setVolume(0.2);
 	}
 
 	@Override
@@ -58,6 +66,10 @@ public class LoginSceneHandler extends SceneHandler {
 		Group root = new Group();
 		scene.setRoot(root);
 		
+		
+		initAudios();
+		startAudio.play();
+		
 		///Instancio todos los objectos de la partida
 		fondoLogin = new BackgroundLogin();
 		form = new LoginForm(g);
@@ -74,9 +86,6 @@ public class LoginSceneHandler extends SceneHandler {
 	
 	private void cleanData() {
 		GameObjectBuilder.getInstance().removeAll();
-//		ended = false;
-//		started = false;
-//		Config.baseSpeed = 250;
 	}
 	
 	public void unload() {

@@ -8,6 +8,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -21,6 +22,7 @@ import road_fighter.objects.ColisionObstaculo;
 import road_fighter.objects.ColisionPowerUp;
 import road_fighter.objects.Enemy;
 import road_fighter.objects.FinishLine;
+import road_fighter.utils.AudioResources;
 import road_fighter.utils.GameObjectBuilder;
 import usuario.Usuario;
 
@@ -38,7 +40,24 @@ public class GameSceneHandler extends SceneHandler {
 	private BarraProgresoCarrera barraProgreso;
 
 	private String mapNombre;
-	MediaPlayer player;
+	private AudioClip finishAudio;
+	private AudioClip countdownAudio;
+	public static MediaPlayer raceMusic;
+
+	
+	private void initAudios() {
+		
+		Media media = new Media(Paths.get(Config.RACE_MUSIC).toUri().toString()); 
+		raceMusic = new MediaPlayer(media); 
+		raceMusic.setVolume(0.2);
+		
+		countdownAudio = AudioResources.getCountdownAudio();
+		countdownAudio.setVolume(0.2);
+		
+		finishAudio = AudioResources.getFinishAudio();
+		finishAudio.setVolume(0.2);
+
+	}
 	
 	public GameSceneHandler(RoadFighterGame g, String mapNombre) {
 		super(g);
@@ -141,6 +160,18 @@ public class GameSceneHandler extends SceneHandler {
 		scene.setRoot(root);
 		
 		
+		initAudios();
+		countdownAudio.play();
+		new java.util.Timer().schedule(new java.util.TimerTask() {
+			@Override
+			public void run() {
+				if (fullStart) {
+					addInputEvents();
+				}
+				raceMusic.play();
+			}
+		}, 5000);
+		
 		///Instancio todos los objectos de la partida
 		Usuario usr = new Usuario("test","test");
 		fondo = new Background(mapNombre);
@@ -159,21 +190,9 @@ public class GameSceneHandler extends SceneHandler {
 	
 		if (fullStart) {
 			addTimeEventsAnimationTimer();
-			addInputEvents();
 		}
-		
-		startGameMusic();
 	}
 	
-	
-	public void startGameMusic() {
-		Media media = new Media(Paths.get(Config.RACE_MUSIC).toUri().toString()); 
-		player = new MediaPlayer(media); 
-		player.setVolume(0.2);
-		player.play();
-		player.setAutoPlay(true);
-		System.out.println("le di play");
-	}
 	
 	public void update(double delta) {
 		super.update(delta);
@@ -223,10 +242,13 @@ public class GameSceneHandler extends SceneHandler {
 	}
 	
 	public void unload() {
-		player.stop();
+		raceMusic.stop();
 		cleanData();
 		super.unload();
 	}
 	
+	public static void apagarMusica() {
+		raceMusic.stop();
+	}
 
 }
