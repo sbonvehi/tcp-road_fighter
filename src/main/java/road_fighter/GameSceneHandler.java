@@ -12,7 +12,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import mapa.PowerUp;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
 import road_fighter.objects.Auto;
@@ -39,6 +38,7 @@ public class GameSceneHandler extends SceneHandler {
 	private BarraProgresoCarrera barraProgreso;
 
 	private String mapNombre;
+	MediaPlayer player;
 	
 	public GameSceneHandler(RoadFighterGame g, String mapNombre) {
 		super(g);
@@ -163,7 +163,7 @@ public class GameSceneHandler extends SceneHandler {
 		startGameMusic();
 	}
 	
-	MediaPlayer player;
+	
 	public void startGameMusic() {
 		Media media = new Media(Paths.get(Config.RACE_MUSIC).toUri().toString()); 
 		player = new MediaPlayer(media); 
