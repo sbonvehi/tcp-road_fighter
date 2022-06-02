@@ -1,11 +1,7 @@
 package road_fighter.objects;
 
-import java.lang.StackWalker.StackFrame;
-
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -103,6 +99,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		///estos valores de 3.5 y 2.2 me los saqu� de la galera, pero es para que el movimiento el mapa sea fluido
 		textoVelocidadJugador.setText((int) Auto.getVelocidad() + "KM/H");
 		renderMapa.setTranslateY(-Config.ALTO_FRAME_ESCENA * 3.5 + (posY % Config.ALTO_FRAME_ESCENA * FACTOR_DESPLAZAMIENTO) );
+	
 	}
 	
 	@Override

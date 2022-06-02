@@ -24,5 +24,4 @@ public class ColisionObstaculo extends Colision{
 		render.setViewport(new Rectangle2D(355, 310, ANCHO_OBSTACULO, ALTO_OBSTACULO));
 	}
 
-
 }

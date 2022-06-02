@@ -28,8 +28,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private static final double VELOCIDAD_INICIAL = 0.0000000001;
 	private final int VELOCIDAD_MAX1 = 200;
 	private final int VELOCIDAD_MAX2 = 400;
-	private final int TASA_ACELERACION = 2;
-	private final int TASA_FRENADO = 1;
+	private final double TASA_ACELERACION1 = 1.5;
+	private final double TASA_ACELERACION2 = 0.9;
+	private final double  TASA_FRENADO = 0.8;
 	private final int VEL_HORIZONTAL = 300;
 
 	private Image spriteImages;
@@ -50,6 +51,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private boolean flagFueraDeMapa = false;
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
+	private double aceleracion = TASA_ACELERACION1;
 	private static double velocidad = VELOCIDAD_INICIAL;
 
 	private static Coordenada ubicacion;
@@ -62,11 +64,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private Rectangle collider;
 	private ImageView render;
-	private boolean tieneModificadorVelocidad = false;
 	private boolean dead;
 	private boolean perdiElControl;
 	private boolean ultimaDireccionRight;
 	private boolean noEstoyAcelerando;
+	private boolean tienePowerUp = false;
+
+//	public static boolean tienePowerUp() {
+//		return tienePowerUp;
+//	}
 
 	private AudioClip driveAudio;
 	private AudioClip skidAudio;
@@ -221,15 +227,18 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void aumentarVelocidadPowerUp() {
-		tieneModificadorVelocidad = true;
+//		int velocidad anterior
+		tienePowerUp = true;
 		topeVelocidad = VELOCIDAD_MAX2 + 200;
 
 		new java.util.Timer().schedule(new java.util.TimerTask() {
 			@Override
 			public void run() {
 				topeVelocidad = VELOCIDAD_MAX2;
-				Auto.velocidad = topeVelocidad;
-				tieneModificadorVelocidad = false;
+				if(Auto.velocidad > topeVelocidad) {
+					Auto.velocidad = topeVelocidad;					
+				}
+				tienePowerUp = false;
 			}
 		}, 10000);
 	}
@@ -295,10 +304,12 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 		/// acelerando mientras no me pase del limite
 		flagFueraDeMapa = true;
-		activeSkidSound();
+		
+		//lo saque porque es medio molesto xd --facu
+//		activeSkidSound();
 
 		if ((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
-			velocidad += TASA_ACELERACION;
+			velocidad += aceleracion;
 		}
 
 		/// si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
@@ -329,20 +340,25 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void setDirectionUpSpeed1(boolean b) {
 
-		if (!tieneModificadorVelocidad) {
+		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
 		activeDriveSound(b);
 		this.directionUpSpeed1 = b;
+//		if(Auto.velocidad <= topeVelocidad) {			
+			this.aceleracion = TASA_ACELERACION1;
+//		}
 	}
 
 	public void setDirectionUpSpeed2(boolean b) {
 
-		if (!tieneModificadorVelocidad) {
+		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
 		activeDriveSound(b);
 		this.directionUpSpeed2 = b;
+		this.aceleracion = TASA_ACELERACION2;
+
 	}
 
 	private void activeDriveSound(boolean b) {

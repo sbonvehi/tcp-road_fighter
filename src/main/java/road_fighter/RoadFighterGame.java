@@ -1,16 +1,8 @@
 package road_fighter;
 
-import java.nio.file.Paths;
-import exception.Exception_RoadFighter;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
-import road_fighter.objects.Auto;
-import road_fighter.objects.Background;
-import road_fighter.objects.Enemy;
-import road_fighter.utils.AudioResources;
 import usuario.Usuario;
 
 public class RoadFighterGame extends Application {
