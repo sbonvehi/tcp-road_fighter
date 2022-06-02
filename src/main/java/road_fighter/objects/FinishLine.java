@@ -21,7 +21,7 @@ public class FinishLine extends GameObject implements Actualizable, Renderizable
 	
 	private double posY = 0;
 	
-	private int ANCHO_FINISH_LINE = Background.ANCHO_CALLE + 20;
+	private int ANCHO_FINISH_LINE = Background.ANCHO_CALLE + 45;
 	private int ALTO_FINISH_LINE = 50;
 	
 	public FinishLine() {
@@ -34,11 +34,11 @@ public class FinishLine extends GameObject implements Actualizable, Renderizable
 		render.setViewport(new Rectangle2D(0, 0, ANCHO_FINISH_LINE, ALTO_FINISH_LINE));
 		
 		
-		render.setX(Background.MARGEN_IZQ_CALLE - 12);
+		render.setX(Background.MARGEN_IZQ_CALLE - 15);
 		render.setY(Auto.posYAutoInicial - Background.LARGO_MAPA*Background.FACTOR_DESPLAZAMIENTO );
 		render.setViewOrder(25);
 		collider.setStroke(Color.FUCHSIA);
-		collider.setX(Background.MARGEN_IZQ_CALLE - 12);
+		collider.setX(Background.MARGEN_IZQ_CALLE - 15);
 		collider.setY(Auto.posYAutoInicial - Background.LARGO_MAPA*Background.FACTOR_DESPLAZAMIENTO - Config.ALTO_AUTO);
 	}
 	
