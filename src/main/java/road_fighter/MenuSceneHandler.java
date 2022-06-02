@@ -4,8 +4,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import road_fighter.objects.menu.BackgroundMenu;
+import road_fighter.utils.AudioResources;
 import road_fighter.utils.GameObjectBuilder;
 
 public class MenuSceneHandler extends SceneHandler{
@@ -13,11 +15,15 @@ public class MenuSceneHandler extends SceneHandler{
 	private BackgroundMenu fondoMenu;
 	private Group rootGroup;
 	
+
+	
 	public MenuSceneHandler(RoadFighterGame g) {
 		super(g);
 
 	}
 
+	
+	
 	@Override
 	protected void prepareScene() {
 		rootGroup = new Group();
@@ -51,6 +57,7 @@ public class MenuSceneHandler extends SceneHandler{
 		boolean fullStart = true;
 		Group root = new Group();
 		scene.setRoot(root);
+	
 		
 		///Instancio todos los objectos de la partida
 		fondoMenu = new BackgroundMenu(g);

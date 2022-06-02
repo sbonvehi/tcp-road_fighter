@@ -38,7 +38,7 @@ public class FinishLine extends GameObject implements Actualizable, Renderizable
 		render.setY(Auto.posYAutoInicial - Background.LARGO_MAPA*Background.FACTOR_DESPLAZAMIENTO );
 		render.setViewOrder(25);
 		collider.setStroke(Color.FUCHSIA);
-		collider.setX(Background.MARGEN_IZQ_CALLE - 15);
+		collider.setX(Background.MARGEN_IZQ_CALLE - 1);
 		collider.setY(Auto.posYAutoInicial - Background.LARGO_MAPA*Background.FACTOR_DESPLAZAMIENTO - Config.ALTO_AUTO);
 	}
 	

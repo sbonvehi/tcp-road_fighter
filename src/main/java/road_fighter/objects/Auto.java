@@ -13,6 +13,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import road_fighter.Config;
+import road_fighter.GameSceneHandler;
 import road_fighter.interfaces.Actualizable;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
@@ -112,15 +113,17 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private void initAudios() {
 		driveAudio = AudioResources.getDriveAudio();
-		driveAudio.setVolume(0.2);
+		driveAudio.setVolume(0.15);
 		driveAudio.setCycleCount(AudioClip.INDEFINITE);
 		skidAudio = AudioResources.getSkidAudio();
 		skidAudio.setVolume(0.3);
 		skidAudio.setCycleCount(AudioClip.INDEFINITE);
 		explosionAudio = AudioResources.getExplosionAudio();
-		explosionAudio.setVolume(0.7);
+		explosionAudio.setVolume(0.55);
 		powerUpAudio = AudioResources.getPowerUpAudio();
-		powerUpAudio.setVolume(0.7);
+		powerUpAudio.setVolume(0.5);
+		
+		
 	}
 
 	private void resetViewPort() {
@@ -131,12 +134,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return render;
 	}
 
+	
+	
 	@Override
 	public void colisionar(Colisionable colisionable) {
-		if (colisionable.getClass() == Enemy.class) {
+		if (colisionable.getClass() == Enemy.class && !perdiElControl) {
 			perderControl();
 			System.out.println("choque contra auto NPC");
-		}
+		}			
+		
 		/// Si "colisiono" con la calle es que estoy bien, si dejo de colisionar
 		/// entonces me fui del mapa
 		if (colisionable.getClass() == Background.class) {
@@ -145,9 +151,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		if (colisionable.getClass() == FinishLine.class) {
 			Auto.velocidad = 0;
-			System.out.println("GANASTE PAPUU");
-			/// aca habria que llamar a una funcion para que termine la partida / saque al
-			/// auto de la competencia
+			GameSceneHandler.apagarMusica();
+			
+			
 		}
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
@@ -165,6 +171,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				System.out.println("COLISION CON POWER-UP");
 			}
 		}
+		
+		
 		if (colisionable.getClass() == ColisionObstaculo.class) {
 			this.reducirVelocidadObstaculo();
 			if (!colisioneConObstaculo) {
@@ -291,7 +299,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			Auto.ubicacion.setX(x);
 			render.setX(x);
 		}
-//		System.out.println("Posicion actual: " + this.ubicacion.toString());
+//		System.out.println("Posicion actual: " + Auto.ubicacion.toString());
 
 	}
 
