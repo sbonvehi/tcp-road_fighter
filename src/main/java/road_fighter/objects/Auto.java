@@ -71,6 +71,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private AudioClip driveAudio;
 	private AudioClip skidAudio;
 	private AudioClip explosionAudio;
+	private AudioClip powerUpAudio;
 
 	private boolean desactivoSkid;
 
@@ -117,10 +118,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		skidAudio = AudioResources.getSkidAudio();
 		skidAudio.setVolume(0.3);
 		skidAudio.setCycleCount(AudioClip.INDEFINITE);
-		;
 		explosionAudio = AudioResources.getExplosionAudio();
 		explosionAudio.setVolume(0.7);
-
+		powerUpAudio = AudioResources.getPowerUpAudio();
+		powerUpAudio.setVolume(0.7);
 	}
 
 	private void resetViewPort() {
@@ -134,7 +135,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	@Override
 	public void colisionar(Colisionable colisionable) {
 		if (colisionable.getClass() == Enemy.class) {
-			Auto.velocidad /= 2;
 			perderControl();
 			System.out.println("choque contra auto NPC");
 		}
@@ -153,6 +153,17 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
 			this.aumentarVelocidadPowerUp();
+			if(!colisioneConObstaculo) {
+				colisioneConObstaculo = true;
+				powerUpAudio.play();
+				new java.util.Timer().schedule(new java.util.TimerTask() {
+					@Override
+					public void run() {
+						powerUpAudio.stop();
+						colisioneConObstaculo = false;
+					}
+				}, 800);
+			}
 			System.out.println("COLISION CON POWERUP");
 		}
 		if (colisionable.getClass() == ColisionObstaculo.class) {
@@ -164,6 +175,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 					@Override
 					public void run() {
 						skidAudio.stop();
+						colisioneConObstaculo = false;
 					}
 				}, 800);
 			}
@@ -182,8 +194,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void perderControl() {
 		if (!perdiElControl) {
+			Auto.velocidad /= 2;
 			perdiElControl = true;
-
+			skidAudio.play();
 			render.setImage(imageLostControl);
 
 			if (ultimaDireccionRight) {
@@ -201,8 +214,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			setDirectionLeft(false);
 			setDirectionUpSpeed1(false);
 			setDirectionUpSpeed2(false);
-
+			
 			sprite.play();
+			
 			new java.util.Timer().schedule(new java.util.TimerTask() {
 				@Override
 				public void run() {
@@ -351,9 +365,18 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			noEstoyAcelerando = true;
 			System.err.println("Active el drive sound");
 		} else if (!b && noEstoyAcelerando) {
-			driveAudio.stop();
-			noEstoyAcelerando = false;
-			System.err.println("Desactive el drive sound");
+
+			new java.util.Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
+					if(!b && noEstoyAcelerando) {
+						driveAudio.stop();
+						noEstoyAcelerando = false;
+			 			System.err.println("Desactive el drive sound");	
+					}
+				}
+			}, 1000);
+			
 		}
 
 	}
