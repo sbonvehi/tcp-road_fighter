@@ -29,7 +29,7 @@ public class LoginSceneHandler extends SceneHandler {
 	
 	private void initAudios() {	
 		startAudio = AudioResources.getStartAudio();
-		startAudio.setVolume(0.2);
+		startAudio.setVolume(0.15);
 	}
 
 	@Override

@@ -49,13 +49,14 @@ public class GameSceneHandler extends SceneHandler {
 		
 		Media media = new Media(Paths.get(Config.RACE_MUSIC).toUri().toString()); 
 		raceMusic = new MediaPlayer(media); 
+		raceMusic.setCycleCount(MediaPlayer.INDEFINITE);
 		raceMusic.setVolume(0.13);
 		
 		countdownAudio = AudioResources.getCountdownAudio();
-		countdownAudio.setVolume(0.2);
+		countdownAudio.setVolume(0.15);
 		
 		finishAudio = AudioResources.getFinishAudio();
-		finishAudio.setVolume(0.2);
+		finishAudio.setVolume(0.15);
 
 	}
 	

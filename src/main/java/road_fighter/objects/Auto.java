@@ -113,15 +113,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private void initAudios() {
 		driveAudio = AudioResources.getDriveAudio();
-		driveAudio.setVolume(0.15);
+		driveAudio.setVolume(0.1);
 		driveAudio.setCycleCount(AudioClip.INDEFINITE);
 		skidAudio = AudioResources.getSkidAudio();
-		skidAudio.setVolume(0.3);
+		skidAudio.setVolume(0.15);
 		skidAudio.setCycleCount(AudioClip.INDEFINITE);
 		explosionAudio = AudioResources.getExplosionAudio();
-		explosionAudio.setVolume(0.55);
+		explosionAudio.setVolume(0.3);
 		powerUpAudio = AudioResources.getPowerUpAudio();
-		powerUpAudio.setVolume(0.5);
+		powerUpAudio.setVolume(0.2);
 		
 		
 	}
