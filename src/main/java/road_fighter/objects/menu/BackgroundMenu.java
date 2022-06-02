@@ -39,12 +39,13 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 	private Image imagenMenu;
 	private ImageView renderImagenMenu;
 	private GridPane grid;
-	private GestorLogin gestorLogin;
 	private RoadFighterGame g;
 
+	private Label anfitrionLabel;
 	private Label jugarLabel;
 	private Label crearLabel;
 	private Label unirseLabel;
+	private Label logoutLabel;
 	private Label salirLabel;
 	
 	StackPane contenedorMenu;
@@ -54,13 +55,7 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 		imagenMenu = new Image(Config.MENU_IMG, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, false, false);
 		renderImagenMenu = new ImageView(imagenMenu);
 		renderImagenMenu.setViewport(new Rectangle2D(0, 0, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA));
-		renderImagenMenu.setViewOrder(50);
-		
-//		Text textoJuego = new Text("ENTER para empezar \n ESCAPE para salir");
-//		textoJuego.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
-//		textoJuego.setFill(Color.WHITE);
-//		textoJuego.setTranslateY(100);
-		
+		renderImagenMenu.setViewOrder(50);	
 		
 		contenedorMenu = new StackPane();
 		contenedorMenu.getChildren().addAll(renderImagenMenu);	
@@ -81,10 +76,18 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 
 	private void iniciarLabels()
 	{
+		anfitrionLabel = new Label();
 		jugarLabel = new Label("Single Player");
 		crearLabel = new Label("Elegir mapa");
 		unirseLabel = new Label("Unirse a sala");
+		logoutLabel = new Label("Cerrar Sesion");
 		salirLabel = new Label("Salir");
+		
+		anfitrionLabel.setTextFill(Color.WHITE);
+		anfitrionLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
+		anfitrionLabel.setText(String.join(" ", "Hola,", g.getAnfitrion().getNombre()));
+		anfitrionLabel.setTranslateY(-350);
+		anfitrionLabel.setTranslateX(220);
 		
 		jugarLabel.setTextFill(Color.WHITE);
 		jugarLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
@@ -98,16 +101,20 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 		unirseLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
 		unirseLabel.setTranslateY(Config.X_OPCION3);
 		
+		logoutLabel.setTextFill(Color.WHITE);		
+		logoutLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		logoutLabel.setTranslateY(Config.X_OPCION4);
+		
 		salirLabel.setTextFill(Color.WHITE);		
 		salirLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		salirLabel.setTranslateY(Config.X_OPCION4);
+		salirLabel.setTranslateY(Config.X_OPCION5);
 		
 		jugarLabel.setOnMouseClicked(e -> {
 				g.startGame(Config.MAP_IMG);
 			});
 		
 		crearLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(jugarLabel, crearLabel, unirseLabel, salirLabel);	
+			contenedorMenu.getChildren().removeAll(anfitrionLabel, jugarLabel, crearLabel, unirseLabel, logoutLabel, salirLabel);	
 			elegirMapa(false);
 			});
 		
@@ -116,9 +123,11 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 //			getGrid(true);
 			;});
 		
-		salirLabel.setOnMouseClicked(e -> {System.exit(0);});
+		logoutLabel.setOnMouseClicked(e -> { g.logout(); });
 		
-		contenedorMenu.getChildren().addAll(jugarLabel, crearLabel, unirseLabel, salirLabel);	
+		salirLabel.setOnMouseClicked(e -> { System.exit(0); });
+		
+		contenedorMenu.getChildren().addAll(anfitrionLabel, jugarLabel, crearLabel, unirseLabel, logoutLabel, salirLabel);	
 	}
 
 	private void elegirMapa(boolean b) {

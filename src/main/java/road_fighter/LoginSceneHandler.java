@@ -26,7 +26,7 @@ public class LoginSceneHandler extends SceneHandler {
 
 	@Override
 	protected void prepareScene() {
-		Group rootGroup = new Group();
+		rootGroup = new Group();
 		scene = new Scene(rootGroup, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, Color.BLACK);
 	}
 
@@ -35,8 +35,8 @@ public class LoginSceneHandler extends SceneHandler {
 		keyPressEventHandler = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 				switch (event.getCode()) {
-				case ENTER:
-					g.startMenu();
+				case F1:
+					g.startGameWithoutLogin(Config.MAP_IMG);
 					break;
 				case ESCAPE:
 					System.exit(0);
