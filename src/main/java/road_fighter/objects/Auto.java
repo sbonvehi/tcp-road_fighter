@@ -100,7 +100,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		render.setX(posXAutoInicial);
 		render.setY(posYAutoInicial);
 		collider.setX(posXAutoInicial);
-		collider.setY(posYAutoInicial);		
+		collider.setY(posYAutoInicial);
 	}
 
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
@@ -110,14 +110,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private void initAudios() {
 		driveAudio = AudioResources.getDriveAudio();
-		driveAudio.setVolume(0.3);
+		driveAudio.setVolume(0.2);
 		driveAudio.setCycleCount(AudioClip.INDEFINITE);
 		skidAudio = AudioResources.getSkidAudio();
 		skidAudio.setVolume(0.3);
-		skidAudio.setCycleCount(AudioClip.INDEFINITE);;
+		skidAudio.setCycleCount(AudioClip.INDEFINITE);
+		;
 		explosionAudio = AudioResources.getExplosionAudio();
-		explosionAudio.setVolume(0.3);
-		
+		explosionAudio.setVolume(0.7);
+
 	}
 
 	private void resetViewPort() {
@@ -240,7 +241,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 					explosionAudio.play();
 				}
 			}, 100);
-			
+
 			new java.util.Timer().schedule(new java.util.TimerTask() {
 				@Override
 				public void run() {
@@ -283,7 +284,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		/// acelerando mientras no me pase del limite
 		flagFueraDeMapa = true;
 		activeSkidSound();
-		
+
 		if ((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
 			velocidad += TASA_ACELERACION;
 		}
@@ -347,12 +348,12 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private void activeSkidSound() {
 		boolean b = !directionUpSpeed1 && !directionUpSpeed2;
-		if ( b && (int)velocidad > 0 && !desactivoSkid) {
+		if (b && (int) velocidad > 0 && !desactivoSkid) {
 			skidAudio.play();
 			System.err.println("Active el skid sound");
 			desactivoSkid = true;
-		}
-		else if( ((int)velocidad == 0) && desactivoSkid) {
+		} else if ((((int) velocidad == 0) && desactivoSkid)
+				|| (desactivoSkid && (directionUpSpeed1 || directionUpSpeed2))) {
 			skidAudio.stop();
 			System.err.println("Desactive el skid sound");
 			desactivoSkid = false;

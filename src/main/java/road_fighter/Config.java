@@ -29,6 +29,7 @@ public class Config {
 
 	
 	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
+	public static final String RACE_MUSIC = "src/main/resources/sounds/carrera.mp3"; //NO CAMBIAR
 	public static final String MENU_IMG = "file:src/main/resources/img/titulo_juego.png";
 	public static final String BARRA_PROGRESO_CARRERA_IMG = "file:src/main/resources/img/barra_progreso_carrera2.png";
 	public static final String GENERAL_SPRITES_IMG = "file:src/main/resources/img/GeneralSprites.png";

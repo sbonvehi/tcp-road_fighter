@@ -1,5 +1,6 @@
 package road_fighter;
 
+import java.nio.file.Paths;
 import java.util.List;
 
 import javafx.event.EventHandler;
@@ -7,6 +8,8 @@ import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import mapa.PowerUp;
@@ -98,7 +101,7 @@ public class GameSceneHandler extends SceneHandler {
 		keyReleaseEventHandler = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 
-				switch (event.getCode()) {
+	 			switch (event.getCode()) {
 				case D:
 					autoJugador.setDirectionRight(false);
 					break;
@@ -107,12 +110,12 @@ public class GameSceneHandler extends SceneHandler {
 					break;
 				case V:
 				case B: // voy disminuyendo la velocidad de y hasta cero..
-					autoJugador.setDirectionUpSpeed1(false);
+		 			autoJugador.setDirectionUpSpeed1(false);
 					autoJugador.setDirectionUpSpeed2(false);
 					break;
 					
 				case RIGHT:
-					autoJugador2.setDirectionRight(false);
+			 		autoJugador2.setDirectionRight(false);
 					break;
 				case LEFT:
 					autoJugador2.setDirectionLeft(false);
@@ -151,11 +154,23 @@ public class GameSceneHandler extends SceneHandler {
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
 		gameOB.add(autoJugador, fondo, autoNPC1, autoNPC2, finishLine, powerUp1, obstaculo1, barraProgreso);
-
+	
 		if (fullStart) {
 			addTimeEventsAnimationTimer();
 			addInputEvents();
 		}
+		
+		startGameMusic();
+	}
+	
+	MediaPlayer player;
+	public void startGameMusic() {
+		Media media = new Media(Paths.get(Config.RACE_MUSIC).toUri().toString()); 
+		player = new MediaPlayer(media); 
+		player.setVolume(0.2);
+		player.play();
+		player.setAutoPlay(true);
+		System.out.println("le di play");
 	}
 	
 	public void update(double delta) {
@@ -203,12 +218,10 @@ public class GameSceneHandler extends SceneHandler {
 	
 	private void cleanData() {
 		GameObjectBuilder.getInstance().removeAll();
-//		ended = false;
-//		started = false;
-//		Config.baseSpeed = 250;
 	}
 	
 	public void unload() {
+		player.stop();
 		cleanData();
 		super.unload();
 	}
