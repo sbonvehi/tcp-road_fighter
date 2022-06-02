@@ -74,6 +74,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	private boolean desactivoSkid;
 
+	private boolean colisioneConObstaculo;
+
 	public static double getVelocidad() {
 		return velocidad;
 	}
@@ -155,6 +157,16 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}
 		if (colisionable.getClass() == ColisionObstaculo.class) {
 			this.reducirVelocidadObstaculo();
+			if(!colisioneConObstaculo) {
+				colisioneConObstaculo = true;
+				skidAudio.play();
+				new java.util.Timer().schedule(new java.util.TimerTask() {
+					@Override
+					public void run() {
+						skidAudio.stop();
+					}
+				}, 800);
+			}
 			System.out.println("COLISION CON OBSTACULO");
 		}
 
