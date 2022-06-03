@@ -29,8 +29,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private static final double VELOCIDAD_INICIAL = 0.0000000001;
 	private final int VELOCIDAD_MAX1 = 200;
 	private final int VELOCIDAD_MAX2 = 400;
-	private final double TASA_ACELERACION1 = 1.5;
-	private final double TASA_ACELERACION2 = 0.9;
+	private final double TASA_ACELERACION1 = 3.5;
+	private final double TASA_ACELERACION2 = 3.9;
 	private final double TASA_FRENADO = 0.8;
 	private final int VEL_HORIZONTAL = 300;
 
@@ -54,6 +54,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private int topeVelocidad = VELOCIDAD_MAX1;
 	private double aceleracion = TASA_ACELERACION1;
 	private static double velocidad = VELOCIDAD_INICIAL;
+	private static double ultimaVelocidad;
 
 	private static Coordenada ubicacion;
 	private Usuario piloto;
@@ -70,6 +71,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private boolean ultimaDireccionRight;
 	private boolean noEstoyAcelerando;
 	private boolean tienePowerUp = false;
+	private boolean pausado = false;
+	
 
 	private AudioClip driveAudio;
 	private AudioClip skidAudio;
@@ -134,7 +137,27 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return render;
 	}
 
+	public boolean isPausado() {
+		return pausado;
+	}
+
+	public void pausar() {
+		
+		if(!pausado) {
+			
+		ultimaVelocidad = velocidad;
+		velocidad = VELOCIDAD_INICIAL;
+		pausado = true;
+		}
+	}
 	
+	public void resumir() {
+		
+		if(pausado){
+			Auto.velocidad = ultimaVelocidad;
+			pausado = false;
+		}
+	}
 	
 	@Override
 	public void colisionar(Colisionable colisionable) {

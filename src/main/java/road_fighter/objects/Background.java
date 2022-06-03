@@ -24,6 +24,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	private HBox renderBarraMarcador;
 	private Text textoVelocidadJugador;
 	
+	private boolean pausado = false;
 	
 	private Rectangle calleCollider;
 	public static final int MARGEN_IZQ_CALLE = 155;
@@ -31,7 +32,6 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	public static int ANCHO_CALLE = MARGEN_DER_CALLE - MARGEN_IZQ_CALLE;
 	public static final int LARGO_MAPA = 10000;
 	public static final double FACTOR_DESPLAZAMIENTO = 2.2;
-	
 	private double posY = 0;
 
 	public Background(String mapConfig)  {
@@ -92,14 +92,22 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	public HBox getRender() {
 		return render;
 	}
+	
+
+	public void setPausado(boolean pausado) {
+		this.pausado = pausado;
+	}
 
 	@Override
 	public void update(double deltaTime) {
+		if(pausado == false) {
+			System.out.println("tirando update back");
 		posY += Auto.getVelocidad() * deltaTime;
 		///estos valores de 3.5 y 2.2 me los saqu� de la galera, pero es para que el movimiento el mapa sea fluido
 		textoVelocidadJugador.setText((int) Auto.getVelocidad() + "KM/H");
 		renderMapa.setTranslateY(-Config.ALTO_FRAME_ESCENA * 3.5 + (posY % Config.ALTO_FRAME_ESCENA * FACTOR_DESPLAZAMIENTO) );
 	
+		}
 	}
 	
 	@Override

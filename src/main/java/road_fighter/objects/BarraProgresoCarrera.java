@@ -15,6 +15,7 @@ public class BarraProgresoCarrera extends GameObject implements Renderizable, Ac
 	private ImageView renderAuto;
 	private VBox renderTotal;
 	
+	private boolean pausado = false;
 	private double posY = 0;
 	
 	public BarraProgresoCarrera() {
@@ -37,9 +38,16 @@ public class BarraProgresoCarrera extends GameObject implements Renderizable, Ac
 
 	@Override
 	public void update(double deltaTime) {
+		if(pausado == false) {
+			System.out.println("tirando update");
 		posY =  0.068 * Auto.getUbicacion().getY();
 //		System.out.println(posY);
 		renderAuto.setTranslateY(-75 - posY); //FACTOR_DESPLAZAMIENTO es un numero que uso para que se mueva el mapa en conjunto con la meta
+		}
+	}
+
+	public void setPausado(boolean pausado) {
+		this.pausado = pausado;
 	}
 
 	@Override

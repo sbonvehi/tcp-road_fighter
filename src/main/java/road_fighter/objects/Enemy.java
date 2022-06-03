@@ -19,6 +19,8 @@ public class Enemy extends GameObject implements Actualizable, Renderizable, Col
 	private Image carImage = new Image(Config.BLUE_CAR, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
 	private Coordenada ubicacion;
     private double velocidad;
+    private double ultimaVelocidad;
+    private boolean pausado = false;
 
     private ImageView render; 
     private Rectangle collider;
@@ -77,7 +79,23 @@ public class Enemy extends GameObject implements Actualizable, Renderizable, Col
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public void pausar() {
+		if(pausado == false) {
+		this.ultimaVelocidad = this.velocidad;
+		velocidad = 0;
+		pausado = true;
+		}
+	}
+	
+	public void resumir() {
+		if(pausado) {
+			this.velocidad = this.ultimaVelocidad;
+			pausado = false;
+			}
+	}
+	
+	
 	@Override
 	public Shape getCollider() {
 		// TODO Auto-generated method stub
