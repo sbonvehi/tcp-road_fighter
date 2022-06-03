@@ -19,6 +19,7 @@ import road_fighter.GameSceneHandler;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
 import road_fighter.utils.AudioResources;
+import road_fighter.utils.Utils;
 import usuario.Usuario;
 
 public class AutoCompetidor extends Enemy implements Colisionador{
@@ -90,10 +91,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		textoNombre.setTranslateX(-21);
 		textoNombre.setTranslateY(-18);
 		
-		
-		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, anchoImagen * multiplic, altoImagen * multiplic, false,
-				false);
-		imageLostControl = new Image(Config.LOST_CONTROL_SPRITES_IMG, 328 * multiplic, 40 * multiplic, false, false);
+		initImages();
 		imagenAuto = new ImageView(spriteImages);
 		imagenAuto.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
 		imagenAuto.setTranslateY(-18);
@@ -118,6 +116,21 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		return this.render;
 	}
 	
+	private void initImages() {
+
+		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, anchoImagen * multiplic, altoImagen * multiplic, false,
+				false);
+		imageLostControl = new Image(Config.LOST_CONTROL_SPRITES_IMG, 328 * multiplic, 40 * multiplic, false, false);
+		
+		Color[] original = { Color.rgb(216, 40, 0), Color.rgb(252, 252, 252), Color.rgb(164, 0, 0),
+				Color.rgb(0, 0, 0) };
+		
+		Color[] green = { Color.rgb(13, 210, 48), Color.rgb(255, 255, 255), Color.rgb(0, 141, 0),
+				Color.rgb(0, 0, 0)};
+		
+		spriteImages = Utils.reColor(spriteImages, original, green);
+		imageLostControl = Utils.reColor(imageLostControl, original, green);
+	}
 	
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
 		crash = new SpriteAnimation(imagenAuto, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
@@ -193,9 +206,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		/// para que la velocidad no sea negativa
 		if (velocidad < VELOCIDAD_INICIAL) {
 			velocidad = VELOCIDAD_INICIAL;
-		}
-
-		
+		}	
 
 	}
 
@@ -282,15 +293,14 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		if (colisionable.getClass() == FinishLine.class) {
 			velocidad = 0;
 			GameSceneHandler.apagarMusica();
-			ScoreBoard.mostrar();
-			System.out.println("ganasteee");
-			
+			ScoreBoard.mostrar();			
 		}
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
 			this.aumentarVelocidadPowerUp();
 			if (!colisioneConObstaculo) {
 				colisioneConObstaculo = true;
+				((ColisionPowerUp) colisionable).remove();
 				powerUpAudio.play();
 				new java.util.Timer().schedule(new java.util.TimerTask() {
 					@Override
@@ -395,6 +405,9 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 
 	public void reducirVelocidadObstaculo() {
 		velocidad /= 1.1;
+	}
+
+	public void teletransportar() {
 	}
 
 }

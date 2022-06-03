@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import login.GestorLogin;
 import road_fighter.Config;
+import road_fighter.RoadFighterGame;
 import road_fighter.interfaces.Renderizable;
 import road_fighter.utils.GameObject;
 
@@ -39,24 +40,21 @@ public class ScoreBoard extends GameObject implements Renderizable{
 		render.getChildren().add(textoGameOver);
 //		
 		
-//		Text nombreJugadorUser = new Text(LoginForm.nombreUsuario + "      " + "01:05:54");
-		Text nombreJugadorUser = new Text(String.format("%1$-15s", LoginForm.nombreUsuario) + "01:05:54");
+		Text nombreJugadorUser = new Text(String.format("%1$-15s", RoadFighterGame.anfitrion.getNombre()) + "01:05:54");
 		nombreJugadorUser.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
 		nombreJugadorUser.setFill(Color.WHITE);
 		nombreJugadorUser.setTranslateX(10);		
 		nombreJugadorUser.setTranslateY(-220);		
 		render.getChildren().add(nombreJugadorUser);
 		
-		
-		//esto se va a implementar solo cuando haya mas jugadores
-		for(int i = 2; i < 3; i++) {
-			Text nombreJugador = new Text( String.format("%1$-15s", "JUGADOR " + i) + "01:05:54");
-			nombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
-			nombreJugador.setFill(Color.WHITE);
-			nombreJugador.setTranslateX(10);		
-			nombreJugador.setTranslateY(-220);		
-			render.getChildren().add(nombreJugador);
-		}	
+
+		Text nombreJugador = new Text( String.format("%1$-15s", "JUGADOR " + 2) + "01:05:54");
+		nombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
+		nombreJugador.setFill(Color.WHITE);
+		nombreJugador.setTranslateX(10);		
+		nombreJugador.setTranslateY(-220);		
+		render.getChildren().add(nombreJugador);
+
 		
 		render.setOpacity(0);
 		

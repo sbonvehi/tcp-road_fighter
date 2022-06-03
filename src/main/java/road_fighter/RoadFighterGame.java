@@ -13,7 +13,7 @@ public class RoadFighterGame extends Application {
 	private MenuSceneHandler menuSceneHandler;
 	private GameSceneHandler gameSceneHandler;
 
-	protected Usuario anfitrion;
+	public static Usuario anfitrion;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -67,6 +67,7 @@ public class RoadFighterGame extends Application {
 	}
 
 	public void startGameWithoutLogin(String map) {
+		this.anfitrion = new Usuario("JUGADOR 1", "JUGADOR 1");
 		loginSceneHandler.unload();
 		gameSceneHandler = new GameSceneHandler(this, map);
 		Scene scene = gameSceneHandler.getScene();

@@ -12,6 +12,7 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import road_fighter.Config;
+import road_fighter.RoadFighterGame;
 import road_fighter.interfaces.Actualizable;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Renderizable;
@@ -29,7 +30,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 	public static final int MARGEN_IZQ_CALLE = 155;
 	public static final int MARGEN_DER_CALLE = 378;
 	public static int ANCHO_CALLE = MARGEN_DER_CALLE - MARGEN_IZQ_CALLE;
-	public static final int LARGO_MAPA = 10000;
+	public static final int LARGO_MAPA = 100;
 	public static final double FACTOR_DESPLAZAMIENTO = 2.2;
 	
 	private double posY = 0;
@@ -54,7 +55,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		fondoBarraMarcador.setFill(Color.BLACK);
 		
 		
-		Text textoNombreJugador = new Text(LoginForm.nombreUsuario);
+		Text textoNombreJugador = new Text(RoadFighterGame.anfitrion.getNombre());
 		textoNombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR - 5));
 		textoNombreJugador.setFill(Color.WHITE);
 		

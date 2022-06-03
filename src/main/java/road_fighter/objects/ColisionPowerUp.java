@@ -12,6 +12,7 @@ import road_fighter.interfaces.Actualizable;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Renderizable;
 import road_fighter.utils.GameObject;
+import road_fighter.utils.GameObjectBuilder;
 
 public class ColisionPowerUp extends Colision{
 	
@@ -24,5 +25,8 @@ public class ColisionPowerUp extends Colision{
 		render.setViewport(new Rectangle2D(26 * 3, 34 * 3, ANCHO_POWERUP, ALTO_POWERUP));		
 	}
 	
+	public void remove() {
+		GameObjectBuilder.getInstance().remove(this);
+	}
 
 }

@@ -113,13 +113,13 @@ public class GameSceneHandler extends SceneHandler {
 					autoCompetidor.setDirectionUpSpeed2(true); // velocidad de 200 a 400
 					break;
 					
+				case T:
+					autoCompetidor.teletransportar(); // velocidad de 200 a 400
+					break;
+					
 				case Q:
 				case ESCAPE:
 					g.menuFromGame();
-					break;
-					
-				case T: // teletransportar el auto 2 a la pantalla donde lo vea tamb el player 1..
-					//setY(auto2);
 					break;
 				default:
 					break;
@@ -184,9 +184,8 @@ public class GameSceneHandler extends SceneHandler {
 		}, 5000);
 		
 		///Instancio todos los objectos de la partida
-		Usuario usr = new Usuario("test","test");
-		Usuario usr2 = new Usuario("test2","test2");
-		autoJugador1 = new Auto(usr, -40);
+		
+		autoJugador1 = new Auto(RoadFighterGame.anfitrion, -40);
 		autoCompetidor = new AutoCompetidor("JUGADOR 2", 30, 650, 10);
 		fondo = new Background(mapNombre);
 		autoNPC1 = new Enemy(0,-50, 100);

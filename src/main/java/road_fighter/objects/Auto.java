@@ -159,15 +159,14 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (colisionable.getClass() == FinishLine.class) {
 			Auto.velocidad = 0;
 			GameSceneHandler.apagarMusica();
-			ScoreBoard.mostrar();
-			System.out.println("ganasteee");
-			
+			ScoreBoard.mostrar();			
 		}
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
 			this.aumentarVelocidadPowerUp();
 			if (!colisioneConObstaculo) {
 				colisioneConObstaculo = true;
+				((ColisionPowerUp) colisionable).remove();
 				powerUpAudio.play();
 				new java.util.Timer().schedule(new java.util.TimerTask() {
 					@Override
@@ -263,7 +262,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				}
 				tienePowerUp = false;
 			}
-		}, 10000);
+		}, 7000);
 	}
 
 	/**
