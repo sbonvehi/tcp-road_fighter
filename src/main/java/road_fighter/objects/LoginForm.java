@@ -159,7 +159,6 @@ public class LoginForm extends GameObject implements Renderizable{
 		{
 			actiontarget.setText("Se inicio correctamente");
 			actiontarget.setFill(Color.GREEN);
-			Thread.sleep(2000);
 			g.setAnfitrion(new Usuario(userTextField.getText(), pwBox.getText()));
 			g.startMenu();
 			nombreUsuario = userTextField.getText();
@@ -168,7 +167,6 @@ public class LoginForm extends GameObject implements Renderizable{
 		{
 			actiontarget.setText("Error al logearse");
 			actiontarget.setFill(Color.RED);
-			Thread.sleep(2000);
 		}
 	}
 	

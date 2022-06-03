@@ -115,7 +115,7 @@ public class GameSceneHandler extends SceneHandler {
 					
 				case Q:
 				case ESCAPE:
-					g.startMenu();
+					g.menuFromGame();
 					break;
 					
 				case T: // teletransportar el auto 2 a la pantalla donde lo vea tamb el player 1..

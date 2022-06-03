@@ -49,7 +49,7 @@ public class ScoreBoard extends GameObject implements Renderizable{
 		
 		
 		//esto se va a implementar solo cuando haya mas jugadores
-		for(int i = 2; i < 5; i++) {
+		for(int i = 2; i < 3; i++) {
 			Text nombreJugador = new Text( String.format("%1$-15s", "JUGADOR " + i) + "01:05:54");
 			nombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
 			nombreJugador.setFill(Color.WHITE);

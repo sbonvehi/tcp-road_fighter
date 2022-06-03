@@ -43,7 +43,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 
 	private int topeVelocidad = VELOCIDAD_MAX1;
 	private double aceleracion = TASA_ACELERACION1;
-	private static double velocidad = VELOCIDAD_INICIAL;
+	private double velocidad = VELOCIDAD_INICIAL;
 
 	private Usuario piloto;
 
@@ -85,6 +85,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		collider.setX(posXAutoInicial + OFFSET_X_POSICION);
 		collider.setY(posYAutoInicial + OFFSET_Y_POSICION);
         
+		
 		initSpriteAnimations();
 		initAudios();
 	}

@@ -77,6 +77,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private AudioClip powerUpAudio;
 	private boolean colisioneConObstaculo;
 
+	
+	
 	public static double getVelocidad() {
 		return velocidad;
 	}
@@ -89,6 +91,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		cantAutos++;
 		Auto.ubicacion = new Coordenada(posXAutoInicial, 0);
+		Auto.velocidad = VELOCIDAD_INICIAL;
 		this.piloto = piloto;
 
 		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, anchoImagen * multiplic, altoImagen * multiplic, false,
@@ -107,6 +110,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		collider.setY(posYAutoInicial);
 	}
 
+	
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
 		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
 		crash.setCycleCount(Animation.INDEFINITE);
