@@ -16,12 +16,15 @@ public class ScoreBoard extends GameObject implements Renderizable{
 
 	private Rectangle fondo;
 	private static VBox render;
+	private int ANCHO_MARCADOR = 400;
+	private int ALTO_MARCADOR = 200;
+	
 	
 	public ScoreBoard()
 	{
 		
 		//fondo
-		fondo = new Rectangle(400,250);
+		fondo = new Rectangle(ANCHO_MARCADOR, ALTO_MARCADOR);
 		fondo.setFill(Color.BLACK);
 		fondo.setViewOrder(1);
 		
