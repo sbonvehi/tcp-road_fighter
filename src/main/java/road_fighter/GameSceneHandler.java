@@ -187,7 +187,7 @@ public class GameSceneHandler extends SceneHandler {
 		Usuario usr = new Usuario("test","test");
 		Usuario usr2 = new Usuario("test2","test2");
 		autoJugador1 = new Auto(usr, -40);
-		autoCompetidor = new AutoCompetidor("competidor", 30, 650, 10);
+		autoCompetidor = new AutoCompetidor("JUGADOR 2", 30, 650, 10);
 		fondo = new Background(mapNombre);
 		autoNPC1 = new Enemy(0,-50, 100);
 		autoNPC2 = new Enemy(10,-300, 110);

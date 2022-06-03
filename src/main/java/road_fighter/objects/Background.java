@@ -55,7 +55,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		
 		
 		Text textoNombreJugador = new Text(LoginForm.nombreUsuario);
-		textoNombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
+		textoNombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR - 5));
 		textoNombreJugador.setFill(Color.WHITE);
 		
 		///Hay que ver como hacer para que el texto de la velocidad sea dinamico segun la velocidad del auto

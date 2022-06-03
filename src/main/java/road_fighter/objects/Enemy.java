@@ -3,6 +3,7 @@ package road_fighter.objects;
 
 import coordenada.Coordenada;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -51,7 +52,7 @@ public class Enemy extends GameObject implements Actualizable, Renderizable, Col
 		collider.setY(posYAutoInicial + OFFSET_Y_POSICION);
     }
     
-    public ImageView getRender() {
+    public Node getRender() {
 		return render;
 	}
     

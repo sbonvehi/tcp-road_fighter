@@ -4,10 +4,15 @@ import animation.SpriteAnimation;
 import coordenada.Coordenada;
 import javafx.animation.Animation;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import road_fighter.Config;
 import road_fighter.GameSceneHandler;
@@ -63,25 +68,43 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	private AudioClip explosionAudio;
 	private AudioClip powerUpAudio;
 	private boolean colisioneConObstaculo;
-	
-	private String nombreCompetidor;
+	 
+	private String nombreCompetidor = "JUGADOR 2";
 
 	private Image spriteImages;
+	private ImageView imagenAuto;
+	private VBox render;
+	
 	
 	public AutoCompetidor(String nombreCompetidor, double x, double y, double velocidad) {
 		super(x, y, velocidad);
 		this.nombreCompetidor = nombreCompetidor;
 		
 
+		render = new VBox();
+		
+		Text textoNombre = new Text(nombreCompetidor);
+		textoNombre.setFont(Font.font (Config.FONT_TYPE, 18));
+		textoNombre.setFill(Color.WHITE);
+		textoNombre.setViewOrder(5);
+		textoNombre.setTranslateX(-21);
+		textoNombre.setTranslateY(-18);
+		
+		
 		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, anchoImagen * multiplic, altoImagen * multiplic, false,
 				false);
 		imageLostControl = new Image(Config.LOST_CONTROL_SPRITES_IMG, 328 * multiplic, 40 * multiplic, false, false);
-		render = new ImageView(spriteImages);
-		render.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
-		render.setViewOrder(5);
+		imagenAuto = new ImageView(spriteImages);
+		imagenAuto.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
+		imagenAuto.setTranslateY(-18);
+		imagenAuto.setViewOrder(5);
 		
-        render.setX(posXAutoInicial + OFFSET_X_POSICION);
-        render.setY(posYAutoInicial + OFFSET_Y_POSICION);
+		render.getChildren().addAll(textoNombre, imagenAuto);
+		
+		
+		
+        render.setTranslateX(posXAutoInicial + OFFSET_X_POSICION);
+        render.setTranslateY(posYAutoInicial + OFFSET_Y_POSICION);
 		collider.setX(posXAutoInicial + OFFSET_X_POSICION);
 		collider.setY(posYAutoInicial + OFFSET_Y_POSICION);
         
@@ -89,10 +112,15 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		initSpriteAnimations();
 		initAudios();
 	}
-
+	
+	@Override
+	public Node getRender() {
+		return this.render;
+	}
+	
 	
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
-		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
+		crash = new SpriteAnimation(imagenAuto, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
 		crash.setCycleCount(Animation.INDEFINITE);
 	}
 
@@ -109,11 +137,23 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		powerUpAudio.setVolume(0.2);	
 	}
 
+	
+	public void setY(double y) {
+		this.ubicacion.setY(y);
+		render.setTranslateY(y);
+		collider.setY(y);
+		
+//		System.out.println(ubicacion.toString());
+//		System.out.println("render   NPC: " + render.getX() + " " + render.getY());
+//		System.out.println("collider NPC: " + collider.toString());
+	}
+	
 	public void setX(double x) {
 		if (!dead) {
 			collider.setX(x);
 			ubicacion.setX(x);
-			render.setX(x);
+			imagenAuto.setX(x);
+			render.setTranslateX(x);
 		}
 //		System.out.println("Posicion actual: " + Auto.ubicacion.toString());
 
@@ -173,6 +213,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
+		activeDriveSound(b);
 		this.directionUpSpeed1 = b;
 		if (velocidad <= topeVelocidad) {
 			this.aceleracion = TASA_ACELERACION1;
@@ -184,7 +225,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
-		
+		activeDriveSound(b);
 		this.directionUpSpeed2 = b;
 		this.aceleracion = TASA_ACELERACION2;
 	}
@@ -236,7 +277,6 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		/// entonces me fui del mapa
 		if (colisionable.getClass() == Background.class) {
 			flagFueraDeMapa = false;
-			System.out.println("competidor se va del mapa");
 		}
 
 		if (colisionable.getClass() == FinishLine.class) {
@@ -289,14 +329,14 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 			velocidad /= 2;
 			perdiElControl = true;
 			//skidAudio.play();
-			render.setImage(imageLostControl);
+			imagenAuto.setImage(imageLostControl);
 
 			if (ultimaDireccionRight) {
-				lostControlSpriteLeft = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 2 * 3, 2 * 3,
+				lostControlSpriteLeft = new SpriteAnimation(imagenAuto, Duration.millis(1000), 13, 13, 0, 2 * 3, 2 * 3,
 						15 * 3, 18 * 3);
 				lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
 			} else {
-				lostControlSpriteRight = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 20 * 3, 2 * 3,
+				lostControlSpriteRight = new SpriteAnimation(imagenAuto, Duration.millis(1000), 13, 13, 0, 20 * 3, 2 * 3,
 						15 * 3, 18 * 3);
 				lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
 			}
@@ -313,7 +353,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 				@Override
 				public void run() {
 					sprite.stop();
-					render.setImage(spriteImages);
+					imagenAuto.setImage(spriteImages);
 					resetViewPort();
 					perdiElControl = false;
 					skidAudio.stop();
@@ -339,9 +379,18 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		}, 10000);
 	}
 	
+	private void activeDriveSound(boolean b) {
+		if (b && !noEstoyAcelerando) {
+			driveAudio.play();
+			noEstoyAcelerando = true;
+		} else if (!b && noEstoyAcelerando) {
+			driveAudio.stop();
+			noEstoyAcelerando = false;
+		}
+	}
 
 	private void resetViewPort() {
-		render.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
+		imagenAuto.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
 	}
 
 	public void reducirVelocidadObstaculo() {

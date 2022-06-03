@@ -110,7 +110,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		collider.setY(posYAutoInicial);
 	}
 
-	
+	 
 	private void initSpriteAnimations() { /// estan bien cargados los sprites.
 		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
 		crash.setCycleCount(Animation.INDEFINITE);
