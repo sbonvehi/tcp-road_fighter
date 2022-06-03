@@ -1,6 +1,5 @@
 package road_fighter.objects;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

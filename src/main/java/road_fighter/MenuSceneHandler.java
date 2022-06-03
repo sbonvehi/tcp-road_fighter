@@ -4,10 +4,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import road_fighter.objects.menu.BackgroundMenu;
-import road_fighter.utils.AudioResources;
 import road_fighter.utils.GameObjectBuilder;
 
 public class MenuSceneHandler extends SceneHandler{
@@ -74,9 +72,7 @@ public class MenuSceneHandler extends SceneHandler{
 
 	private void cleanData() {
 		GameObjectBuilder.getInstance().removeAll();
-//		ended = false;
-//		started = false;
-//		Config.baseSpeed = 250;
+
 	}
 	
 	public void unload() {

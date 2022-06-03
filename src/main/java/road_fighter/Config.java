@@ -2,14 +2,6 @@ package road_fighter;
 
 public class Config {
 	
-    public static final String STREET_COLOR = "#656567";
-    public static final String GREEN = "#84E116";
-    public static final String BLUE = "#0027D2";
-    public static final String BEACH = "#D1CB76";
-
-    public static final String STREET_LINE = "#ffffff";
-
-    
     public static final int ANCHO_FRAME_ESCENA = 720;
     public static final int ALTO_FRAME_ESCENA = 800;
     public static final int ANCHO_FRAME_MAPA = 477;
@@ -29,6 +21,7 @@ public class Config {
 
 	
 	public static final String CAR_IMG = "file:src/main/resources/img/principal.png";
+	public static final String ICON_IMG = "file:src/main/resources/img/icon.png";
 	public static final String RACE_MUSIC = "src/main/resources/sounds/carrera.mp3"; //NO CAMBIAR
 	public static final String MENU_IMG = "file:src/main/resources/img/titulo_juego.png";
 	public static final String BARRA_PROGRESO_CARRERA_IMG = "file:src/main/resources/img/barra_progreso_carrera2.png";

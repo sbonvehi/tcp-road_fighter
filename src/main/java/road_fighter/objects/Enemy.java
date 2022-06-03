@@ -60,10 +60,7 @@ public class Enemy extends GameObject implements Actualizable, Renderizable, Col
 		this.ubicacion.setY(y);
 		render.setY(y);
 		collider.setY(y);
-		
-//		System.out.println(ubicacion.toString());
-//		System.out.println("render   NPC: " + render.getX() + " " + render.getY());
-//		System.out.println("collider NPC: " + collider.toString());
+
 	}
     
     

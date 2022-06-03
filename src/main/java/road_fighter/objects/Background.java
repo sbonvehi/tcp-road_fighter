@@ -50,7 +50,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		Rectangle fondoMapa = new Rectangle(Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_MAPA);
 		fondoMapa.setFill(imagePatternMapa);
 
-		//BARRA DE MARCADORES (podria ser una clase fuera de background)
+		//BARRA DE MARCADORES 
 		Rectangle fondoBarraMarcador = new Rectangle(Config.ANCHO_FRAME_ESCENA - Config.ANCHO_FRAME_MAPA, Config.ALTO_FRAME_ESCENA);
 		fondoBarraMarcador.setFill(Color.BLACK);
 		
@@ -87,7 +87,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		renderBarraMarcador.setTranslateY(-1450);
 		render = new HBox(renderMapa, renderBarraMarcador);
 		
-		render.setViewOrder(50); ///est� al fondo de todo en el eje Z
+		render.setViewOrder(50);
 	}
 
 	@Override

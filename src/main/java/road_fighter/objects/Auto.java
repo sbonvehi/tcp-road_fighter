@@ -14,6 +14,7 @@ import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import road_fighter.Config;
 import road_fighter.GameSceneHandler;
+import road_fighter.RoadFighterGame;
 import road_fighter.interfaces.Actualizable;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
@@ -66,6 +67,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private Rectangle collider;
 	private ImageView render;
 	private boolean dead;
+	private boolean terminoCarrera = false;
 	private boolean perdiElControl;
 	private boolean ultimaDireccionRight;
 	private boolean noEstoyAcelerando;
@@ -156,10 +158,14 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			flagFueraDeMapa = false;
 		}
 
-		if (colisionable.getClass() == FinishLine.class) {
-			Auto.velocidad = 0;
+		if (colisionable.getClass() == FinishLine.class && !terminoCarrera) {
+			setDirectionUpSpeed1(false);
+			setDirectionUpSpeed2(false);
+			terminoCarrera = true;
 			GameSceneHandler.apagarMusica();
-			ScoreBoard.mostrar();			
+			GameSceneHandler.reproducirMusicaVictoria();
+			ScoreBoard.mostrar();
+			ScoreBoard.agregarJugadorAlTablero(RoadFighterGame.anfitrion.getNombre(), GameSceneHandler.getTiempoMeta());		
 		}
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
@@ -171,7 +177,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				new java.util.Timer().schedule(new java.util.TimerTask() {
 					@Override
 					public void run() {
-//						powerUpAudio.stop();
 						colisioneConObstaculo = false;
 					}
 				}, 800);
@@ -321,7 +326,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		if (flagFueraDeMapa) {
 			die();
-//			System.out.println("me fui del mapa :(");
 		}
 		/// acelerando mientras no me pase del limite
 		flagFueraDeMapa = true;
@@ -360,6 +364,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
+		if(terminoCarrera){
+			return;
+		}
+		
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
@@ -372,6 +380,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setDirectionUpSpeed2(boolean b) {
+		if(terminoCarrera){
+			return;
+		}
+		
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
@@ -384,11 +396,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (b && !noEstoyAcelerando) {
 			driveAudio.play();
 			noEstoyAcelerando = true;
-			System.err.println("Active el drive sound");
 		} else if (!b && noEstoyAcelerando) {
 			driveAudio.stop();
 			noEstoyAcelerando = false;
-			System.err.println("Desactive el drive sound");
 		}
 	}
 	@Override

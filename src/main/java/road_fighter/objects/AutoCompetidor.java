@@ -1,7 +1,6 @@
 package road_fighter.objects;
 
 import animation.SpriteAnimation;
-import coordenada.Coordenada;
 import javafx.animation.Animation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -10,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -59,6 +57,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	private boolean directionUpSpeed2 = false;
 
 	private boolean dead;
+	private boolean terminoCarrera = false;
 	private boolean perdiElControl;
 	private boolean ultimaDireccionRight;
 	private boolean noEstoyAcelerando;
@@ -156,9 +155,6 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		render.setTranslateY(y);
 		collider.setY(y);
 		
-//		System.out.println(ubicacion.toString());
-//		System.out.println("render   NPC: " + render.getX() + " " + render.getY());
-//		System.out.println("collider NPC: " + collider.toString());
 	}
 	
 	public void setX(double x) {
@@ -168,7 +164,6 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 			imagenAuto.setX(x);
 			render.setTranslateX(x);
 		}
-//		System.out.println("Posicion actual: " + Auto.ubicacion.toString());
 
 	}
 
@@ -221,10 +216,15 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
+		
+		if(terminoCarrera){
+			return;
+		}
+		activeDriveSound(b);
+		
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
-		activeDriveSound(b);
 		this.directionUpSpeed1 = b;
 		if (velocidad <= topeVelocidad) {
 			this.aceleracion = TASA_ACELERACION1;
@@ -233,10 +233,14 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	}
 
 	public void setDirectionUpSpeed2(boolean b) {
+		if(terminoCarrera){
+			return;
+		}
+		activeDriveSound(b);
+		
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
-		activeDriveSound(b);
 		this.directionUpSpeed2 = b;
 		this.aceleracion = TASA_ACELERACION2;
 	}
@@ -290,10 +294,14 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 			flagFueraDeMapa = false;
 		}
 
-		if (colisionable.getClass() == FinishLine.class) {
-			velocidad = 0;
+		
+		if (colisionable.getClass() == FinishLine.class && !terminoCarrera) {
+			setDirectionUpSpeed1(false);
+			setDirectionUpSpeed2(false);
+			terminoCarrera = true;
 			GameSceneHandler.apagarMusica();
-			ScoreBoard.mostrar();			
+			ScoreBoard.mostrar();
+			ScoreBoard.agregarJugadorAlTablero(nombreCompetidor, GameSceneHandler.getTiempoMeta());		
 		}
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
@@ -305,7 +313,6 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 				new java.util.Timer().schedule(new java.util.TimerTask() {
 					@Override
 					public void run() {
-//						powerUpAudio.stop();
 						colisioneConObstaculo = false;
 					}
 				}, 800);
@@ -338,7 +345,6 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		if (!perdiElControl) {
 			velocidad /= 2;
 			perdiElControl = true;
-			//skidAudio.play();
 			imagenAuto.setImage(imageLostControl);
 
 			if (ultimaDireccionRight) {

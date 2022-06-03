@@ -1,100 +1,86 @@
 package road_fighter.objects;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import login.GestorLogin;
+import javafx.scene.text.TextAlignment;
 import road_fighter.Config;
-import road_fighter.RoadFighterGame;
 import road_fighter.interfaces.Renderizable;
 import road_fighter.utils.GameObject;
 
 public class ScoreBoard extends GameObject implements Renderizable{
 
-	private Rectangle fondo;
-	private static VBox render;
 	private int ANCHO_MARCADOR = 400;
 	private int ALTO_MARCADOR = 200;
-	
+	private static GridPane grid;
+	private static int cantJugadores;
 	
 	public ScoreBoard()
 	{
+		cantJugadores = 0;
 		
-		//fondo
-		fondo = new Rectangle(ANCHO_MARCADOR, ALTO_MARCADOR);
-		fondo.setFill(Color.BLACK);
-		fondo.setViewOrder(1);
+		grid = new GridPane();
+		grid.setAlignment(Pos.CENTER_LEFT);
+		grid.setHgap(50);
+		grid.setVgap(20);
+		grid.setPadding(new Insets(10, 10, 10, 10));
+		grid.setMinWidth(ANCHO_MARCADOR);
+		grid.setMinHeight(ALTO_MARCADOR);
+		grid.setStyle("-fx-background-color: #000000;");
 		
-		//contenedor
-		render = new VBox();
-		render.getChildren().add(fondo);
-		render.setTranslateX(75);
-		render.setTranslateY(100);
+		grid.setAlignment(Pos.TOP_LEFT);
+		grid.setTranslateX(75);
+		grid.setTranslateY(100);
+		grid.setOpacity(0);
 		
+		 ColumnConstraints column1 = new ColumnConstraints();
+	    column1.setPercentWidth(65);
+	    ColumnConstraints column2 = new ColumnConstraints();
+	    column2.setPercentWidth(35);
+	    grid.getColumnConstraints().addAll(column1, column2); 
 		
 		Text textoGameOver = new Text("GAME OVER");
 		textoGameOver.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
 		textoGameOver.setFill(Color.WHITE);
-		textoGameOver.setTranslateX(120);
-		textoGameOver.setTranslateY(-240);
-		render.getChildren().add(textoGameOver);
-//		
+		textoGameOver.setTranslateX(110);
 		
-		Text nombreJugadorUser = new Text(String.format("%1$-15s", RoadFighterGame.anfitrion.getNombre()) + "01:05:54");
-		nombreJugadorUser.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
-		nombreJugadorUser.setFill(Color.WHITE);
-		nombreJugadorUser.setTranslateX(10);		
-		nombreJugadorUser.setTranslateY(-220);		
-		render.getChildren().add(nombreJugadorUser);
-		
-
-		Text nombreJugador = new Text( String.format("%1$-15s", "JUGADOR " + 2) + "01:05:54");
-		nombreJugador.setFont(Font.font (Config.FONT_TYPE, Config.FONT_SIZE_MARCADOR));
-		nombreJugador.setFill(Color.WHITE);
-		nombreJugador.setTranslateX(10);		
-		nombreJugador.setTranslateY(-220);		
-		render.getChildren().add(nombreJugador);
-
-		
-		render.setOpacity(0);
-		
-		
-		//TODO: usar timer para ver cuanto tarda el jugador en la carrera
-		
-//		render.setOpacity(1);
-//		final long time = System.currentTimeMillis();
-//        new java.util.Timer().schedule(new java.util.TimerTask() {
-//            @Override
-//            public void run() {
-//                long time2 = System.currentTimeMillis();
-//                double tiempo = time2 - time;
-//                System.err.println("El tiempo es: " + tiempo);
-//                tiempo /= 1000;
-//                
-//                tiempo %= 3600;
-//                long minutos =(long)tiempo / 60;  
-//                long segundos =(long) tiempo % 60;
-//                tiempo %= 1;
-//                double miliSegundos = (tiempo * 10);
-//                System.out.println("Tiempo transcurrido: " + minutos + " " + segundos + " " + miliSegundos );
-//            }
-//        }, 1500);	
+		grid.add(textoGameOver, 0, 0);
+        
 	}
 	
-
 	@Override
 	public Node getRender() {
-		// TODO Auto-generated method stub
-		return render;
+		return grid;
 	}
 	
 	public static void mostrar() {
-		render.setOpacity(0.9);
+		grid.setOpacity(0.9);
 	}
 
+	public static void agregarJugadorAlTablero(String nombreJugador, String tiempo) {
+		int largoNombre = nombreJugador.length() >= 14 ? 14 : nombreJugador.length();
+		Text textoNombreJugador = new Text(nombreJugador.substring(0,largoNombre));
+		textoNombreJugador.setFont(Font.font ("MS Outlook", Config.FONT_SIZE_MARCADOR));
+		textoNombreJugador.setFill(Color.WHITE);
+		
+		
+		Text textoTiempo = new Text(tiempo);
+		textoTiempo.setFont(Font.font ("MS Outlook", Config.FONT_SIZE_MARCADOR));
+		textoTiempo.setFill(Color.WHITE);
+		textoTiempo.setTextAlignment(TextAlignment.RIGHT);
+
+		grid.add(textoNombreJugador, 0, cantJugadores + 1);
+		grid.add(textoTiempo, 1, cantJugadores + 1);
+		
+		cantJugadores++;
+
+	}
+	
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub

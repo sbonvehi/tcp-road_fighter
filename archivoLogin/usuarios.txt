@@ -14,3 +14,8 @@ test1-test
 test11-test
 alanalan-test
 usarioTestLogin-validPassword
+ana-ana
+jorge lopez-1234
+asdasdasdasd-1234
+jugador1-1234
+qwertyqwertyqwertyqwerty-1234

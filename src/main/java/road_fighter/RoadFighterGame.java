@@ -2,6 +2,7 @@ package road_fighter;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import usuario.Usuario;
 
@@ -27,6 +28,7 @@ public class RoadFighterGame extends Application {
 		stage.setResizable(false);
 		stage.setTitle("Road Fighter");
 		stage.show();
+		stage.getIcons().add(new Image(Config.ICON_IMG));
 	}
 
 	public static void main(String[] args) {
@@ -67,7 +69,7 @@ public class RoadFighterGame extends Application {
 	}
 
 	public void startGameWithoutLogin(String map) {
-		this.anfitrion = new Usuario("JUGADOR 1", "JUGADOR 1");
+		RoadFighterGame.anfitrion = new Usuario("JUGADOR 1", "JUGADOR 1");
 		loginSceneHandler.unload();
 		gameSceneHandler = new GameSceneHandler(this, map);
 		Scene scene = gameSceneHandler.getScene();
@@ -76,7 +78,7 @@ public class RoadFighterGame extends Application {
 	}
 
 	public void logout() {
-		this.anfitrion = null;
+		RoadFighterGame.anfitrion = null;
 
 		menuSceneHandler.unload();
 		loginSceneHandler = new LoginSceneHandler(this);
@@ -90,6 +92,6 @@ public class RoadFighterGame extends Application {
 	}
 
 	public void setAnfitrion(Usuario anfitrion) {
-		this.anfitrion = anfitrion;
+		RoadFighterGame.anfitrion = anfitrion;
 	}
 }

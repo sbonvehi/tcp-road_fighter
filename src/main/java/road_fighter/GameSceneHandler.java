@@ -26,7 +26,6 @@ import road_fighter.objects.FinishLine;
 import road_fighter.objects.ScoreBoard;
 import road_fighter.utils.AudioResources;
 import road_fighter.utils.GameObjectBuilder;
-import usuario.Usuario;
 
 
 public class GameSceneHandler extends SceneHandler {
@@ -45,14 +44,18 @@ public class GameSceneHandler extends SceneHandler {
 	private BarraProgresoCarrera barraProgreso;
 	private ScoreBoard scoreBoard;
 
+	
+	private static long cronometro;
 	private String mapNombre;
-	private AudioClip finishAudio;
+	static private AudioClip finishAudio;
+	static private AudioClip gameOverAudio;
 	private AudioClip countdownAudio;
 	public static MediaPlayer raceMusic;
 
 	public static final int MARGEN_IZQ_CALLE = 155;
 	public static final int MARGEN_DER_CALLE = 378;
 	public static final int LARGO_MAPA = 10000;
+	
 	
 	
 	private void initAudios() {
@@ -67,7 +70,20 @@ public class GameSceneHandler extends SceneHandler {
 		
 		finishAudio = AudioResources.getFinishAudio();
 		finishAudio.setVolume(0.15);
+		
+		gameOverAudio = AudioResources.getGameOverAudio();
+		gameOverAudio.setVolume(0.15);
 
+	}
+	
+	public static void reproducirMusicaVictoria() {
+		finishAudio.play();
+		new java.util.Timer().schedule(new java.util.TimerTask() {
+			@Override
+			public void run() {
+				gameOverAudio.play();
+			}
+		}, 7000);
 	}
 	
 	public GameSceneHandler(RoadFighterGame g, String mapNombre) {
@@ -180,6 +196,8 @@ public class GameSceneHandler extends SceneHandler {
 					addInputEvents();
 				}
 				raceMusic.play();
+			 	GameSceneHandler.cronometro = System.currentTimeMillis();
+				
 			}
 		}, 5000);
 		
@@ -217,6 +235,21 @@ public class GameSceneHandler extends SceneHandler {
 		super.update(delta);
 		checkColliders();
 	}
+	
+	public static String getTiempoMeta() {
+		long time2 = System.currentTimeMillis();
+	      double tiempo = time2 - cronometro;
+	      tiempo /= 1000;
+	      tiempo %= 3600;
+	      long minutos =(long)(tiempo / 60);  
+	      long segundos =(long)( tiempo % 60);
+	      tiempo %= 60;
+	      tiempo -= segundos;
+	      long miliSegundos = (long)(tiempo * 100) % 60;	      
+	      return String.format("%02d:%02d:%02d", minutos, segundos, miliSegundos); 
+	}
+	
+	
 	
 	private void checkColliders() {
 		List<Colisionador> collidators = GameObjectBuilder.getInstance().getCollidators();

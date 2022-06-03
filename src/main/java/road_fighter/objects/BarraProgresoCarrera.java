@@ -21,7 +21,6 @@ public class BarraProgresoCarrera extends GameObject implements Renderizable, Ac
 		Image imagenBarraProgreso = new Image(Config.BARRA_PROGRESO_CARRERA_IMG, 62, Config.ALTO_FRAME_ESCENA, false, false);
 		renderImagen = new ImageView(imagenBarraProgreso);
 		renderImagen.setViewOrder(10);
-//		renderImagen.setX(440);
 		
 		
 		
@@ -38,7 +37,6 @@ public class BarraProgresoCarrera extends GameObject implements Renderizable, Ac
 	@Override
 	public void update(double deltaTime) {
 		posY =  0.068 * Auto.getUbicacion().getY();
-//		System.out.println(posY);
 		renderAuto.setTranslateY(-75 - posY); //FACTOR_DESPLAZAMIENTO es un numero que uso para que se mueva el mapa en conjunto con la meta
 	}
 
