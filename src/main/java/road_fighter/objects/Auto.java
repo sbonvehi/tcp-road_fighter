@@ -70,7 +70,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private boolean ultimaDireccionRight;
 	private boolean noEstoyAcelerando;
 	private boolean tienePowerUp = false;
-	private boolean jugadorReal;
 
 	private AudioClip driveAudio;
 	private AudioClip skidAudio;
@@ -82,8 +81,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return velocidad;
 	}
 
-	public Auto(Usuario piloto, int offSetX, boolean jugadorReal) {
-		this.jugadorReal = jugadorReal;
+	public Auto(Usuario piloto, int offSetX) {
 		posXAutoInicial += offSetX;
 		collider = new Rectangle(Config.ANCHO_AUTO, Config.ANCHO_AUTO);
 		collider.setFill(Color.DARKBLUE);
@@ -124,9 +122,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		explosionAudio = AudioResources.getExplosionAudio();
 		explosionAudio.setVolume(0.3);
 		powerUpAudio = AudioResources.getPowerUpAudio();
-		powerUpAudio.setVolume(0.2);
-		
-		
+		powerUpAudio.setVolume(0.2);	
 	}
 
 	private void resetViewPort() {
@@ -335,24 +331,21 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		/// si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
 		// si no estoy tocando para acelerar, desacelero
-		if(jugadorReal) {
-			if ((directionUpSpeed1 && velocidad >= topeVelocidad) || (!directionUpSpeed1 && !directionUpSpeed2)) {
+		if ((directionUpSpeed1 && velocidad >= topeVelocidad) || (!directionUpSpeed1 && !directionUpSpeed2)) {
 				velocidad -= TASA_FRENADO;
 			}			
-		}
+		
 		
 
 		/// para que la velocidad no sea negativa
 		if (velocidad < VELOCIDAD_INICIAL) {
 			velocidad = VELOCIDAD_INICIAL;
 		}
-		System.out.println("Y auto: " + Auto.ubicacion.getY());
 		
 		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
 		setX(collider.getX() + direction * VEL_HORIZONTAL * deltaTime);
-		if(jugadorReal) {
-			setY(Auto.ubicacion.getY() + Auto.velocidad * deltaTime);			
-		}
+		setY(Auto.ubicacion.getY() + Auto.velocidad * deltaTime);			
+	
 	}
 
 	public void setDirectionRight(boolean b) {
@@ -403,8 +396,5 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-
-	}
+	public void destroy() {}
 }

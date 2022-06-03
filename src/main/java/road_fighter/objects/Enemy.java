@@ -16,18 +16,18 @@ import road_fighter.utils.GameObject;
 
 public class Enemy extends GameObject implements Actualizable, Renderizable, Colisionable {
 	
-	private Image carImage = new Image(Config.BLUE_CAR, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
-	private Coordenada ubicacion;
-    private double velocidad;
+	protected Image carImage = new Image(Config.BLUE_CAR, Config.ANCHO_AUTO, Config.ALTO_AUTO, false, false);
+	protected Coordenada ubicacion;
+    protected double velocidad;
 
-    private ImageView render; 
-    private Rectangle collider;
+    protected ImageView render; 
+    protected Rectangle collider;
     
-    private static final int posXAutoInicial = 260;
-	private static final int posYAutoInicial = 260;
+    protected static final int posXAutoInicial = 260;
+    protected static final int posYAutoInicial = 260;
     
-    private double OFFSET_X_POSICION;
-    private double OFFSET_Y_POSICION;
+    protected double OFFSET_X_POSICION;
+    protected double OFFSET_Y_POSICION;
     	
     public Enemy(double x, double y, double velocidad) {
     	OFFSET_X_POSICION = x;

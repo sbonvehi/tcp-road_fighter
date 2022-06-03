@@ -16,6 +16,7 @@ import javafx.scene.shape.Shape;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
 import road_fighter.objects.Auto;
+import road_fighter.objects.AutoCompetidor;
 import road_fighter.objects.Background;
 import road_fighter.objects.BarraProgresoCarrera;
 import road_fighter.objects.ColisionObstaculo;
@@ -31,13 +32,16 @@ import usuario.Usuario;
 public class GameSceneHandler extends SceneHandler {
 	
 	private Auto autoJugador1;
-	private Auto autoJugador2;
+	private AutoCompetidor autoCompetidor;
 	private Enemy autoNPC1;
 	private Enemy autoNPC2;
 	private Background fondo;
 	private FinishLine finishLine;
 	private ColisionPowerUp powerUp1;
+	private ColisionPowerUp powerUp2;
 	private ColisionObstaculo obstaculo1;
+	private ColisionObstaculo obstaculo2;
+	private ColisionObstaculo obstaculo3;
 	private BarraProgresoCarrera barraProgreso;
 	private ScoreBoard scoreBoard;
 
@@ -46,6 +50,9 @@ public class GameSceneHandler extends SceneHandler {
 	private AudioClip countdownAudio;
 	public static MediaPlayer raceMusic;
 
+	public static final int MARGEN_IZQ_CALLE = 155;
+	public static final int MARGEN_DER_CALLE = 378;
+	public static final int LARGO_MAPA = 10000;
 	
 	
 	private void initAudios() {
@@ -93,17 +100,17 @@ public class GameSceneHandler extends SceneHandler {
 					break;
 					
 				case RIGHT:
-					autoJugador2.setDirectionRight(true);
+					autoCompetidor.setDirectionRight(true);
 					break;
 				case LEFT:
-					autoJugador2.setDirectionLeft(true);
+					autoCompetidor.setDirectionLeft(true);
 					break;
 				case K:
-					autoJugador2.setDirectionUpSpeed1(true); // velocidad de 0 a 200
+					autoCompetidor.setDirectionUpSpeed1(true); // velocidad de 0 a 200
 					break;
 
 				case L:
-					autoJugador2.setDirectionUpSpeed2(true); // velocidad de 200 a 400
+					autoCompetidor.setDirectionUpSpeed2(true); // velocidad de 200 a 400
 					break;
 					
 				case Q:
@@ -139,16 +146,16 @@ public class GameSceneHandler extends SceneHandler {
 					break;
 					
 				case RIGHT:
-			 		autoJugador2.setDirectionRight(false);
+					autoCompetidor.setDirectionRight(false);
 					break;
 				case LEFT:
-					autoJugador2.setDirectionLeft(false);
+					autoCompetidor.setDirectionLeft(false);
 					break;
 				case K:
-					autoJugador2.setDirectionUpSpeed1(false);
+					autoCompetidor.setDirectionUpSpeed1(false);
 					break;
 				case L: // voy disminuyendo la velocidad de y hasta cero..
-					autoJugador2.setDirectionUpSpeed2(false);
+					autoCompetidor.setDirectionUpSpeed2(false);
 					break;
 					
 				default:
@@ -179,14 +186,19 @@ public class GameSceneHandler extends SceneHandler {
 		///Instancio todos los objectos de la partida
 		Usuario usr = new Usuario("test","test");
 		Usuario usr2 = new Usuario("test2","test2");
-		autoJugador1 = new Auto(usr, -40, true);
-		autoJugador2 = new Auto(usr2, 30, false);
+		autoJugador1 = new Auto(usr, -40);
+		autoCompetidor = new AutoCompetidor("competidor", 30, 650, 10);
 		fondo = new Background(mapNombre);
 		autoNPC1 = new Enemy(0,-50, 100);
 		autoNPC2 = new Enemy(10,-300, 110);
-		powerUp1 = new ColisionPowerUp(250, 650);
-		obstaculo1 = new ColisionObstaculo(300, 200);
+			
+		powerUp1 = new ColisionPowerUp(getRandomX(), getRandomY());
+		powerUp2 = new ColisionPowerUp(getRandomX(), getRandomY());
 		
+		obstaculo1 = new ColisionObstaculo(getRandomX(), getRandomY());
+		obstaculo2 = new ColisionObstaculo(getRandomX(), getRandomY());
+		obstaculo3 = new ColisionObstaculo(getRandomX(), getRandomY());
+				
 		finishLine = new FinishLine();
 		barraProgreso = new BarraProgresoCarrera();
 		scoreBoard = new ScoreBoard();
@@ -194,7 +206,7 @@ public class GameSceneHandler extends SceneHandler {
 		
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
-		gameOB.add(autoJugador1, autoJugador2, fondo, autoNPC1, autoNPC2, finishLine, powerUp1, obstaculo1, barraProgreso, scoreBoard);
+		gameOB.add(autoJugador1, autoCompetidor, fondo, autoNPC1, autoNPC2, finishLine, powerUp1, powerUp2, obstaculo1, obstaculo2,obstaculo3, barraProgreso, scoreBoard);
 	
 		if (fullStart) {
 			addTimeEventsAnimationTimer();
@@ -258,5 +270,11 @@ public class GameSceneHandler extends SceneHandler {
 	public static void apagarMusica() {
 		raceMusic.stop();
 	}
-
+	
+	public int getRandomX() {
+		return (int)(Math.random()*(MARGEN_DER_CALLE-MARGEN_IZQ_CALLE+1)+MARGEN_IZQ_CALLE);
+	}
+	public int getRandomY() {
+		return (int)(Math.random()*(LARGO_MAPA-300+1)+300);
+	}
 }
