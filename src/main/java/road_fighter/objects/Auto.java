@@ -141,7 +141,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			perderControl();
 			System.out.println("choque contra auto NPC");
 		}			
-		if (colisionable.getClass() == Auto.class && !perdiElControl) {
+		if (colisionable.getClass() == AutoCompetidor.class && !perdiElControl) {
 			perderControl();
 			System.out.println("choque contra auto de competidor");
 		}	
@@ -247,7 +247,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void aumentarVelocidadPowerUp() {
-//		int velocidad anterior
 		tienePowerUp = true;
 		topeVelocidad = VELOCIDAD_MAX2 + 200;
 
@@ -303,7 +302,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			Auto.ubicacion.setX(x);
 			render.setX(x);
 		}
-//		System.out.println("Posicion actual: " + Auto.ubicacion.toString());
 
 	}
 

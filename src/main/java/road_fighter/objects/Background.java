@@ -39,6 +39,7 @@ public class Background extends GameObject implements Actualizable, Renderizable
 		calleCollider.setFill(Color.FUCHSIA);
 		calleCollider.setStroke(Color.FUCHSIA);
 		calleCollider.setX(MARGEN_IZQ_CALLE);
+		calleCollider.setY(-12000);
 		
 		
 		

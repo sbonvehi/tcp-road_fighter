@@ -9,9 +9,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import road_fighter.Config;
 import road_fighter.GameSceneHandler;
 import road_fighter.interfaces.Colisionable;
 import road_fighter.interfaces.Colisionador;
+import road_fighter.utils.AudioResources;
 import usuario.Usuario;
 
 public class AutoCompetidor extends Enemy implements Colisionador{
@@ -23,11 +25,9 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	private final double TASA_ACELERACION2 = 0.9;
 	private final double TASA_FRENADO = 0.8;
 	private final int VEL_HORIZONTAL = 300;
-
-	private Image spriteImages;
+  
 	private SpriteAnimation crash;
 	private Image imageLostControl;
-//	private ImageView renderLostControl;
 	private SpriteAnimation lostControlSpriteLeft;
 	private SpriteAnimation lostControlSpriteRight;
 	private int multiplic = 3;
@@ -66,16 +66,47 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	
 	private String nombreCompetidor;
 
+	private Image spriteImages;
+	
 	public AutoCompetidor(String nombreCompetidor, double x, double y, double velocidad) {
 		super(x, y, velocidad);
 		this.nombreCompetidor = nombreCompetidor;
+		
+
+		spriteImages = new Image(Config.GENERAL_SPRITES_IMG, anchoImagen * multiplic, altoImagen * multiplic, false,
+				false);
+		imageLostControl = new Image(Config.LOST_CONTROL_SPRITES_IMG, 328 * multiplic, 40 * multiplic, false, false);
+		render = new ImageView(spriteImages);
+		render.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
+		render.setViewOrder(5);
+		
+        render.setX(posXAutoInicial + OFFSET_X_POSICION);
+        render.setY(posYAutoInicial + OFFSET_Y_POSICION);
+		collider.setX(posXAutoInicial + OFFSET_X_POSICION);
+		collider.setY(posYAutoInicial + OFFSET_Y_POSICION);
+        
+		initSpriteAnimations();
+		initAudios();
 	}
 
-//	public void setY(double y) {
-//		if (!dead) {
-//			ubicacion.setY(y);/// esta es la unica Y que se va cambiar, porque es la que determina que tan
-//		}
-//	}
+	
+	private void initSpriteAnimations() { /// estan bien cargados los sprites.
+		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
+		crash.setCycleCount(Animation.INDEFINITE);
+	}
+
+	private void initAudios() {
+		driveAudio = AudioResources.getDriveAudio();
+		driveAudio.setVolume(0.1);
+		driveAudio.setCycleCount(AudioClip.INDEFINITE);
+		skidAudio = AudioResources.getSkidAudio();
+		skidAudio.setVolume(0.15);
+		skidAudio.setCycleCount(AudioClip.INDEFINITE);
+		explosionAudio = AudioResources.getExplosionAudio();
+		explosionAudio.setVolume(0.3);
+		powerUpAudio = AudioResources.getPowerUpAudio();
+		powerUpAudio.setVolume(0.2);	
+	}
 
 	public void setX(double x) {
 		if (!dead) {
@@ -89,9 +120,24 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 
 	@Override
 	public void update(double deltaTime) {
+
+		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
+		setX(collider.getX() + direction * VEL_HORIZONTAL * deltaTime);
+
+		double difVelocidadAutos = velocidad - Auto.getVelocidad();
+		setY(this.ubicacion.getY() - difVelocidadAutos * deltaTime * Background.FACTOR_DESPLAZAMIENTO); 
+		// FACTOR_DESPLAZAMIENTO es para que el autoNPC se mueva proporcionalmente en relacion al mapa
 		
-		/// acelerando mientras no me pase del limite
-		flagFueraDeMapa = true;
+		if (dead) {
+			return;
+		}
+
+		if (flagFueraDeMapa) {
+			die();
+		}
+		
+
+		flagFueraDeMapa = true;			
 
 		if ((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
 			velocidad += aceleracion;
@@ -107,14 +153,8 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		if (velocidad < VELOCIDAD_INICIAL) {
 			velocidad = VELOCIDAD_INICIAL;
 		}
-		// System.out.println("Y auto: " + ubicacion.getY());
 
-		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
-		setX(collider.getX() + direction * VEL_HORIZONTAL * deltaTime);
-
-		double difVelocidadAutos = velocidad - Auto.getVelocidad();
-		setY(this.ubicacion.getY() - difVelocidadAutos * deltaTime * Background.FACTOR_DESPLAZAMIENTO); 
-		// FACTOR_DESPLAZAMIENTO es para que el autoNPC se mueva proporcionalmente en relacion al mapa
+		
 
 	}
 
@@ -129,6 +169,9 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	}
 
 	public void setDirectionUpSpeed1(boolean b) {
+		if (!tienePowerUp) {
+			topeVelocidad = VELOCIDAD_MAX1;
+		}
 		this.directionUpSpeed1 = b;
 		if (velocidad <= topeVelocidad) {
 			this.aceleracion = TASA_ACELERACION1;
@@ -137,6 +180,10 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	}
 
 	public void setDirectionUpSpeed2(boolean b) {
+		if (!tienePowerUp) {
+			topeVelocidad = VELOCIDAD_MAX2;
+		}
+		
 		this.directionUpSpeed2 = b;
 		this.aceleracion = TASA_ACELERACION2;
 	}
@@ -151,11 +198,11 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 			collider.setX(posXAutoInicial + OFFSET_X_POSICION);
 			this.dead = true;
 			velocidad = VELOCIDAD_INICIAL;
-			//crash.play();
+			crash.play();
 			new java.util.Timer().schedule(new java.util.TimerTask() {
 				@Override
 				public void run() {
-					//explosionAudio.play();
+					explosionAudio.play();
 				}
 			}, 100);
 
@@ -165,7 +212,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 					crash.stop();
 					resetViewPort();
 					dead = false;
-					setX(posXAutoInicial);
+					setX(posXAutoInicial + OFFSET_X_POSICION);
 				}
 			}, 1100);
 
@@ -188,6 +235,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		/// entonces me fui del mapa
 		if (colisionable.getClass() == Background.class) {
 			flagFueraDeMapa = false;
+			System.out.println("competidor se va del mapa");
 		}
 
 		if (colisionable.getClass() == FinishLine.class) {
