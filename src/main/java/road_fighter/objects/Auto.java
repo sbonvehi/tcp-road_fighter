@@ -186,10 +186,11 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		
 		
 		if (colisionable.getClass() == ColisionObstaculo.class) {
-			this.reducirVelocidadObstaculo();
+//			this.reducirVelocidadObstaculo();
 			if (!colisioneConObstaculo) {
 				colisioneConObstaculo = true;
 				skidAudio.play();
+				perderControl();
 				new java.util.Timer().schedule(new java.util.TimerTask() {
 					@Override
 					public void run() {
@@ -211,7 +212,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return piloto;
 	}
 
-	public void perderControl() {
+	private void perderControl() {
 		if (!perdiElControl) {
 			Auto.velocidad /= 2;
 			perdiElControl = true;

@@ -322,10 +322,11 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		
 		
 		if (colisionable.getClass() == ColisionObstaculo.class) {
-			this.reducirVelocidadObstaculo();
+//			this.reducirVelocidadObstaculo();
 			if (!colisioneConObstaculo) {
 				colisioneConObstaculo = true;
 				skidAudio.play();
+				perderControl();
 				new java.util.Timer().schedule(new java.util.TimerTask() {
 					@Override
 					public void run() {
@@ -345,6 +346,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		if (!perdiElControl) {
 			velocidad /= 2;
 			perdiElControl = true;
+			skidAudio.play();
 			imagenAuto.setImage(imageLostControl);
 
 			if (ultimaDireccionRight) {

@@ -11,7 +11,7 @@ import usuario.Usuario;
 
 public class TestAuto {
 	
-	Auto auto = new Auto(new Usuario("seba", "1234"));
+	Auto auto = new Auto(new Usuario("seba", "1234"), 0);
 
 	@Test
 	public void testMoverUp() {
