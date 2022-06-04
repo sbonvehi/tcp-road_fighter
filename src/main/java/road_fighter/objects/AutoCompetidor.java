@@ -64,6 +64,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	private boolean tienePowerUp = false;
 
 	private AudioClip driveAudio;
+	private AudioClip drive2Audio;
 	private AudioClip skidAudio;
 	private AudioClip explosionAudio;
 	private AudioClip powerUpAudio;
@@ -74,6 +75,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	private Image spriteImages;
 	private ImageView imagenAuto;
 	private VBox render;
+	private boolean noEstoyAcelerando2;
 	
 	
 	public AutoCompetidor(String nombreCompetidor, double x, double y, double velocidad) {
@@ -140,6 +142,9 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		driveAudio = AudioResources.getDriveAudio();
 		driveAudio.setVolume(0.1);
 		driveAudio.setCycleCount(AudioClip.INDEFINITE);
+		drive2Audio = AudioResources.getDrive2Audio();
+		drive2Audio.setVolume(0.1);
+		drive2Audio.setCycleCount(AudioClip.INDEFINITE);
 		skidAudio = AudioResources.getSkidAudio();
 		skidAudio.setVolume(0.15);
 		skidAudio.setCycleCount(AudioClip.INDEFINITE);
@@ -206,11 +211,17 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 	}
 
 	public void setDirectionRight(boolean b) {
+		if(terminoCarrera){
+			return;
+		}
 		this.directionRight = b;
 		this.ultimaDireccionRight = true;
 	}
 
 	public void setDirectionLeft(boolean b) {
+		if(terminoCarrera){
+			return;
+		}
 		this.directionLeft = b;
 		this.ultimaDireccionRight = false;
 	}
@@ -220,7 +231,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		if(terminoCarrera){
 			return;
 		}
-		activeDriveSound(b);
+		activeDriveSound(b, driveAudio);
 		
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX1;
@@ -236,7 +247,7 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		if(terminoCarrera){
 			return;
 		}
-		activeDriveSound(b);
+		activeDrive2Sound(b, drive2Audio);
 		
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX2;
@@ -245,6 +256,25 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		this.aceleracion = TASA_ACELERACION2;
 	}
 
+	private void activeDriveSound(boolean b, AudioClip audio) {
+		if (b && !noEstoyAcelerando) {
+			driveAudio.play();
+			noEstoyAcelerando = true;
+		} else if (!b && noEstoyAcelerando) {
+			driveAudio.stop();
+			noEstoyAcelerando = false;
+		}
+	}
+	private void activeDrive2Sound(boolean b, AudioClip audio) {
+		if (b && !noEstoyAcelerando2) {
+			audio.play();
+			noEstoyAcelerando2 = true;
+		} else if (!b && noEstoyAcelerando2) {
+			audio.stop();
+			noEstoyAcelerando2 = false;
+		}
+	}
+	
 	public void die() {
 		if (!dead) {
 			setDirectionRight(false);
@@ -334,7 +364,6 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 						colisioneConObstaculo = false;
 					}
 				}, 800);
-				System.out.println("COLISION CON OBSTACULO");
 			}
 		}
 
@@ -397,16 +426,6 @@ public class AutoCompetidor extends Enemy implements Colisionador{
 		}, 10000);
 	}
 	
-	private void activeDriveSound(boolean b) {
-		if (b && !noEstoyAcelerando) {
-			driveAudio.play();
-			noEstoyAcelerando = true;
-		} else if (!b && noEstoyAcelerando) {
-			driveAudio.stop();
-			noEstoyAcelerando = false;
-		}
-	}
-
 	private void resetViewPort() {
 		imagenAuto.setViewport(new Rectangle2D(espaciador, espaciador, anchoAuto * multiplic, altoAuto * multiplic));
 	}

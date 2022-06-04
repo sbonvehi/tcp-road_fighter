@@ -197,7 +197,6 @@ public class GameSceneHandler extends SceneHandler {
 				}
 				raceMusic.play();
 			 	GameSceneHandler.cronometro = System.currentTimeMillis();
-				
 			}
 		}, 5000);
 		

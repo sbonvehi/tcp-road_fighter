@@ -19,6 +19,10 @@ public final class AudioResources {
 	public static AudioClip getDriveAudio() {
 		return create("snd/drive.wav");
 	}
+	
+	public static AudioClip getDrive2Audio() {
+		return create("snd/driveVel2.wav");
+	}
 
 	public static AudioClip getSkidAudio() {
 		return create("snd/skid.wav");
