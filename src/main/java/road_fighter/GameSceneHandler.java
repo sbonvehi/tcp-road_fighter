@@ -162,16 +162,16 @@ public class GameSceneHandler extends SceneHandler {
 		
 		
 		initAudios();
-		countdownAudio.play();
+//		countdownAudio.play();
 		new java.util.Timer().schedule(new java.util.TimerTask() {
 			@Override
 			public void run() {
 				if (fullStart) {
 					addInputEvents();
 				}
-				raceMusic.play();
+//				raceMusic.play();
 			}
-		}, 5000);
+		}, 5);
 		
 		///Instancio todos los objectos de la partida
 		Usuario usr = new Usuario("test","test");

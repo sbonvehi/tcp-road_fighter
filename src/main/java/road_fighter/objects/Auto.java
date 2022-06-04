@@ -3,6 +3,8 @@ package road_fighter.objects;
 import animation.SpriteAnimation;
 import coordenada.Coordenada;
 import javafx.animation.Animation;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -72,10 +74,13 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private boolean tienePowerUp = false;
 
 	private AudioClip driveAudio;
+	private AudioClip drive2Audio;
 	private AudioClip skidAudio;
 	private AudioClip explosionAudio;
 	private AudioClip powerUpAudio;
 	private boolean colisioneConObstaculo;
+
+	private boolean noEstoyAcelerando2;
 
 	public static double getVelocidad() {
 		return velocidad;
@@ -115,6 +120,9 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		driveAudio = AudioResources.getDriveAudio();
 		driveAudio.setVolume(0.1);
 		driveAudio.setCycleCount(AudioClip.INDEFINITE);
+		drive2Audio = AudioResources.getDrive2Audio();
+		drive2Audio.setVolume(0.1);
+		drive2Audio.setCycleCount(AudioClip.INDEFINITE);
 		skidAudio = AudioResources.getSkidAudio();
 		skidAudio.setVolume(0.15);
 		skidAudio.setCycleCount(AudioClip.INDEFINITE);
@@ -122,8 +130,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		explosionAudio.setVolume(0.3);
 		powerUpAudio = AudioResources.getPowerUpAudio();
 		powerUpAudio.setVolume(0.2);
-		
-		
 	}
 
 	private void resetViewPort() {
@@ -134,15 +140,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return render;
 	}
 
-	
-	
 	@Override
 	public void colisionar(Colisionable colisionable) {
 		if (colisionable.getClass() == Enemy.class && !perdiElControl) {
 			perderControl();
+			System.err.println("XXXXXXXXXXXXXXXXXXXXXX");
 			System.out.println("choque contra auto NPC");
-		}			
-		
+			System.err.println("XXXXXXXXXXXXXXXXXXXXXX");
+		}
+
 		/// Si "colisiono" con la calle es que estoy bien, si dejo de colisionar
 		/// entonces me fui del mapa
 		if (colisionable.getClass() == Background.class) {
@@ -152,8 +158,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (colisionable.getClass() == FinishLine.class) {
 			Auto.velocidad = 0;
 			GameSceneHandler.apagarMusica();
-			
-			
+
 		}
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
@@ -171,8 +176,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				System.out.println("COLISION CON POWER-UP");
 			}
 		}
-		
-		
+
 		if (colisionable.getClass() == ColisionObstaculo.class) {
 			this.reducirVelocidadObstaculo();
 			if (!colisioneConObstaculo) {
@@ -201,29 +205,55 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void perderControl() {
 		if (!perdiElControl) {
-			Auto.velocidad /= 2;
-			perdiElControl = true;
-			skidAudio.play();
-			render.setImage(imageLostControl);
-
-			if (ultimaDireccionRight) {
-				lostControlSpriteLeft = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 2 * 3, 2 * 3,
-						15 * 3, 18 * 3);
-				lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
-			} else {
-				lostControlSpriteRight = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 20 * 3, 2 * 3,
-						15 * 3, 18 * 3);
-				lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
-			}
-			SpriteAnimation sprite = ultimaDireccionRight ? lostControlSpriteLeft : lostControlSpriteRight;
-
+			boolean ultimaDireccionRight = this.ultimaDireccionRight;
 			setDirectionRight(false);
 			setDirectionLeft(false);
 			setDirectionUpSpeed1(false);
 			setDirectionUpSpeed2(false);
 
-			sprite.play();
+			Auto.velocidad /= 2;
+			perdiElControl = true;
+			skidAudio.play();
+			render.setImage(imageLostControl);
 
+			TranslateTransition translateLeft = null;
+			TranslateTransition translateRight = null;
+			
+			if (ultimaDireccionRight) {
+				lostControlSpriteLeft = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 2 * 3, 2 * 3,
+						15 * 3, 18 * 3);
+				lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
+				
+				translateLeft = new TranslateTransition(Duration.millis(500));
+				translateLeft.setToX(-25);
+				translateLeft.setToY(-10);
+			} else {
+				lostControlSpriteRight = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 20 * 3, 2 * 3,
+						15 * 3, 18 * 3);
+				lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
+				
+				translateRight = new TranslateTransition(Duration.millis(500));
+				translateRight.setToX(25);
+				translateRight.setToY(-10);
+			}
+			
+			SpriteAnimation sprite;
+			TranslateTransition translate;
+			if(ultimaDireccionRight) {
+				sprite = lostControlSpriteLeft;
+				translate = translateLeft;
+			}else
+			{
+				sprite = lostControlSpriteRight;
+				translate = translateRight;
+			}
+			TranslateTransition translateOriginal = new TranslateTransition(Duration.millis(500));
+			translateOriginal.setToX(0);
+			translateOriginal.setToY(0);
+			SequentialTransition sq = new SequentialTransition(render, translate, translateOriginal);
+			
+			sprite.play();
+			sq.play();
 			new java.util.Timer().schedule(new java.util.TimerTask() {
 				@Override
 				public void run() {
@@ -239,7 +269,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void reducirVelocidadObstaculo() {
 		Auto.velocidad /= 1.1;
-
 	}
 
 	public void aumentarVelocidadPowerUp() {
@@ -259,9 +288,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}, 10000);
 	}
 
-	/**
-	 * Cuando choca contra los costados de la calle se podricen estas animaciones..
-	 */
 	public void die() {
 		if (!dead) {
 			setDirectionRight(false);
@@ -277,7 +303,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				public void run() {
 					explosionAudio.play();
 				}
-			}, 100);
+			}, 50);
 
 			new java.util.Timer().schedule(new java.util.TimerTask() {
 				@Override
@@ -298,8 +324,10 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			collider.setX(x);
 			Auto.ubicacion.setX(x);
 			render.setX(x);
+			System.out.println("Posicion actual: " + Auto.ubicacion.getX());
+			System.out.println("Colider: " + collider.getX());
+			System.out.println("Render: " + render.getX());
 		}
-//		System.out.println("Posicion actual: " + Auto.ubicacion.toString());
 
 	}
 
@@ -307,6 +335,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (!dead) {
 			Auto.ubicacion.setY(y);/// esta es la unica Y que se va cambiar, porque es la que determina que tan
 		}
+
 	}
 
 	public void update(double deltaTime) {
@@ -343,7 +372,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 	public void setDirectionRight(boolean b) {
 		this.directionRight = b;
-	 	this.ultimaDireccionRight = true;
+		this.ultimaDireccionRight = true;
 	}
 
 	public void setDirectionLeft(boolean b) {
@@ -355,8 +384,8 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX1;
 		}
-		activeDriveSound(b);
 		this.directionUpSpeed1 = b;
+		activeDriveSound(b, driveAudio);
 		if (Auto.velocidad <= topeVelocidad) {
 			this.aceleracion = TASA_ACELERACION1;
 		}
@@ -367,22 +396,31 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		if (!tienePowerUp) {
 			topeVelocidad = VELOCIDAD_MAX2;
 		}
-		activeDriveSound(b);
 		this.directionUpSpeed2 = b;
+		activeDrive2Sound(b, drive2Audio);
 		this.aceleracion = TASA_ACELERACION2;
 	}
-	
-	private void activeDriveSound(boolean b) {
+
+	private void activeDriveSound(boolean b, AudioClip audio) {
 		if (b && !noEstoyAcelerando) {
-			driveAudio.play();
+			audio.play();
 			noEstoyAcelerando = true;
-			System.err.println("Active el drive sound");
 		} else if (!b && noEstoyAcelerando) {
-			driveAudio.stop();
+			audio.stop();
 			noEstoyAcelerando = false;
-			System.err.println("Desactive el drive sound");
 		}
 	}
+	
+	private void activeDrive2Sound(boolean b, AudioClip audio) {
+		if (b && !noEstoyAcelerando) {
+			audio.play();
+			noEstoyAcelerando2 = true;
+		} else if (!b && noEstoyAcelerando2) {
+			audio.stop();
+			noEstoyAcelerando2 = false;
+		}
+	}
+
 	@Override
 	public Shape getCollider() {
 		return collider;
