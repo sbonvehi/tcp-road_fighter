@@ -32,7 +32,6 @@ public class GameObjectBuilder {
 		if (this.rootNode == null) {
 			this.rootNode = rootNode;
 			rootNode.getChildren().add(objectsGroup);
-			//rootNode.getChildren().add(collidersGroup);
 		} else {
 			throw new RuntimeException("Root node already configured");
 		}
@@ -77,8 +76,6 @@ public class GameObjectBuilder {
 	}
 
 	public void remove(GameObject... gameObjects) {
-		//checkRootNode();
-
 		for (GameObject gameObject : gameObjects) {
 			allGameObjects.remove(gameObject);
 
@@ -132,5 +129,5 @@ public class GameObjectBuilder {
 			throw new RuntimeException("Root node not configured. Please add it first");
 		}
 	}
-	
+
 }

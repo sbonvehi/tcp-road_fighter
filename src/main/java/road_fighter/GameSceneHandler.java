@@ -103,36 +103,32 @@ public class GameSceneHandler extends SceneHandler {
 
 				switch (event.getCode()) {	
 				case D:
-					autoJugador1.setDirectionRight(true);
+					autoJugador1.setDireccionDerecha(true);
 					break;
 				case A:
-					autoJugador1.setDirectionLeft(true);
+					autoJugador1.setDireccionIzquierda(true);
 					break;
 				case V:
-					autoJugador1.setDirectionUpSpeed1(true); // velocidad de 0 a 200
+					autoJugador1.setDireccionVelocidad1(true); // velocidad de 0 a 200.
 					break;
 				case B:
-					autoJugador1.setDirectionUpSpeed2(true); // velocidad de 200 a 400
+					autoJugador1.setDireccionVelocidad2(true); // velocidad de 200 a 400.
 					break;
 					
 				case RIGHT:
-					autoCompetidor.setDirectionRight(true);
+					autoCompetidor.setDireccionDerecha(true);
 					break;
 				case LEFT:
-					autoCompetidor.setDirectionLeft(true);
+					autoCompetidor.setDireccionIzquierda(true);
 					break;
 				case K:
-					autoCompetidor.setDirectionUpSpeed1(true); // velocidad de 0 a 200
+					autoCompetidor.setDireccionVelocidad1(true); // velocidad de 0 a 200.
 					break;
 
 				case L:
-					autoCompetidor.setDirectionUpSpeed2(true); // velocidad de 200 a 400
+					autoCompetidor.setDireccionVelocidad2(true); // velocidad de 200 a 400.
 					break;
-					
-				case T:
-					autoCompetidor.teletransportar(); // velocidad de 200 a 400
-					break;
-					
+									
 				case Q:
 				case ESCAPE:
 					g.menuFromGame();
@@ -149,29 +145,29 @@ public class GameSceneHandler extends SceneHandler {
 
 	 			switch (event.getCode()) {
 				case D:
-					autoJugador1.setDirectionRight(false);
+					autoJugador1.setDireccionDerecha(false);
 					break;
 				case A:
-					autoJugador1.setDirectionLeft(false);
+					autoJugador1.setDireccionIzquierda(false);
 					break;
 				case V:
-					autoJugador1.setDirectionUpSpeed1(false);
+					autoJugador1.setDireccionVelocidad1(false);
 					break;
-				case B: // voy disminuyendo la velocidad de y hasta cero..
-					autoJugador1.setDirectionUpSpeed2(false);
+				case B: // voy disminuyendo la velocidad de y hasta cero.
+					autoJugador1.setDireccionVelocidad2(false);
 					break;
 					
 				case RIGHT:
-					autoCompetidor.setDirectionRight(false);
+					autoCompetidor.setDireccionDerecha(false);
 					break;
 				case LEFT:
-					autoCompetidor.setDirectionLeft(false);
+					autoCompetidor.setDireccionIzquierda(false);
 					break;
 				case K:
-					autoCompetidor.setDirectionUpSpeed1(false);
+					autoCompetidor.setDireccionVelocidad1(false);
 					break;
-				case L: // voy disminuyendo la velocidad de y hasta cero..
-					autoCompetidor.setDirectionUpSpeed2(false);
+				case L: // voy disminuyendo la velocidad de y hasta cero.
+					autoCompetidor.setDireccionVelocidad2(false);
 					break;
 					
 				default:
@@ -201,7 +197,7 @@ public class GameSceneHandler extends SceneHandler {
 			}
 		}, 5000);
 		
-		///Instancio todos los objectos de la partida
+		///Instancio todos los objectos de la partida.
 		
 		autoJugador1 = new Auto(RoadFighterGame.anfitrion, -40);
 		autoCompetidor = new AutoCompetidor("JUGADOR 2", 30, 650, 10);
@@ -306,6 +302,7 @@ public class GameSceneHandler extends SceneHandler {
 	public int getRandomX() {
 		return (int)(Math.random()*(MARGEN_DER_CALLE-MARGEN_IZQ_CALLE+1)+MARGEN_IZQ_CALLE);
 	}
+	
 	public int getRandomY() {
 		return (int)(Math.random()*(LARGO_MAPA-300+1)+300);
 	}

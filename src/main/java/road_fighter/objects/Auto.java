@@ -38,16 +38,15 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private Image spriteImages;
 	private SpriteAnimation crash;
 	private Image imageLostControl;
-//	private ImageView renderLostControl;
 	private SpriteAnimation lostControlSpriteLeft;
 	private SpriteAnimation lostControlSpriteRight;
+
 	private int multiplic = 3;
 	private int anchoAuto = 14;
 	private int altoAuto = 19;
 	private int espaciador = 2;
 	private int anchoImagen = 328;
 	private int altoImagen = 179;
-
 	public int posXAutoInicial = 270;
 	public static int posYAutoInicial = 650;
 	private boolean flagFueraDeMapa = false;
@@ -59,17 +58,17 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private static Coordenada ubicacion;
 	private Usuario piloto;
 
-	private boolean directionLeft = false;
-	private boolean directionRight = false;
-	private boolean directionUpSpeed1 = false;
-	private boolean directionUpSpeed2 = false;
+	private boolean direccionIzquierda = false;
+	private boolean direccionDerecha = false;
+	private boolean direccionVelocidad1 = false;
+	private boolean direccionVelocidad2 = false;
 
 	private Rectangle collider;
 	private ImageView render;
-	private boolean dead;
+	private boolean muerto;
 	private boolean terminoCarrera = false;
 	private boolean perdiElControl;
-	private boolean ultimaDireccionRight;
+	private boolean ultimaDireccionDerecha;
 	private boolean noEstoyAcelerando;
 	private boolean tienePowerUp = false;
 
@@ -79,8 +78,6 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	private AudioClip powerUpAudio;
 	private boolean colisioneConObstaculo;
 
-	
-	
 	public static double getVelocidad() {
 		return velocidad;
 	}
@@ -92,6 +89,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		collider.setStroke(Color.FUCHSIA);
 
 		cantAutos++;
+
 		Auto.ubicacion = new Coordenada(posXAutoInicial, 0);
 		Auto.velocidad = VELOCIDAD_INICIAL;
 		this.piloto = piloto;
@@ -105,6 +103,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 
 		initSpriteAnimations();
 		initAudios();
+
 		/// ubicacion inicial
 		render.setX(posXAutoInicial);
 		render.setY(posYAutoInicial);
@@ -112,8 +111,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		collider.setY(posYAutoInicial);
 	}
 
-	 
-	private void initSpriteAnimations() { /// estan bien cargados los sprites.
+	private void initSpriteAnimations() {
 		crash = new SpriteAnimation(render, Duration.millis(1000), 3, 3, 41 * 3, 34 * 3, 3 * 3, 14 * 3, 19 * 3);
 		crash.setCycleCount(Animation.INDEFINITE);
 	}
@@ -128,7 +126,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		explosionAudio = AudioResources.getExplosionAudio();
 		explosionAudio.setVolume(0.3);
 		powerUpAudio = AudioResources.getPowerUpAudio();
-		powerUpAudio.setVolume(0.2);	
+		powerUpAudio.setVolume(0.2);
 	}
 
 	private void resetViewPort() {
@@ -139,33 +137,31 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		return render;
 	}
 
-	
-	
 	@Override
 	public void colisionar(Colisionable colisionable) {
 		if (colisionable.getClass() == Enemy.class && !perdiElControl) {
 			perderControl();
 			System.out.println("choque contra auto NPC");
-		}			
+		}
+
 		if (colisionable.getClass() == AutoCompetidor.class && !perdiElControl) {
 			perderControl();
 			System.out.println("choque contra auto de competidor");
-		}	
-		
-		/// Si "colisiono" con la calle es que estoy bien, si dejo de colisionar
-		/// entonces me fui del mapa
-		if (colisionable.getClass() == Background.class) {
-			flagFueraDeMapa = false;
 		}
 
+		/// Si "colisiono" con la calle es que estoy bien, si dejo de colisionar
+		/// entonces me fui del mapa
+		if (colisionable.getClass() == Background.class)
+			flagFueraDeMapa = false;
+
 		if (colisionable.getClass() == FinishLine.class && !terminoCarrera) {
-			setDirectionUpSpeed1(false);
-			setDirectionUpSpeed2(false);
+			setDireccionVelocidad1(false);
+			setDireccionVelocidad2(false);
 			terminoCarrera = true;
 			GameSceneHandler.apagarMusica();
 			GameSceneHandler.reproducirMusicaVictoria();
 			ScoreBoard.mostrar();
-			ScoreBoard.agregarJugadorAlTablero(RoadFighterGame.anfitrion.getNombre(), GameSceneHandler.getTiempoMeta());		
+			ScoreBoard.agregarJugadorAlTablero(RoadFighterGame.anfitrion.getNombre(), GameSceneHandler.getTiempoMeta());
 		}
 
 		if (colisionable.getClass() == ColisionPowerUp.class) {
@@ -183,8 +179,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				System.out.println("COLISION CON POWER-UP");
 			}
 		}
-		
-		
+
 		if (colisionable.getClass() == ColisionObstaculo.class) {
 			this.reducirVelocidadObstaculo();
 			if (!colisioneConObstaculo) {
@@ -218,7 +213,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			skidAudio.play();
 			render.setImage(imageLostControl);
 
-			if (ultimaDireccionRight) {
+			if (ultimaDireccionDerecha) {
 				lostControlSpriteLeft = new SpriteAnimation(render, Duration.millis(1000), 13, 13, 0, 2 * 3, 2 * 3,
 						15 * 3, 18 * 3);
 				lostControlSpriteLeft.setCycleCount(Animation.INDEFINITE);
@@ -227,12 +222,12 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 						15 * 3, 18 * 3);
 				lostControlSpriteRight.setCycleCount(Animation.INDEFINITE);
 			}
-			SpriteAnimation sprite = ultimaDireccionRight ? lostControlSpriteLeft : lostControlSpriteRight;
+			SpriteAnimation sprite = ultimaDireccionDerecha ? lostControlSpriteLeft : lostControlSpriteRight;
 
-			setDirectionRight(false);
-			setDirectionLeft(false);
-			setDirectionUpSpeed1(false);
-			setDirectionUpSpeed2(false);
+			setDireccionDerecha(false);
+			setDireccionIzquierda(false);
+			setDireccionVelocidad1(false);
+			setDireccionVelocidad2(false);
 
 			sprite.play();
 
@@ -270,18 +265,17 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 		}, 7000);
 	}
 
-	/**
-	 * Cuando choca contra los costados de la calle se podricen estas animaciones..
-	 */
+	// Cuando choca contra los costados de la calle se podricen estas animaciones..
 	public void die() {
-		if (!dead) {
-			setDirectionRight(false);
-			setDirectionLeft(false);
-			setDirectionUpSpeed1(false);
-			setDirectionUpSpeed2(false);
+		if (!muerto) {
+			setDireccionDerecha(false);
+			setDireccionIzquierda(false);
+			setDireccionVelocidad1(false);
+			setDireccionVelocidad2(false);
 			collider.setX(posXAutoInicial);
-			this.dead = true;
+			this.muerto = true;
 			Auto.velocidad = VELOCIDAD_INICIAL;
+
 			crash.play();
 			new java.util.Timer().schedule(new java.util.TimerTask() {
 				@Override
@@ -295,7 +289,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 				public void run() {
 					crash.stop();
 					resetViewPort();
-					Auto.this.dead = false;
+					Auto.this.muerto = false;
 					setX(posXAutoInicial);
 				}
 			}, 1100);
@@ -305,7 +299,7 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setX(double x) {
-		if (!dead) {
+		if (!muerto) {
 			collider.setX(x);
 			Auto.ubicacion.setX(x);
 			render.setX(x);
@@ -314,84 +308,76 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 	}
 
 	public void setY(double y) {
-		if (!dead) {
-			Auto.ubicacion.setY(y);/// esta es la unica Y que se va cambiar, porque es la que determina que tan
-		}
+		if (!muerto)
+			Auto.ubicacion.setY(y);
 	}
 
 	public void update(double deltaTime) {
-		if (dead) {
+		if (muerto)
 			return;
-		}
 
-		if (flagFueraDeMapa) {
+		if (flagFueraDeMapa)
 			die();
-		}
+
 		/// acelerando mientras no me pase del limite
 		flagFueraDeMapa = true;
 
-		if ((directionUpSpeed1 || directionUpSpeed2) && velocidad < topeVelocidad) {
+		if ((direccionVelocidad1 || direccionVelocidad2) && velocidad < topeVelocidad)
 			velocidad += aceleracion;
-		}
 
 		/// si estoy en la primer velocidad y vengo de la segunda velocidad, desacelero
 		// si no estoy tocando para acelerar, desacelero
-		if ((directionUpSpeed1 && velocidad >= topeVelocidad) || (!directionUpSpeed1 && !directionUpSpeed2)) {
-				velocidad -= TASA_FRENADO;
-			}			
-		
-		
+		if ((direccionVelocidad1 && velocidad >= topeVelocidad) || (!direccionVelocidad1 && !direccionVelocidad2)) {
+			velocidad -= TASA_FRENADO;
+		}
 
 		/// para que la velocidad no sea negativa
-		if (velocidad < VELOCIDAD_INICIAL) {
+		if (velocidad < VELOCIDAD_INICIAL)
 			velocidad = VELOCIDAD_INICIAL;
-		}
-		
-		int direction = directionLeft ? -1 : (directionRight ? 1 : 0);
-		setX(collider.getX() + direction * VEL_HORIZONTAL * deltaTime);
-		setY(Auto.ubicacion.getY() + Auto.velocidad * deltaTime);			
-	
+
+		int direccion = direccionIzquierda ? -1 : (direccionDerecha ? 1 : 0);
+		setX(collider.getX() + direccion * VEL_HORIZONTAL * deltaTime);
+		setY(Auto.ubicacion.getY() + Auto.velocidad * deltaTime);
+
 	}
 
-	public void setDirectionRight(boolean b) {
-		this.directionRight = b;
-	 	this.ultimaDireccionRight = true;
+	public void setDireccionDerecha(boolean b) {
+		this.direccionDerecha = b;
+		this.ultimaDireccionDerecha = true;
 	}
 
-	public void setDirectionLeft(boolean b) {
-		this.directionLeft = b;
-		this.ultimaDireccionRight = false;
+	public void setDireccionIzquierda(boolean b) {
+		this.direccionIzquierda = b;
+		this.ultimaDireccionDerecha = false;
 	}
 
-	public void setDirectionUpSpeed1(boolean b) {
-		if(terminoCarrera){
+	public void setDireccionVelocidad1(boolean b) {
+		if (terminoCarrera)
 			return;
-		}
-		
-		if (!tienePowerUp) {
+
+		if (!tienePowerUp)
 			topeVelocidad = VELOCIDAD_MAX1;
-		}
+
 		activeDriveSound(b);
-		this.directionUpSpeed1 = b;
+		this.direccionVelocidad1 = b;
 		if (Auto.velocidad <= topeVelocidad) {
 			this.aceleracion = TASA_ACELERACION1;
 		}
 
 	}
 
-	public void setDirectionUpSpeed2(boolean b) {
-		if(terminoCarrera){
+	public void setDireccionVelocidad2(boolean b) {
+		if (terminoCarrera)
 			return;
-		}
-		
-		if (!tienePowerUp) {
+
+		if (!tienePowerUp)
 			topeVelocidad = VELOCIDAD_MAX2;
-		}
+
 		activeDriveSound(b);
-		this.directionUpSpeed2 = b;
+		this.direccionVelocidad2 = b;
 		this.aceleracion = TASA_ACELERACION2;
 	}
-	
+
 	private void activeDriveSound(boolean b) {
 		if (b && !noEstoyAcelerando) {
 			driveAudio.play();
@@ -401,11 +387,13 @@ public class Auto extends GameObject implements Actualizable, Renderizable, Coli
 			noEstoyAcelerando = false;
 		}
 	}
+
 	@Override
 	public Shape getCollider() {
 		return collider;
 	}
 
 	@Override
-	public void destroy() {}
+	public void destroy() {
+	}
 }

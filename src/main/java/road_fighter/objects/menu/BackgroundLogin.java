@@ -15,13 +15,13 @@ public class BackgroundLogin extends GameObject implements Renderizable {
 
 	StackPane contenedorMenu;
 
-	public BackgroundLogin()  {
-		
+	public BackgroundLogin() {
 		imagenMenu = new Image(Config.MENU_IMG, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, false, false);
+
 		renderImagenMenu = new ImageView(imagenMenu);
 		renderImagenMenu.setViewport(new Rectangle2D(0, 0, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA));
 		renderImagenMenu.setViewOrder(50);
-				
+
 		contenedorMenu = new StackPane();
 		contenedorMenu.getChildren().addAll(renderImagenMenu);
 	}
@@ -32,8 +32,5 @@ public class BackgroundLogin extends GameObject implements Renderizable {
 	}
 
 	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}	
+	public void destroy() {}
 }

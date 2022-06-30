@@ -8,14 +8,14 @@ import mapa.Mapa;
 import usuario.Usuario;
 
 public class Sala {
-	
+
 	private String nombreSala;
 	private boolean estado;
 	private Usuario anfitrion;
 	private List<Usuario> listaUsuarios;
 	private List<Mapa> listaMapas;
 	private Mapa mapaSeleccionado;
-	
+
 	public Sala(Usuario anfitrion, String nombreSala) {
 		this.nombreSala = nombreSala;
 		this.anfitrion = anfitrion;
@@ -23,13 +23,13 @@ public class Sala {
 		this.listaMapas = new ArrayList<Mapa>();
 
 		listaUsuarios.add(this.anfitrion);
- 
-		/// Cargamos unos mapas 
+
+		/// Cargamos unos mapas.
 		listaMapas.add(new Mapa("mapa1", 30, 100));
 		listaMapas.add(new Mapa("mapa2", 40, 100));
 		listaMapas.add(new Mapa("mapa3", 50, 100));
 
-		/// Mostramos por default el primer mapa 
+		/// Mostramos por default el primer mapa.
 		this.mapaSeleccionado = listaMapas.get(0);
 	}
 
@@ -68,10 +68,11 @@ public class Sala {
 	public Usuario getAnfitrion() {
 		return anfitrion;
 	}
-	
+
 	public String getNombreSala() {
 		return this.nombreSala;
 	}
+
 	public void detalleSala() {
 		System.out.println("estado: " + estado);
 		System.out.println("anfitrion: " + anfitrion.getNombre());
