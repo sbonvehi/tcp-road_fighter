@@ -10,7 +10,6 @@ public class ColisionObstaculo extends Colision{
 	
 	public ColisionObstaculo(int ubicacionX, int ubicacionY) {
 		super(ubicacionX, ubicacionY, ANCHO_OBSTACULO, ALTO_OBSTACULO);
-
 		render.setViewport(new Rectangle2D(355, 310, ANCHO_OBSTACULO, ALTO_OBSTACULO));
 	}
 

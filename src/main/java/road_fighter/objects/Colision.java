@@ -28,12 +28,12 @@ public abstract class Colision extends GameObject implements Actualizable, Rende
 			
 		collider = new Rectangle(anchoFigura, altoFigura);
 		spriteGeneral = new Image(Config.GENERAL_SPRITES_IMG, 328 * 3, 179 * 3, false, false);
-		render = new ImageView(spriteGeneral);
 		
-		
+		render = new ImageView(spriteGeneral);		
 		render.setX(ubicacionX);
 		render.setY(Auto.posYAutoInicial - ubicacionY *Background.FACTOR_DESPLAZAMIENTO);
 		render.setViewOrder(15);
+		
 		collider.setStroke(Color.FUCHSIA);
 		collider.setX(ubicacionX);
 		collider.setY(Auto.posYAutoInicial - ubicacionY *Background.FACTOR_DESPLAZAMIENTO);		
@@ -57,9 +57,6 @@ public abstract class Colision extends GameObject implements Actualizable, Rende
 	}
 
 	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void destroy() {}
 
 }

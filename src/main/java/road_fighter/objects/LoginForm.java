@@ -22,7 +22,7 @@ import road_fighter.interfaces.Renderizable;
 import road_fighter.utils.GameObject;
 import usuario.Usuario;
 
-public class LoginForm extends GameObject implements Renderizable{
+public class LoginForm extends GameObject implements Renderizable {
 
 	private GridPane grid;
 	private Text scenetitle;
@@ -33,50 +33,44 @@ public class LoginForm extends GameObject implements Renderizable{
 	private Button btnCancel;
 	private Button btnOk;
 	private Text actiontarget;
-	
 	private Label registerLabel;
 	private Label iniciarLabel;
 	private Label salirLabel;
 	private boolean isLogin;
-	
+
 	StackPane contenedorMenu;
 	public static String nombreUsuario = "JUGADOR 1";
-	
-	
-	public LoginForm(RoadFighterGame g)
-	{
+
+	public LoginForm(RoadFighterGame g) {
 		this.g = g;
 		gestorLogin = new GestorLogin();
 		contenedorMenu = new StackPane();
-		
+
 		iniciarGrid();
 		iniciarLabels();
 	}
-	
+
 	@Override
 	public Node getRender() {
 		return contenedorMenu;
 	}
-	
+
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
 	}
-	
-	private void iniciarGrid()
-	{
+
+	private void iniciarGrid() {
 		grid = new GridPane();
 		grid.setAlignment(Pos.CENTER_LEFT);
 		grid.setHgap(20);
 		grid.setVgap(20);
 		grid.setPadding(new Insets(450, 300, 100, 200));
-				
+
 		scenetitle = new Text();
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
 		scenetitle.setFill(Color.WHITE);
 		grid.add(scenetitle, 0, 0, 2, 1);
-				
+
 		Label userName = new Label("User Name:");
 		userName.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		userName.setTextFill(Color.WHITE);
@@ -91,8 +85,8 @@ public class LoginForm extends GameObject implements Renderizable{
 		grid.add(pw, 0, 2);
 
 		pwBox = new PasswordField();
-		grid.add(pwBox, 1, 2);	
-		
+		grid.add(pwBox, 1, 2);
+
 		btnCancel = new Button("Cancelar");
 		btnOk = new Button("Confirmar");
 		btnCancel.setTextFill(Color.WHITE);
@@ -106,124 +100,115 @@ public class LoginForm extends GameObject implements Renderizable{
 		hbBtn.getChildren().add(btnOk);
 		hbBtn.getChildren().add(btnCancel);
 		grid.add(hbBtn, 1, 4);
-		
+
 		actiontarget = new Text();
-		
-        grid.add(actiontarget, 1, 6);
-        
+
+		grid.add(actiontarget, 1, 6);
+
 	}
-	
-	private void getGrid()
-	{		
-		if(isLogin)
+
+	private void getGrid() {
+		if (isLogin)
 			scenetitle.setText("Login");
 		else
 			scenetitle.setText("Registrarse");
-				
-        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
-        	 
-            @Override
-            public void handle(ActionEvent e) {
-            	contenedorMenu.getChildren().remove(grid);
-            	contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
-            }
-        });
-        
-        btnOk.setOnAction(new EventHandler<ActionEvent>() {
-        	 
-            @Override
-            public void handle(ActionEvent e) {
-            	try
-            	{
-                	if(isLogin)
-                		loggearUsuario();
-                	else
-                		registraUsuario();   
-            	}
-            	catch(Exception ex)
-            	{
-            		 System.out.println(ex.getMessage());;
-            	}
-            }
-        });
-        
+
+		btnCancel.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				contenedorMenu.getChildren().remove(grid);
+				contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
+			}
+		});
+
+		btnOk.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				try {
+					if (isLogin)
+						loggearUsuario();
+					else
+						registraUsuario();
+				} catch (Exception ex) {
+					System.out.println(ex.getMessage());
+					;
+				}
+			}
+		});
+
 		contenedorMenu.getChildren().removeAll(registerLabel, iniciarLabel, salirLabel);
-		contenedorMenu.getChildren().add(grid);		
+		contenedorMenu.getChildren().add(grid);
 	}
-	
-	private void loggearUsuario() throws InterruptedException
-	{
+
+	private void loggearUsuario() throws InterruptedException {
 		boolean result = gestorLogin.login(userTextField.getText(), pwBox.getText());
-		
-		if(result)
-		{
+
+		if (result) {
 			actiontarget.setText("Se inicio correctamente");
 			actiontarget.setFill(Color.GREEN);
 			g.setAnfitrion(new Usuario(userTextField.getText(), pwBox.getText()));
 			g.startMenu();
 			nombreUsuario = userTextField.getText();
-		}
-		else
-		{
+		} else {
 			actiontarget.setText("Error al logearse");
 			actiontarget.setFill(Color.RED);
 		}
 	}
-	
-	private void registraUsuario() throws InterruptedException
-	{
+
+	private void registraUsuario() throws InterruptedException {
 		boolean result = gestorLogin.registrarUsuario(userTextField.getText(), pwBox.getText());
-		if(result)
-		{
+		if (result) {
 			actiontarget.setText("Se registro correctamente");
 			actiontarget.setFill(Color.GREEN);
 			nombreUsuario = userTextField.getText();
-		}
-		else
-		{
+		} else {
 			actiontarget.setFill(Color.RED);
 			actiontarget.setText("No se pudo registrarse");
 		}
-			
-		//ARREGLAR ESTO PORQUE NO SE MUESTRAN LOS MENSAJES
+
+		// ARREGLAR ESTO PORQUE NO SE MUESTRAN LOS MENSAJES.
 		Thread.sleep(2000);
 		contenedorMenu.getChildren().remove(grid);
-    	contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
+		contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
 	}
-	
-	private void iniciarLabels()
-	{
+
+	private void iniciarLabels() {
 		registerLabel = new Label("Registrarse");
 		iniciarLabel = new Label("Iniciar sesion");
 		salirLabel = new Label("Salir");
-		
+
 		registerLabel.setTextFill(Color.WHITE);
 		registerLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
 		registerLabel.setTranslateX(250);
 		registerLabel.setTranslateY(450);
-		
+
 		iniciarLabel.setTextFill(Color.WHITE);
 		iniciarLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
 		iniciarLabel.setTranslateX(250);
 		iniciarLabel.setTranslateY(525);
-		
-		salirLabel.setTextFill(Color.WHITE);		
+
+		salirLabel.setTextFill(Color.WHITE);
 		salirLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
 		salirLabel.setTranslateX(250);
 		salirLabel.setTranslateY(600);
-		
-		registerLabel.setOnMouseClicked(e -> {	
-				this.isLogin = false;
-				getGrid();
-			});
-		
+
+		registerLabel.setOnMouseClicked(e -> {
+			this.isLogin = false;
+			getGrid();
+		});
+
 		iniciarLabel.setOnMouseClicked(e -> {
-				this.isLogin = true;	
-				getGrid();
-			;});
-		
-		salirLabel.setOnMouseClicked(e -> {System.exit(0);});
-		
-		contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);	
+			this.isLogin = true;
+			getGrid();
+			;
+		});
+
+		salirLabel.setOnMouseClicked(e -> {
+			System.exit(0);
+		});
+
+		contenedorMenu.getChildren().addAll(registerLabel, iniciarLabel, salirLabel);
 	}
 }
