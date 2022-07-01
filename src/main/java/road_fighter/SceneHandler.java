@@ -3,6 +3,7 @@ package road_fighter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import cliente.Main;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -25,7 +26,8 @@ public abstract class SceneHandler {
 	protected long previousNanoFrame;
 	protected long previousNanoSecond;
 	protected RoadFighterGame g;
-
+	protected Main main;
+	
 	protected Scene scene;
 	
 	protected EventHandler<KeyEvent> keyPressEventHandler;
@@ -37,6 +39,12 @@ public abstract class SceneHandler {
 			prepareScene();
 			defineEventHandlers();
 	}
+	
+	public SceneHandler(Main main) {
+		this.main = main;
+		prepareScene();
+		defineEventHandlers();
+}
 	
 	public void oneSecondUpdate(double delta) {
 		fps.set(frames - last_fps_frame);
@@ -90,5 +98,7 @@ public abstract class SceneHandler {
 		gameTimer.stop();
 		removeInputEvents();
 	}
+	
+	public void load(boolean fullStart) {};
 	
 }

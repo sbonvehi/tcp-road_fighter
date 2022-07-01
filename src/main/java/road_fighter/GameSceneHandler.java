@@ -3,6 +3,7 @@ package road_fighter;
 import java.nio.file.Paths;
 import java.util.List;
 
+import cliente.Main;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
@@ -56,7 +57,9 @@ public class GameSceneHandler extends SceneHandler {
 	public static final int MARGEN_DER_CALLE = 378;
 	public static final int LARGO_MAPA = 10000;
 	
-	
+	public GameSceneHandler(Main main) {
+		super(main);
+	}
 	
 	private void initAudios() {
 		
