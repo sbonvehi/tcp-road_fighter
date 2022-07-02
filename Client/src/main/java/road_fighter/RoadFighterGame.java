@@ -9,7 +9,7 @@ import usuario.Usuario;
 public class RoadFighterGame extends Application {
 
 	private Stage stage;
-
+	private Client client;
 	private LoginSceneHandler loginSceneHandler;
 	private MenuSceneHandler menuSceneHandler;
 	private GameSceneHandler gameSceneHandler;
@@ -93,5 +93,12 @@ public class RoadFighterGame extends Application {
 
 	public void setAnfitrion(Usuario anfitrion) {
 		RoadFighterGame.anfitrion = anfitrion;
+	}
+	
+	public void exit() {
+		if (client != null) {
+			client.close();
+		}
+		System.exit(0);
 	}
 }

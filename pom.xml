@@ -3,6 +3,15 @@
 	<groupId>tcp</groupId>
 	<artifactId>road-fighter</artifactId>
 	<version>0.1.1</version>
+	<packaging>pom</packaging>
+	<name>Road Fighter</name>
+	<description>Root</description>
+		
+	<modules>
+		<module>Util</module>
+		<module>Client</module>
+		<module>Server</module>
+	</modules>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,19 +50,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.openjfx</groupId>
-				<artifactId>javafx-maven-plugin</artifactId>
-				<version>${javafx.maven.plugin.version}</version>
-				<configuration>
-					<mainClass>road_fighter.RoadFighterGame</mainClass>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-
 </project>
