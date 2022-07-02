@@ -13,7 +13,8 @@ public class RoadFighterGame extends Application {
 	private LoginSceneHandler loginSceneHandler;
 	private MenuSceneHandler menuSceneHandler;
 	private GameSceneHandler gameSceneHandler;
-
+	private MultiplayerSceneHandler multiplayerSceneHandler ;
+	
 	public static Usuario anfitrion;
 
 	@Override
@@ -67,6 +68,15 @@ public class RoadFighterGame extends Application {
 		gameSceneHandler.load(true);
 
 	}
+	
+	public void startMultiplayer() {
+		menuSceneHandler.unload();
+		multiplayerSceneHandler = new MultiplayerSceneHandler(this);
+		Scene scene = multiplayerSceneHandler.getScene();
+		stage.setScene(scene);
+		multiplayerSceneHandler.load();
+
+	}
 
 	public void startGameWithoutLogin(String map) {
 		RoadFighterGame.anfitrion = new Usuario("JUGADOR 1", "JUGADOR 1");
@@ -93,6 +103,16 @@ public class RoadFighterGame extends Application {
 
 	public void setAnfitrion(Usuario anfitrion) {
 		RoadFighterGame.anfitrion = anfitrion;
+	}
+	
+	public Client getClient()
+	{
+		return this.client;
+	}
+	
+	public void setClient(Client client)
+	{
+		this.client = client;
 	}
 	
 	public void exit() {

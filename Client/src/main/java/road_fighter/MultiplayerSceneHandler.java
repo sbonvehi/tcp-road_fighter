@@ -6,17 +6,18 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import road_fighter.objects.menu.BackgroundMenu;
+import road_fighter.objects.menu.MultiplayerRoom;
 import road_fighter.utils.GameObjectBuilder;
 import util.Action;
 
-public class MenuSceneHandler extends SceneHandler{
+public class MultiplayerSceneHandler extends SceneHandler{
 
-	private BackgroundMenu fondoMenu;
+	private MultiplayerRoom fondoMenu;
 	private Group rootGroup;
 	
 
 	
-	public MenuSceneHandler(RoadFighterGame g) {
+	public MultiplayerSceneHandler(RoadFighterGame g) {
 		super(g);
 
 	}
@@ -63,8 +64,8 @@ public class MenuSceneHandler extends SceneHandler{
 				break;
 
 			case JOIN_ROOM:
+				reset();
 				g.getClient().actionPending = Action.WAIT;
-				g.startMultiplayer();
 				break;
 
 			default:
@@ -80,7 +81,7 @@ public class MenuSceneHandler extends SceneHandler{
 	
 		
 		///Instancio todos los objectos de la partida
-		fondoMenu = new BackgroundMenu(g);
+		fondoMenu = new MultiplayerRoom(g, g.getClient());
 
 		GameObjectBuilder gameOB = GameObjectBuilder.getInstance();
 		gameOB.setRootNode(root);
@@ -95,6 +96,11 @@ public class MenuSceneHandler extends SceneHandler{
 	private void cleanData() {
 		GameObjectBuilder.getInstance().removeAll();
 
+	}
+
+	private void reset() {
+		cleanData();
+		load();
 	}
 	
 	public void unload() {

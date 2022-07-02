@@ -18,19 +18,20 @@ public class Client implements Comunicator {
 	private DataInputStream in;
 	private DataOutputStream out;
 	private String username;
-	private SceneHandler currentScene;
 	private List<Room> rooms;
 	private Room currentRoom;
 	private List<String> playersInRoom;
 	public Action actionPending;
 
-	public Client(String ip, int port, String username, SceneHandler currentScene) throws IOException {
+	public Client(String ip, int port, String username) throws IOException {
 		this.socket = new Socket(ip, port);
 		this.username = username;
-		this.currentScene = currentScene;
 		this.in = new DataInputStream(socket.getInputStream());
 		this.out = new DataOutputStream(socket.getOutputStream());
 		this.out.writeUTF(username);
+		
+		rooms = new ArrayList<Room>();
+		rooms.add(new Room("Sala 1", 8, "SERVER"));
 	}
 
 	public void listen() {
@@ -126,10 +127,10 @@ public class Client implements Comunicator {
 		case JOIN_ROOM:
 			this.currentRoom = Message.prepareRoom(actions[1], actions[2], actions[3], actions[4]);
 
-			int size = Integer.parseInt(actions[6]);
+			int size = Integer.parseInt(actions[5]);
 			this.playersInRoom = new ArrayList<>(size);
 			for (int i = 0; i < size; i++) {
-				this.playersInRoom.add(actions[7 + i]);
+				this.playersInRoom.add(actions[6 + i]);
 			}
 
 			break;
@@ -141,12 +142,8 @@ public class Client implements Comunicator {
 		actionPending = action;
 		notifyAll();
 	}
-	
-	public void setCurrentScene(SceneHandler currentScene) {
-		this.currentScene = currentScene;
-	}
 
-	public Room getCurrentSala() {
+	public Room getCurrentRoom() {
 		return currentRoom;
 	}
 
@@ -155,9 +152,9 @@ public class Client implements Comunicator {
 	}
 
 	public Room getRoom(int index) {
-		if (index < 0 || index >= rooms.size()) {
-			return null;
-		}
+//		if (index < 0 || index >= rooms.size()) {
+//			return null;
+//		}
 
 		return this.rooms.get(index);
 	}

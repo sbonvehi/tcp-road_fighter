@@ -1,6 +1,8 @@
 package road_fighter.objects.menu;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,26 +27,31 @@ import road_fighter.Config;
 import road_fighter.RoadFighterGame;
 import road_fighter.interfaces.Renderizable;
 import road_fighter.utils.GameObject;
-import util.Action;
-import util.Message;
 import util.Room;
 
-public class BackgroundMenu extends GameObject implements Renderizable {
+public class MultiplayerRoom extends GameObject implements Renderizable {
 	private Image imagenMenu;
 	private ImageView renderImagenMenu;
 	private GridPane grid;
 	private RoadFighterGame juego;
 
+	private Client client;
+	private Room room;
+	private Label playersLabel;
+	private Label jugador1Label;
+	private Label jugador2Label;
+	private Label jugador3Label;
+	private Label jugador4Label;
 	private Label anfitrionLabel;
 	private Label jugarLabel;
-	private Label crearLabel;
-	private Label unirseLabel;
-	private Label logoutLabel;
+	private Label iniciarLabel;
 	private Label salirLabel;
-
+	private List<String> players;
+	
 	StackPane contenedorMenu;
 
-	public BackgroundMenu(RoadFighterGame juego) {
+	public MultiplayerRoom(RoadFighterGame juego, Client client) {
+		this.client = client;
 		this.juego = juego;
 		imagenMenu = new Image(Config.MENU_IMG, Config.ANCHO_FRAME_ESCENA, Config.ALTO_FRAME_ESCENA, false, false);
 
@@ -55,6 +62,15 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 		contenedorMenu = new StackPane();
 		contenedorMenu.getChildren().addAll(renderImagenMenu);
 
+		room = client.getCurrentRoom();
+		
+		players = client.getPlayersInSala();
+
+		while(players.size() < 5)
+		{
+			players.add("");
+		}
+		
 		iniciarLabels();
 	}
 
@@ -69,10 +85,14 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 
 	private void iniciarLabels() {
 		anfitrionLabel = new Label();
-		jugarLabel = new Label("Single Player");
-		crearLabel = new Label("Elegir mapa");
-		unirseLabel = new Label("Multiplayer");
-		logoutLabel = new Label("Cerrar Sesion");
+		playersLabel = new Label();
+		
+		jugador1Label = new Label();
+		jugador2Label = new Label();
+		jugador3Label = new Label();
+		jugador4Label = new Label();
+		
+		iniciarLabel = new Label("Iniciar");
 		salirLabel = new Label("Salir");
 
 		anfitrionLabel.setTextFill(Color.WHITE);
@@ -81,115 +101,57 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 		anfitrionLabel.setTranslateY(-350);
 		anfitrionLabel.setTranslateX(220);
 
-		jugarLabel.setTextFill(Color.WHITE);
-		jugarLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		jugarLabel.setTranslateY(Config.X_OPCION1);
+		playersLabel.setTextFill(Color.WHITE);
+		playersLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
+		playersLabel.setText("Jugadores: " + room.getActual() + "/" + room.getMax());
+		playersLabel.setTranslateY(-250);
+		playersLabel.setTranslateX(120);
+		
+		jugador1Label.setTextFill(Color.WHITE);
+		jugador1Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		jugador1Label.setText(players.get(0));
+		jugador1Label.setTranslateY(Config.X_OPCION1);
 
-		crearLabel.setTextFill(Color.WHITE);
-		crearLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		crearLabel.setTranslateY(Config.X_OPCION2);
+		jugador2Label.setTextFill(Color.WHITE);
+		jugador2Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		jugador2Label.setText(players.get(1));
+		jugador2Label.setTranslateY(Config.X_OPCION2);
+		
+		jugador3Label.setTextFill(Color.WHITE);
+		jugador3Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		jugador3Label.setText(players.get(2));
+		jugador3Label.setTranslateY(Config.X_OPCION3);
+		
+		jugador4Label.setTextFill(Color.WHITE);
+		jugador4Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		jugador4Label.setText(players.get(4));
+		jugador4Label.setTranslateY(Config.X_OPCION4);
 
-		unirseLabel.setTextFill(Color.WHITE);
-		unirseLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		unirseLabel.setTranslateY(Config.X_OPCION3);
 
-		logoutLabel.setTextFill(Color.WHITE);
-		logoutLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		logoutLabel.setTranslateY(Config.X_OPCION4);
+		iniciarLabel.setTextFill(Color.WHITE);
+		iniciarLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+		iniciarLabel.setTranslateY(Config.X_OPCION5);
 
 		salirLabel.setTextFill(Color.WHITE);
 		salirLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		salirLabel.setTranslateY(Config.X_OPCION5);
+		salirLabel.setTranslateY(Config.X_OPCION6);
 
-		jugarLabel.setOnMouseClicked(e -> {
+		jugador1Label.setOnMouseClicked(e -> {
 			juego.startGame(Config.MAP_IMG);
 		});
-
-		crearLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(anfitrionLabel, jugarLabel, crearLabel, unirseLabel, logoutLabel,
-					salirLabel);
-			elegirMapa(false);
-		});
-
-		unirseLabel.setOnMouseClicked(e -> {
-			contenedorMenu.getChildren().removeAll(anfitrionLabel, jugarLabel, crearLabel, unirseLabel, logoutLabel,
-					salirLabel);
-			
-			//juego.startMultiplayer();
-			
-			iniciarClient();
-			unirseSala();
-		});
 		
-		logoutLabel.setOnMouseClicked(e -> {
-			juego.logout();
+		iniciarLabel.setOnMouseClicked(e -> {
+			//juego.logout();
 		});
 
 		salirLabel.setOnMouseClicked(e -> {
 			System.exit(0);
 		});
 
-		contenedorMenu.getChildren().addAll(anfitrionLabel, jugarLabel, crearLabel, unirseLabel, logoutLabel,
+		contenedorMenu.getChildren().addAll(playersLabel, anfitrionLabel, jugador1Label, jugador2Label, jugador3Label, jugador4Label, iniciarLabel,
 				salirLabel);
 	}
-
-	private void unirseSala() {
-		Message msg = new Message(Action.JOIN_ROOM);
-		Room room = juego.getClient().getRoom(0);
-		if (room != null) {
-			msg.add(room.getName());
-			msg.add(room.getOwner());
-		}
-
-		juego.getClient().send(msg);
-	}
 	
-	private void iniciarClient()
-	{
-		if (juego.getClient() == null) {
-			try {
-				
-				juego.setClient(new Client("localhost", 30000, juego.getAnfitrion().getNombre()));
-				juego.getClient().listen();
-			} catch (IOException io) {
-				io.printStackTrace();
-			}
-		}
-		//main.changeScene(me, Escenas.LOBBY);
-	}
-	
-	private void elegirMapa(boolean b) {
-		Label mapa1Label = new Label("Mapa 1");
-		Label mapa2Label = new Label("Mapa 2");
-		Label mapa3Label = new Label("Mapa 3");
-
-		mapa1Label.setTextFill(Color.WHITE);
-		mapa1Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		mapa1Label.setTranslateY(Config.X_OPCION1);
-
-		mapa2Label.setTextFill(Color.WHITE);
-		mapa2Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		mapa2Label.setTranslateY(Config.X_OPCION2);
-
-		mapa3Label.setTextFill(Color.WHITE);
-		mapa3Label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-		mapa3Label.setTranslateY(Config.X_OPCION3);
-
-		mapa1Label.setOnMouseClicked(e -> {
-			juego.startGame(Config.MAP_IMG);
-		});
-
-		mapa2Label.setOnMouseClicked(e -> {
-			juego.startGame(Config.MAP_IMG2);
-		});
-
-		mapa3Label.setOnMouseClicked(e -> {
-			juego.startGame(Config.MAP_IMG3);
-		});
-
-		contenedorMenu.getChildren().addAll(mapa1Label, mapa2Label, mapa3Label);
-	}
-
 	private void getGrid(boolean estaLogeado) {
 		grid = new GridPane();
 		grid.setAlignment(Pos.BASELINE_CENTER);
@@ -229,7 +191,7 @@ public class BackgroundMenu extends GameObject implements Renderizable {
 			@Override
 			public void handle(ActionEvent e) {
 				contenedorMenu.getChildren().remove(grid);
-				contenedorMenu.getChildren().addAll(jugarLabel, crearLabel, unirseLabel, salirLabel);
+				contenedorMenu.getChildren().addAll(jugarLabel, salirLabel);
 			}
 		});
 

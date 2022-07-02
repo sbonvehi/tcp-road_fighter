@@ -13,9 +13,7 @@ public class Server {
 
 	public Server(int port) throws IOException {
 		this.serverSocket = new ServerSocket(port);
-		Rooms.createRoom("Default Sala 1", 8, "SERVER");
-		Rooms.createRoom("Default Sala 2", 8, "SERVER");
-		Rooms.createRoom("Default Sala 3", 8, "SERVER");
+		Rooms.createRoom("Sala 1", 8, "SERVER");
 	}
 
 	public void start() {

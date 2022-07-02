@@ -12,6 +12,7 @@ public class Config {
     public static final int X_OPCION3 = 200;
     public static final int X_OPCION4 = 250;
     public static final int X_OPCION5 = 300;
+    public static final int X_OPCION6 = 350;
     
 	public static final int ANCHO_AUTO = 30;
 	public static final int ALTO_AUTO = 45;
